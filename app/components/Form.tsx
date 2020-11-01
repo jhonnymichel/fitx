@@ -1,6 +1,6 @@
-import React, { useState, ReactNode, PropsWithoutRef } from "react"
-import { Formik, FormikProps } from "formik"
-import * as z from "zod"
+import React, { useState, ReactNode, PropsWithoutRef } from 'react'
+import { Formik, FormikProps } from 'formik'
+import * as z from 'zod'
 
 type FormProps<S extends z.ZodType<any, any>> = {
   /** All your form fields */
@@ -9,15 +9,15 @@ type FormProps<S extends z.ZodType<any, any>> = {
   submitText: string
   schema?: S
   onSubmit: (values: z.infer<S>) => Promise<void | OnSubmitResult>
-  initialValues?: FormikProps<z.infer<S>>["initialValues"]
-} & Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit">
+  initialValues?: FormikProps<z.infer<S>>['initialValues']
+} & Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'>
 
 type OnSubmitResult = {
   FORM_ERROR?: string
   [prop: string]: any
 }
 
-export const FORM_ERROR = "FORM_ERROR"
+export const FORM_ERROR = 'FORM_ERROR'
 
 export function Form<S extends z.ZodType<any, any>>({
   children,
@@ -26,7 +26,7 @@ export function Form<S extends z.ZodType<any, any>>({
   initialValues,
   onSubmit,
   ...props
-}: FormProps<S>) {
+}: FormProps<S>): JSX.Element {
   const [formError, setFormError] = useState<string | null>(null)
   return (
     <Formik
@@ -57,7 +57,7 @@ export function Form<S extends z.ZodType<any, any>>({
           {children}
 
           {formError && (
-            <div role="alert" style={{ color: "red" }}>
+            <div role="alert" style={{ color: 'red' }}>
               {formError}
             </div>
           )}
@@ -65,12 +65,6 @@ export function Form<S extends z.ZodType<any, any>>({
           <button type="submit" disabled={isSubmitting}>
             {submitText}
           </button>
-
-          <style global jsx>{`
-            .form > * + * {
-              margin-top: 1rem;
-            }
-          `}</style>
         </form>
       )}
     </Formik>

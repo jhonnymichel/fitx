@@ -1,13 +1,30 @@
 module.exports = {
-  env: {
-    es2020: true,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-  extends: ['react-app', 'plugin:jsx-a11y/recommended'],
-  plugins: ['jsx-a11y'],
+
+  root: true,
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint', 'prettier', 'jest'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+  ],
   rules: {
-    "import/no-anonymous-default-export": "error",
-    'import/no-webpack-loader-syntax': 'off',
-    'react/react-in-jsx-scope': 'off', // React is always in scope with Blitz
-    'jsx-a11y/anchor-is-valid': 'off', //Doesn't play well with Blitz/Next <Link> usage
+    'prettier/prettier': 'error',
+    'react/react-in-jsx-scope': [0],
+    'react/prop-types': [0],
+  },
+  env: {
+    browser: true,
+    amd: true,
+    node: true,
+    jest: true,
   },
 }
