@@ -17,10 +17,11 @@ function AuthGateway(): JSX.Element {
   }
 
   return (
-    <>
-      Oi
-      <SignupForm />
-    </>
+    <div className="p-4">
+      <div className="max-w-md p-4 mx-auto mt-20 bg-white rounded-md shadow-lg">
+        <SignupForm />
+      </div>
+    </div>
   )
 }
 
@@ -30,9 +31,11 @@ function Loading(): JSX.Element {
 
 function Index(): JSX.Element {
   return (
-    <Suspense fallback={<Loading />}>
-      <AuthGateway />
-    </Suspense>
+    <div>
+      <Suspense fallback={<Loading />}>
+        <AuthGateway />
+      </Suspense>
+    </div>
   )
 }
 

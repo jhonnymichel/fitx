@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-gray-100 text-gray-700;
+}
+
 .hero {
   width: 100%;
   color: #333;
@@ -23,5 +27,13 @@
 }
 
 .input {
-  @apply bg-white rounded-md p-1;
+  @apply bg-gray-200 rounded-md p-1 px-2;
+}
+
+.button {
+  @apply px-2 py-1 rounded-md transition-all duration-200;
+}
+
+.button:hover {
+  @apply shadow-md;
 }

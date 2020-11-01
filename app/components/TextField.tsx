@@ -16,7 +16,6 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(func
   { name, label, outerProps, ...props },
   ref
 ) {
-  const form = useFormikContext()
   const [input, meta] = useField(name)
   const { isSubmitting } = useFormikContext()
 

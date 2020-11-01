@@ -8,9 +8,11 @@ type FormProps<S extends z.ZodType<any, any>> = {
   /** Text to display in the submit button */
   submitText: string
   schema?: S
+  submitClassName?: string
   onSubmit: (values: z.infer<S>) => Promise<void | OnSubmitResult>
   initialValues?: FormikProps<z.infer<S>>['initialValues']
-} & Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'>
+} & Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> &
+  Partial<FormikProps<any>>
 
 type OnSubmitResult = {
   FORM_ERROR?: string
@@ -50,9 +52,10 @@ export function Form<S extends z.ZodType<any, any>>({
           setErrors(otherErrors)
         }
       }}
+      {...props}
     >
       {({ handleSubmit, isSubmitting }) => (
-        <form onSubmit={handleSubmit} className="p-4" {...props}>
+        <form onSubmit={handleSubmit} {...props}>
           {/* Form fields supplied as children are rendered here */}
           {children}
 
@@ -62,7 +65,7 @@ export function Form<S extends z.ZodType<any, any>>({
             </div>
           )}
 
-          <button type="submit" disabled={isSubmitting}>
+          <button type="submit" className={props.submitClassName} disabled={isSubmitting}>
             {submitText}
           </button>
         </form>
