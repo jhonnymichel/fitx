@@ -52,7 +52,7 @@ export function Form<S extends z.ZodType<any, any>>({
       }}
     >
       {({ handleSubmit, isSubmitting }) => (
-        <form onSubmit={handleSubmit} className="form" {...props}>
+        <form onSubmit={handleSubmit} className="p-4" {...props}>
           {/* Form fields supplied as children are rendered here */}
           {children}
 

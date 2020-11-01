@@ -1,5 +1,6 @@
 import React, { PropsWithoutRef } from 'react'
 import { useField, useFormikContext, ErrorMessage } from 'formik'
+import classNames from 'classnames'
 
 export interface TextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements['input']> {
   /** Field name. */
@@ -15,14 +16,23 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(func
   { name, label, outerProps, ...props },
   ref
 ) {
-  const [input] = useField(name)
+  const form = useFormikContext()
+  const [input, meta] = useField(name)
   const { isSubmitting } = useFormikContext()
 
   return (
     <div {...outerProps}>
-      <label>
-        {label}
-        <input {...input} disabled={isSubmitting} {...props} ref={ref} />
+      <label className="flex flex-col">
+        <span>{label}</span>
+        <input
+          {...input}
+          disabled={isSubmitting}
+          {...props}
+          ref={ref}
+          className={classNames('input', {
+            'border border-red-600': meta.error && meta.touched,
+          })}
+        />
       </label>
 
       <ErrorMessage name={name}>
