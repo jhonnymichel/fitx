@@ -27,7 +27,7 @@ body {
 }
 
 .input {
-  @apply bg-gray-200 rounded-md p-1 px-2;
+  @apply bg-gray-100 rounded-md p-1 px-2;
 }
 
 .button {

@@ -1,14 +1,11 @@
-import React, { useState, ReactNode, PropsWithoutRef } from 'react'
-import { Formik, FormikProps } from 'formik'
+import React, { useState, ReactNode, PropsWithoutRef, useContext, Context } from 'react'
+import { Formik, Form as FormikForm, FormikProps } from 'formik'
 import * as z from 'zod'
 
 type FormProps<S extends z.ZodType<any, any>> = {
   /** All your form fields */
   children: ReactNode
-  /** Text to display in the submit button */
-  submitText: string
   schema?: S
-  submitClassName?: string
   onSubmit: (values: z.infer<S>) => Promise<void | OnSubmitResult>
   initialValues?: FormikProps<z.infer<S>>['initialValues']
 } & Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> &
@@ -19,11 +16,16 @@ type OnSubmitResult = {
   [prop: string]: any
 }
 
+const FormErrorContext = React.createContext<string | null>(null)
+
+export const useFormError = (): string | null => {
+  return useContext(FormErrorContext)
+}
+
 export const FORM_ERROR = 'FORM_ERROR'
 
 export function Form<S extends z.ZodType<any, any>>({
   children,
-  submitText,
   schema,
   initialValues,
   onSubmit,
@@ -54,21 +56,12 @@ export function Form<S extends z.ZodType<any, any>>({
       }}
       {...props}
     >
-      {({ handleSubmit, isSubmitting }) => (
-        <form onSubmit={handleSubmit} {...props}>
-          {/* Form fields supplied as children are rendered here */}
-          {children}
-
-          {formError && (
-            <div role="alert" style={{ color: 'red' }}>
-              {formError}
-            </div>
-          )}
-
-          <button type="submit" className={props.submitClassName} disabled={isSubmitting}>
-            {submitText}
-          </button>
-        </form>
+      {(props) => (
+        <FormErrorContext.Provider value={formError}>
+          <FormikForm>
+            {typeof children === 'function' ? children({ ...props, formError }) : children}
+          </FormikForm>
+        </FormErrorContext.Provider>
       )}
     </Formik>
   )

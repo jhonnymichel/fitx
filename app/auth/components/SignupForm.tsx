@@ -5,6 +5,8 @@ import signup from 'app/auth/mutations/signup'
 import { SignupInput } from 'app/auth/validations'
 import LabeledTextField from 'app/components/TextField'
 import classNames from 'classnames'
+import FormTitle from './FormTitle'
+import SubmitButton from './SubmitButton'
 
 type SignupFormProps = {
   onSuccess?: () => void
@@ -15,17 +17,13 @@ export const SignupForm = (props: SignupFormProps): JSX.Element => {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-5xl font-bold text-left text-gray-400">Create an Account.</h1>
+      <FormTitle>
+        Create <br /> an Account.
+      </FormTitle>
 
       <Form
-        validateOnBlur={false}
         validateOnChange={false}
         className="space-y-4"
-        submitText="Create Account"
-        submitClassName={classNames(
-          'button',
-          'block ml-auto bg-green-400 hover:bg-green-500 text-white'
-        )}
         schema={SignupInput}
         initialValues={{ email: '', password: '' }}
         onSubmit={async (values) => {
@@ -44,6 +42,11 @@ export const SignupForm = (props: SignupFormProps): JSX.Element => {
       >
         <LabeledTextField name="email" label="Email" placeholder="Email" />
         <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
+        <p className="text-sm">
+          Please reckon that there is currently no way to recover your account if you forget your
+          password.
+        </p>
+        <SubmitButton>Create account</SubmitButton>
       </Form>
     </div>
   )

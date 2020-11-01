@@ -4,6 +4,8 @@ import TextField from 'app/components/TextField'
 import { Form, FORM_ERROR } from 'app/components/Form'
 import login from 'app/auth/mutations/login'
 import { LoginInput } from 'app/auth/validations'
+import FormTitle from './FormTitle'
+import SubmitButton from './SubmitButton'
 
 type LoginFormProps = {
   onSuccess?: () => void
@@ -13,11 +15,14 @@ export const LoginForm = (props: LoginFormProps): JSX.Element => {
   const [loginMutation] = useMutation(login)
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="space-y-4">
+      <FormTitle>
+        Welcome back, <br /> Login.
+      </FormTitle>
 
       <Form
-        submitText="Log In"
+        validateOnChange={false}
+        className="space-y-4"
         schema={LoginInput}
         initialValues={{ email: '', password: '' }}
         onSubmit={async (values) => {
@@ -38,6 +43,7 @@ export const LoginForm = (props: LoginFormProps): JSX.Element => {
       >
         <TextField name="email" label="Email" placeholder="Email" />
         <TextField name="password" label="Password" placeholder="Password" type="password" />
+        <SubmitButton>Login</SubmitButton>
       </Form>
 
       <div style={{ marginTop: '1rem' }}>
