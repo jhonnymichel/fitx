@@ -1,10 +1,19 @@
 import RequireAuth from 'app/auth/components/RequireAuth'
+import Card from 'app/components/Card'
+import { useState } from 'react'
 
 function Index(): JSX.Element {
+  const [count, setCount] = useState(0)
+
   return (
     <RequireAuth>
       <div className="p-4">
-        <div className="max-w-md p-4 mx-auto mt-20 bg-white rounded-md shadow-lg">Logadomon!</div>
+        <Card>
+          Logadomon!
+          <div>
+            count is {count} <button onClick={() => setCount(count + 1)}>Increase</button>
+          </div>
+        </Card>
       </div>
     </RequireAuth>
   )

@@ -30,10 +30,22 @@ body {
   @apply bg-gray-100 rounded-md p-1 px-2;
 }
 
+.input[disabled] {
+  @apply bg-gray-300 rounded-md p-1 px-2;
+}
+
 .button {
   @apply px-2 py-1 rounded-md transition-all duration-200;
 }
 
 .button:hover {
   @apply shadow-md;
+}
+
+.button[disabled] {
+  @apply bg-gray-400;
+}
+
+.button[disabled]:hover {
+  @apply bg-gray-400
 }
