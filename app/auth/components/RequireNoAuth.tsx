@@ -7,10 +7,10 @@ function AuthGateway({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    if (user && !isLoading) {
+    if (user) {
       router.push('/')
     }
-  }, [user, router, isLoading])
+  }, [user, router])
 
   if (isLoading || user) {
     return <Loading />
