@@ -10,9 +10,11 @@ const LoginPage: BlitzPage = () => {
 
   return (
     <RequireNoAuth>
-      <Card>
-        <LoginForm onSuccess={() => router.push('/')} />
-      </Card>
+      <div className="w-full max-w-lg p-4 mx-auto">
+        <Card>
+          <LoginForm onSuccess={() => router.push('/')} />
+        </Card>
+      </div>
     </RequireNoAuth>
   )
 }

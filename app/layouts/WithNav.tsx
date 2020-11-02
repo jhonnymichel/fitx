@@ -16,9 +16,9 @@ const WithNav = ({ title, children }: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="space-y-4">
+      <div className="flex flex-col items-center h-screen space-y-4">
         <UserBar />
-        {children}
+        <div className="flex flex-1 w-full max-w-lg mx-auto">{children}</div>
         <Nav />
       </div>
     </>

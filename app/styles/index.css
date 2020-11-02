@@ -50,12 +50,19 @@ body {
   @apply bg-gray-400
 }
 
-/* Remove outline for non-keyboard :focus */
 *:focus:not(.focus-visible) {
   outline: none;
 }
 
-/* Optional: Customize .focus-visible */
 .focus-visible {
   @apply outline-none shadow-outline !important;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
 }

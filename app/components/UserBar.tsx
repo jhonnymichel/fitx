@@ -8,7 +8,7 @@ function Info() {
   const [performLogout] = useMutation(logout)
 
   return (
-    <div>
+    <div className="flex-shrink-0 w-full max-w-lg">
       {user?.name}
       <button className="button" onClick={performLogout}>
         logout
