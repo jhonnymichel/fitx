@@ -4,7 +4,6 @@ import { Form, FORM_ERROR } from 'app/components/Form'
 import signup from 'app/auth/mutations/signup'
 import { SignupInput } from 'app/auth/validations'
 import LabeledTextField from 'app/components/TextField'
-import classNames from 'classnames'
 import FormTitle from './FormTitle'
 import SubmitButton from './SubmitButton'
 
