@@ -9,7 +9,5 @@ export const useCurrentUser = () => {
     enabled: !!session.userId,
   })
 
-  console.log(session, user)
-
   return { user: session.userId ? user : null, isLoading: session.isLoading }
 }
