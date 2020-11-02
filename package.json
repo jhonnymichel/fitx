@@ -23,7 +23,7 @@
   "dependencies": {
     "@babel/plugin-syntax-typescript": "7.12.1",
     "@prisma/cli": "2.10.1",
-    "@prisma/client": "2.10.1",
+    "@prisma/client": "2.9.0",
     "@types/luxon": "1.25.0",
     "blitz": "0.24.3",
     "focus-visible": "5.2.0",
