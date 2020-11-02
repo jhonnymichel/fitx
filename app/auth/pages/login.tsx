@@ -19,6 +19,6 @@ const LoginPage: BlitzPage = () => {
   )
 }
 
-LoginPage.getLayout = (page) => <Layout title="Log In">{page}</Layout>
+LoginPage.getLayout = (page) => <WithNav title="Log In">{page}</WithNav>
 
 export default LoginPage

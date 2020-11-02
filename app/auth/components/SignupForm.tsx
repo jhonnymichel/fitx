@@ -11,7 +11,7 @@ type SignupFormProps = {
   onSuccess?: () => void
 }
 
-export const SignupForm = (props: SignupFormProps): JSX.Element => {
+export const SignupForm = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
 
   return (

@@ -5,7 +5,7 @@ import { Link, useRouter } from 'blitz'
 import classNames from 'classnames'
 import { useState } from 'react'
 
-function Index() {
+function Month() {
   return (
     <RequireAuth>
       <div className="p-4">
@@ -15,8 +15,8 @@ function Index() {
   )
 }
 
-Index.getLayout = function WithNavLayout(page) {
+Month.getLayout = function WithNavLayout(page) {
   return <WithNav>{page}</WithNav>
 }
 
-export default Index
+export default Month
