@@ -2,15 +2,15 @@ import { useCurrentUser } from 'app/hooks/useCurrentUser'
 import { useRouter } from 'blitz'
 import { Suspense, useEffect } from 'react'
 
-function AuthGateway({ children, backTo = '/' }: { children: React.ReactNode; backTo: string }) {
+function AuthGateway({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useCurrentUser()
   const router = useRouter()
 
   useEffect(() => {
     if (user && !isLoading) {
-      router.push(backTo)
+      router.push('/')
     }
-  }, [user, router, isLoading, backTo])
+  }, [user, router, isLoading])
 
   if (isLoading || user) {
     return <Loading />
@@ -23,16 +23,10 @@ function Loading() {
   return <>Loading</>
 }
 
-function RequireNoAuth({
-  children,
-  backTo = '/',
-}: {
-  children: React.ReactNode
-  backTo: string
-}): JSX.Element {
+function RequireNoAuth({ children }: { children: React.ReactNode }): JSX.Element {
   return (
     <Suspense fallback={<Loading />}>
-      <AuthGateway backTo={backTo}>{children}</AuthGateway>
+      <AuthGateway>{children}</AuthGateway>
     </Suspense>
   )
 }
