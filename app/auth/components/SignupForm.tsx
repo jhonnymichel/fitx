@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation } from 'blitz'
+import { Link, useMutation } from 'blitz'
 import { Form, FORM_ERROR } from 'app/components/Form'
 import signup from 'app/auth/mutations/signup'
 import { SignupInput } from 'app/auth/validations'
@@ -46,7 +46,13 @@ export const SignupForm = (props: SignupFormProps): JSX.Element => {
           Please reckon that there is currently no way to recover your account if you forget your
           password.
         </p>
-        <SubmitButton>Create account</SubmitButton>
+        <div className="flex">
+          Already have an account?{' '}
+          <Link href="/login">
+            <a className="ml-2 text-blue-600 mk2 hover:underline">Sign in</a>
+          </Link>
+          <SubmitButton>Create account</SubmitButton>
+        </div>
       </Form>
     </div>
   )

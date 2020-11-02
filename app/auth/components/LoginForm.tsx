@@ -41,13 +41,23 @@ export const LoginForm = (props: LoginFormProps): JSX.Element => {
           }
         }}
       >
-        <TextField name="email" label="Email" placeholder="Email" />
-        <TextField name="password" label="Password" placeholder="Password" type="password" />
-        <SubmitButton>Login</SubmitButton>
+        {({ formError }) => (
+          <>
+            {formError && (
+              <div className="p-2 my-4 text-red-900 bg-red-300 rounded-md">{formError}</div>
+            )}
+            <TextField name="email" label="Email" placeholder="Email" />
+            <TextField name="password" label="Password" placeholder="Password" type="password" />
+            <SubmitButton>Login</SubmitButton>
+          </>
+        )}
       </Form>
 
       <div style={{ marginTop: '1rem' }}>
-        Or <Link href="/signup">Sign Up</Link>
+        Or
+        <Link href="/signup">
+          <a className="ml-2 text-blue-600 mk2 hover:underline">Sign up</a>
+        </Link>
       </div>
     </div>
   )

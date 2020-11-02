@@ -1,14 +1,17 @@
-import React from "react"
-import { useRouter, BlitzPage } from "blitz"
-import Layout from "app/layouts/Layout"
-import { SignupForm } from "app/auth/components/SignupForm"
+import React, { useEffect } from 'react'
+import { useRouter, BlitzPage } from 'blitz'
+import Layout from 'app/layouts/Layout'
+import { SignupForm } from 'app/auth/components/SignupForm'
+import Card from 'app/components/Card'
 
 const SignupPage: BlitzPage = () => {
   const router = useRouter()
 
   return (
-    <div>
-      <SignupForm onSuccess={() => router.push("/")} />
+    <div className="p-4">
+      <Card>
+        <SignupForm onSuccess={() => router.push('/')} />
+      </Card>
     </div>
   )
 }

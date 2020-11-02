@@ -6,6 +6,7 @@ type FormProps<S extends z.ZodType<any, any>> = {
   /** All your form fields */
   children: ReactNode
   schema?: S
+  className?: string
   onSubmit: (values: z.infer<S>) => Promise<void | OnSubmitResult>
   initialValues?: FormikProps<z.infer<S>>['initialValues']
 } & Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> &
@@ -56,10 +57,10 @@ export function Form<S extends z.ZodType<any, any>>({
       }}
       {...props}
     >
-      {(props) => (
+      {(formikBag) => (
         <FormErrorContext.Provider value={formError}>
-          <FormikForm>
-            {typeof children === 'function' ? children({ ...props, formError }) : children}
+          <FormikForm className={props.className}>
+            {typeof children === 'function' ? children({ ...formikBag, formError }) : children}
           </FormikForm>
         </FormErrorContext.Provider>
       )}

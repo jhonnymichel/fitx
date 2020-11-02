@@ -1,41 +1,40 @@
-import { Link, BlitzPage, useMutation } from 'blitz'
+import { Link, BlitzPage, useMutation, useRouter } from 'blitz'
 import Layout from 'app/layouts/Layout'
 import logout from 'app/auth/mutations/logout'
 import { useCurrentUser } from 'app/hooks/useCurrentUser'
-import { Suspense } from 'react'
 import SignupForm from 'app/auth/components/SignupForm'
+import { Suspense, useEffect } from 'react'
 
-/*
- * This file is just for a pleasant getting started page for your new app.
- * You can delete everything in here and start from scratch if you like.
- */
+function AuthGateway() {
+  const { user, isLoading } = useCurrentUser()
+  const router = useRouter()
 
-function AuthGateway(): JSX.Element {
-  const user = useCurrentUser()
-  if (user) {
-    return <>É man, tá logado</>
+  useEffect(() => {
+    if (!user && !isLoading) {
+      router.push('/signup')
+    }
+  }, [user, isLoading, router])
+
+  if (!user) {
+    return <Loading />
   }
 
   return (
     <div className="p-4">
-      <div className="max-w-md p-4 mx-auto mt-20 bg-white rounded-md shadow-lg">
-        <SignupForm />
-      </div>
+      <div className="max-w-md p-4 mx-auto mt-20 bg-white rounded-md shadow-lg">Logadomon!</div>
     </div>
   )
 }
 
-function Loading(): JSX.Element {
+function Loading() {
   return <>Loading</>
 }
 
 function Index(): JSX.Element {
   return (
-    <div>
-      <Suspense fallback={<Loading />}>
-        <AuthGateway />
-      </Suspense>
-    </div>
+    <Suspense fallback={<Loading />}>
+      <AuthGateway />
+    </Suspense>
   )
 }
 
