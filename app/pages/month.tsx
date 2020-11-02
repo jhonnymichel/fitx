@@ -6,17 +6,14 @@ import classNames from 'classnames'
 import { useState } from 'react'
 
 function Month() {
-  return (
-    <RequireAuth>
-      <div className="p-4">
-        <Card></Card>
-      </div>
-    </RequireAuth>
-  )
+  return <Card></Card>
 }
 
 Month.getLayout = function WithNavLayout(page) {
-  return <WithNav>{page}</WithNav>
+  return (
+    <RequireAuth>
+      <WithNav>{page}</WithNav>
+    </RequireAuth>
+  )
 }
-
 export default Month

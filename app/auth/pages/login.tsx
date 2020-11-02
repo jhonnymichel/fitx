@@ -10,15 +10,13 @@ const LoginPage: BlitzPage = () => {
 
   return (
     <RequireNoAuth>
-      <div className="p-4">
-        <Card>
-          <LoginForm onSuccess={() => router.push('/')} />
-        </Card>
-      </div>
+      <Card>
+        <LoginForm onSuccess={() => router.push('/')} />
+      </Card>
     </RequireNoAuth>
   )
 }
 
-LoginPage.getLayout = (page) => <WithNav title="Log In">{page}</WithNav>
+LoginPage.getLayout = (page) => <Layout title="Log In">{page}</Layout>
 
 export default LoginPage

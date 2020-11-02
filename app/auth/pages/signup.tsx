@@ -10,11 +10,9 @@ const SignupPage: BlitzPage = () => {
 
   return (
     <RequireNoAuth>
-      <div className="p-4">
-        <Card>
-          <SignupForm onSuccess={() => router.push('/')} />
-        </Card>
-      </div>
+      <Card>
+        <SignupForm onSuccess={() => router.push('/')} />
+      </Card>
     </RequireNoAuth>
   )
 }

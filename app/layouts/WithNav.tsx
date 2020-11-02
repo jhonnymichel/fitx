@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import { Head } from 'blitz'
 import Nav from 'app/components/Nav'
+import UserBar from 'app/components/UserBar'
 
 type LayoutProps = {
   title?: string
@@ -15,9 +16,11 @@ const WithNav = ({ title, children }: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {children}
-
-      <Nav />
+      <div className="space-y-4">
+        <UserBar />
+        {children}
+        <Nav />
+      </div>
     </>
   )
 }

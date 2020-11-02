@@ -6,17 +6,15 @@ import classNames from 'classnames'
 import { useState } from 'react'
 
 function Week() {
-  return (
-    <RequireAuth>
-      <div className="p-4">
-        <Card></Card>
-      </div>
-    </RequireAuth>
-  )
+  return <Card></Card>
 }
 
 Week.getLayout = function WithNavLayout(page) {
-  return <WithNav>{page}</WithNav>
+  return (
+    <RequireAuth>
+      <WithNav>{page}</WithNav>
+    </RequireAuth>
+  )
 }
 
 export default Week

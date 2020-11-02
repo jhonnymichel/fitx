@@ -5,7 +5,7 @@ function Nav() {
   const router = useRouter()
 
   return (
-    <div className="max-w-lg pt-4 mx-auto">
+    <div className="max-w-lg mx-auto">
       <nav className="flex w-full space-x-4">
         <Link href="/">
           <a
