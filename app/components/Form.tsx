@@ -31,7 +31,7 @@ export function Form<S extends z.ZodType<any, any>>({
   initialValues,
   onSubmit,
   ...props
-}: FormProps<S>): JSX.Element {
+}: FormProps<S>) {
   const [formError, setFormError] = useState<string | null>(null)
   return (
     <Formik

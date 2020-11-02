@@ -20,6 +20,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': [0],
     'react/prop-types': [0],
+    '@typescript-eslint/explicit-module-boundary-types': [0],
   },
   env: {
     browser: true,

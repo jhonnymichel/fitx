@@ -24,7 +24,7 @@ export const SignupForm = (props: SignupFormProps): JSX.Element => {
         validateOnChange={false}
         className="space-y-4"
         schema={SignupInput}
-        initialValues={{ email: '', password: '' }}
+        initialValues={{ email: '', password: '', name: '' }}
         onSubmit={async (values) => {
           try {
             await signupMutation(values)
@@ -39,6 +39,7 @@ export const SignupForm = (props: SignupFormProps): JSX.Element => {
           }
         }}
       >
+        <LabeledTextField name="name" label="Name" placeholder="Name" />
         <LabeledTextField name="email" label="Email" placeholder="Email" />
         <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
         <p className="text-sm">
