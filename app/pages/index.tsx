@@ -19,22 +19,16 @@ function Day() {
 }
 
 function ErrorGateway({ error, resetErrorBoundary }: FallbackProps) {
-  return (
-    <div>
-      <DayHeader />
-      {error?.name === 'NotFoundError' ? (
-        <DaySummary />
-      ) : (
-        <ErrorMessage error={error} resetErrorBoundary={resetErrorBoundary} />
-      )}
-    </div>
+  return error?.name === 'NotFoundError' ? (
+    <DaySummary />
+  ) : (
+    <ErrorMessage error={error} resetErrorBoundary={resetErrorBoundary} />
   )
 }
 
 function Loading() {
   return (
     <>
-      <DayHeader />
       <LoadingDaySummary />
     </>
   )
@@ -43,9 +37,9 @@ function Loading() {
 function Index() {
   return (
     <Card>
+      <DayHeader />
       <ErrorBoundary FallbackComponent={ErrorGateway}>
         <Suspense fallback={<Loading />}>
-          <DayHeader edit />
           <Day />
         </Suspense>
       </ErrorBoundary>
