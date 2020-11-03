@@ -15,7 +15,7 @@ import ErrorMessage from 'app/components/ErrorMessage'
 function Day() {
   const [day] = useQuery(getDay, { where: { date: { equals: getCurrentDay() } } }, {})
 
-  return <pre>{JSON.stringify(day, null, 2)}</pre>
+  return <DaySummary day={day} />
 }
 
 function ErrorGateway({ error, resetErrorBoundary }: FallbackProps) {

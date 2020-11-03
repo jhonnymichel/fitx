@@ -2,10 +2,14 @@ import { Day } from 'db'
 import * as Icons from 'app/components/icons'
 import { useEffect, useRef, useState } from 'react'
 import OverallScore from 'app/components/OverallScore'
-import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from '../get-score'
+import getDayScore, { fix, getCardioScore, getFoodScore, getStrengthScore } from '../get-score'
 import Form from 'app/components/Form'
 import TextField from 'app/components/TextField'
 import { useField, useFormikContext } from 'formik'
+import { useMutation } from 'blitz'
+import updateDay from '../mutations/updateDay'
+import createDay from '../mutations/createDay'
+import { getCurrentDay } from '../date-utils'
 
 function ProgressBar({ score }: { score: number }) {
   const [width, setWidth] = useState(0)
@@ -17,7 +21,7 @@ function ProgressBar({ score }: { score: number }) {
   return (
     <div
       className="h-6 transition-all duration-1000 ease-out bg-gray-200 rounded-md"
-      style={{ width: `${width}%` }}
+      style={{ width: `${Math.min(width || 0.001, 100)}%` }}
     ></div>
   )
 }
@@ -89,9 +93,9 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
                   setIsEditing(true)
                 }}
               >
-                Add
+                {score > 0 ? 'Edit' : 'Add'}
               </button>
-              {score > 0 && <p className="text-4xl font-semibold">{score}</p>}
+              {score > 0 && <p className="text-4xl font-semibold">{fix(score)}</p>}
             </div>
           </div>
         </div>
@@ -162,7 +166,15 @@ function StrengthEditMode() {
 }
 
 function DaySummary({ day }: { day?: Day }) {
-  const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = day ?? {}
+  const [localDay, setLocalDay] = useState<Partial<Day>>(day ?? {})
+  const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = localDay
+
+  const [update] = useMutation(updateDay)
+  const [create] = useMutation(createDay)
+
+  useEffect(() => {
+    setLocalDay(day ?? {})
+  }, [setLocalDay, day])
 
   const scores = {
     food: getFoodScore(foodCalories),
@@ -177,15 +189,25 @@ function DaySummary({ day }: { day?: Day }) {
       <Form
         className="space-y-6 lg:space-y-8"
         onSubmit={async (values) => {
-          await new Promise((resolve) => {
-            setTimeout(resolve, 5000)
-          })
-          console.log(values)
+          setLocalDay(values)
+          if (day) {
+            await update({
+              data: values,
+              where: {
+                id: day.id,
+              },
+            })
+          } else {
+            await create({
+              data: values,
+            })
+          }
         }}
         enableReinitialize
         initialValues={{
-          foodCalories: foodCalories ?? '',
-          cardioCount: cardioCount ?? '',
+          date: getCurrentDay(),
+          foodCalories: foodCalories ?? 0,
+          cardioCount: cardioCount ?? 0,
           cardioType: cardioType ?? '',
           strengthDone: strengthDone ?? false,
           strengthType: strengthType ?? '',
@@ -203,7 +225,7 @@ function DaySummary({ day }: { day?: Day }) {
           icon={<Icons.Cardio />}
           score={scores.cardio}
           title="Cardio"
-          details={cardioType ?? 'Did you run today?'}
+          details={cardioType || 'Did you run today?'}
         >
           <CardioEditMode />
         </CategoryGroup>
@@ -211,14 +233,16 @@ function DaySummary({ day }: { day?: Day }) {
           icon={<Icons.Strength />}
           score={scores.strength}
           title="Strength"
-          details={strengthType ?? 'NO PAIN NO GAIN'}
+          details={strengthType || 'NO PAIN NO GAIN'}
         >
           <StrengthEditMode />
         </CategoryGroup>
         <OverallScore
           title="Day score"
           score={dayScore}
-          comment={day ? getDayScoreComment(dayScore) : 'IDK, maybe the day has just started?'}
+          comment={
+            dayScore > 0 ? getDayScoreComment(dayScore) : 'IDK, maybe the day has just started?'
+          }
         />
       </Form>
     </>

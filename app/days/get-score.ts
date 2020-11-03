@@ -1,5 +1,14 @@
+export function fix(number) {
+  if (number % 1 !== 0) {
+    return number.toFixed(1)
+  }
+
+  return number
+}
+
 export function getFoodScore(foodCalories = 0) {
-  return (foodCalories / 1500) * 10
+  if (!foodCalories) return 0
+  return Math.min((1500 / foodCalories) * 10, 10)
 }
 
 export function getCardioScore(type: 'activeCalories' | 'steps', value = 0) {
