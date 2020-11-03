@@ -67,3 +67,93 @@ body {
 html {
   height: -webkit-fill-available;
 }
+
+
+.transition-next-enter {
+  opacity: 0.01;
+  transform: translateX(200px);
+}
+
+.transition-next-enter-active {
+  opacity: 1;
+  transition: all 200ms;
+  transform: translateX(0px);
+}
+
+.transition-next-exit {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.transition-next-exit-active {
+  opacity: 0.01;
+  transform: translateX(-200px);
+  transition: all 200ms;
+}
+
+.transition-prev-enter {
+  opacity: 0.01;
+  transform: translateX(-200px);
+}
+
+.transition-prev-enter-active {
+  opacity: 1;
+  transition: all 200ms;
+  transform: translateX(0px);
+}
+
+.transition-prev-exit {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.transition-prev-exit-active {
+  opacity: 0.01;
+  transform: translateX(200px);
+  transition: all 200ms;
+}
+
+
+.transition-vertical-next-enter {
+  opacity: 0.01;
+  transform: translateY(80px);
+}
+
+.transition-vertical-next-enter-active {
+  opacity: 1;
+  transition: all 200ms;
+  transform: translateY(0px);
+}
+
+.transition-vertical-next-exit {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.transition-vertical-next-exit-active {
+  opacity: 0.01;
+  transform: translateY(-80px);
+  transition: all 200ms;
+}
+
+.transition-vertical-prev-enter {
+  opacity: 0.01;
+  transform: translateY(-80px);
+}
+
+.transition-vertical-prev-enter-active {
+  opacity: 1;
+  transition: all 200ms;
+  transform: translateY(0px);
+}
+
+.transition-vertical-prev-exit {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.transition-vertical-prev-exit-active {
+  opacity: 0.01;
+  transform: translateY(80px);
+  transition: all 200ms;
+}

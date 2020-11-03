@@ -33,6 +33,7 @@
     "react": "0.0.0-experimental-7f28234f8",
     "react-dom": "0.0.0-experimental-7f28234f8",
     "react-error-boundary": "2.3.2",
+    "react-transition-group": "4.4.1",
     "secure-password": "4.0.0",
     "tailwindcss": "1",
     "zod": "1.11.10"

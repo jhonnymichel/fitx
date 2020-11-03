@@ -13,7 +13,7 @@ import DayHeader from 'app/days/components/DayHeader'
 import ErrorMessage from 'app/components/ErrorMessage'
 
 function Day() {
-  const [day] = useQuery(getDay, { where: { date: { equals: getCurrentDay() } } }, {})
+  const [day, { refetch }] = useQuery(getDay, { where: { date: { equals: getCurrentDay() } } }, {})
 
   return <DaySummary day={day} />
 }
