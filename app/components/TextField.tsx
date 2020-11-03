@@ -28,10 +28,14 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(func
           disabled={isSubmitting}
           {...props}
           ref={ref}
-          className={classNames('input', {
-            'border border-red-600': meta.error && meta.touched,
-            'border border-gray-300': !meta.error,
-          })}
+          className={classNames(
+            'input',
+            {
+              'border border-red-600': meta.error && meta.touched,
+              'border border-gray-300': !meta.error,
+            },
+            props.className
+          )}
         />
       </label>
 

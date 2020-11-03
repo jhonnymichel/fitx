@@ -1,9 +1,11 @@
 import { Day } from 'db'
 import * as Icons from 'app/components/icons'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import OverallScore from 'app/components/OverallScore'
 import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from '../get-score'
 import Form from 'app/components/Form'
+import TextField from 'app/components/TextField'
+import { useField, useFormikContext } from 'formik'
 
 function ProgressBar({ score }: { score: number }) {
   const [width, setWidth] = useState(0)
@@ -30,15 +32,44 @@ type CategoryGroupProps = {
 
 function CategoryGroup({ icon, score, title, details, children }: CategoryGroupProps) {
   const [isEditing, setIsEditing] = useState(false)
+  const localSubmitStatus = useRef<'initial' | 'trigered' | 'submiting'>('initial')
+
+  const { isSubmitting } = useFormikContext()
+
+  useEffect(() => {
+    if (isSubmitting && localSubmitStatus.current === 'trigered') {
+      localSubmitStatus.current = 'submiting'
+    }
+
+    if (!isSubmitting && localSubmitStatus.current === 'submiting') {
+      localSubmitStatus.current = 'initial'
+      setIsEditing(false)
+    }
+  }, [isSubmitting, setIsEditing])
+
   return (
     <div className="flex space-x-4">
       <div className="flex-shrink-0">{icon}</div>
       {isEditing ? (
         <div className="flex flex-1 space-x-1">
           <div className="flex-1">{children}</div>
-          <div className="flex flex-col flex-shrink-0">
-            <button type="submit">OK</button>
-            <button type="button" onClick={() => setIsEditing(false)}>
+          <div className="flex flex-col flex-shrink-0 space-y-2">
+            <button
+              disabled={isSubmitting}
+              type="submit"
+              onClick={() => {
+                localSubmitStatus.current = 'trigered'
+              }}
+              className="text-teal-900 bg-teal-500 text-bold button hover:bg-teal-600"
+            >
+              OK
+            </button>
+            <button
+              disabled={isSubmitting}
+              type="button"
+              className="text-orange-900 bg-orange-500 text-bold button hover:bg-orange-600"
+              onClick={() => setIsEditing(false)}
+            >
               X
             </button>
           </div>
@@ -102,7 +133,24 @@ function getDayScoreComment(score) {
 }
 
 function FoodEditMode() {
-  return <div>edit</div>
+  const input = useRef<HTMLInputElement | null>(null)
+
+  useEffect(() => {
+    input.current?.focus()
+  }, [])
+
+  return (
+    <div className="flex items-end space-x-2">
+      <TextField
+        ref={input}
+        className="w-24 text-xl font-bold text-right text-gray-500 uppercase"
+        name="foodCalories"
+        type="number"
+        label="Calories"
+      />
+      <span className="mb-1 text-xl font-bold text-gray-500 uppercase">Kcal</span>
+    </div>
+  )
 }
 
 function CardioEditMode() {
@@ -128,9 +176,20 @@ function DaySummary({ day }: { day?: Day }) {
     <>
       <Form
         className="space-y-6 lg:space-y-8"
-        onSubmit={async (values) => {}}
+        onSubmit={async (values) => {
+          await new Promise((resolve) => {
+            setTimeout(resolve, 5000)
+          })
+          console.log(values)
+        }}
         enableReinitialize
-        initialValues={day}
+        initialValues={{
+          foodCalories: foodCalories ?? '',
+          cardioCount: cardioCount ?? '',
+          cardioType: cardioType ?? '',
+          strengthDone: strengthDone ?? false,
+          strengthType: strengthType ?? '',
+        }}
       >
         <CategoryGroup
           icon={<Icons.Food />}
