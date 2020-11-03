@@ -29,6 +29,7 @@
     "focus-visible": "5.2.0",
     "formik": "2.2.1",
     "luxon": "1.25.0",
+    "placeholder-loading": "0.2.6",
     "react": "0.0.0-experimental-7f28234f8",
     "react-dom": "0.0.0-experimental-7f28234f8",
     "react-error-boundary": "2.3.2",
@@ -37,6 +38,7 @@
     "zod": "1.11.10"
   },
   "devDependencies": {
+    "@svgr/webpack": "5.4.0",
     "@testing-library/jest-dom": "5.11.5",
     "@testing-library/react": "11.1.0",
     "@testing-library/react-hooks": "3.4.2",

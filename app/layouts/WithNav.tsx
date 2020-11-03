@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { Head } from 'blitz'
 import Nav from 'app/components/Nav'
 import UserBar from 'app/components/UserBar'
+import RequireAuth from 'app/auth/components/RequireAuth'
 
 type LayoutProps = {
   title?: string
@@ -16,12 +17,20 @@ const WithNav = ({ title, children }: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex flex-col items-center h-screen space-y-4">
+      <div className="flex flex-col items-center h-screen space-y-4 xl:py-24">
         <UserBar />
         <div className="flex flex-1 w-full max-w-lg mx-auto">{children}</div>
         <Nav />
       </div>
     </>
+  )
+}
+
+export function getWithNavLayout(page) {
+  return (
+    <RequireAuth>
+      <WithNav>{page}</WithNav>
+    </RequireAuth>
   )
 }
 

@@ -1,4 +1,5 @@
 @import './button.css';
+@import 'placeholder-loading/dist/css/placeholder-loading.css';
 
 @tailwind base;
 @tailwind components;
