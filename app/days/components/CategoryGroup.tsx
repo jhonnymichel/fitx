@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { fix } from '../get-score'
-import useStepTransition from 'app/hooks/useStepTransition'
+import useStepTransition, { transitionDuration } from 'app/hooks/useStepTransition'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import { useFormikContext } from 'formik'
 
@@ -52,7 +52,11 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
     <div className="flex h-20 space-x-4 overflow-hidden">
       <div className="flex-shrink-0">{icon}</div>
       <SwitchTransition>
-        <CSSTransition key={isEditing} classNames={animationClassNames} timeout={200}>
+        <CSSTransition
+          key={isEditing}
+          classNames={animationClassNames}
+          timeout={transitionDuration['transition-vertical']}
+        >
           {isEditing ? (
             <div className="flex flex-1 space-x-1">
               <div className="flex-1">{children}</div>

@@ -11,6 +11,8 @@ import createDay from '../mutations/createDay'
 import { getCurrentDay } from '../date-utils'
 import getDayScoreComment from '../getDayScoreComment'
 import CategoryGroup from './CategoryGroup'
+import useFocusOnMount from 'app/hooks/useFocusOnMount'
+import { transitionDuration } from 'app/hooks/useStepTransition'
 
 export function LoadingDaySummary() {
   return <>Loading</>
@@ -19,11 +21,7 @@ export function LoadingDaySummary() {
 function FoodEditMode() {
   const input = useRef<HTMLInputElement | null>(null)
 
-  useEffect(() => {
-    setTimeout(() => {
-      input.current?.focus()
-    }, 200)
-  }, [])
+  useFocusOnMount(input, transitionDuration['transition-vertical'])
 
   return (
     <div className="flex items-end space-x-2">

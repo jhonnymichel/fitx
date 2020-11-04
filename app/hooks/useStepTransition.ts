@@ -3,7 +3,12 @@ import classNames from 'classnames'
 
 type UpdateStep = (nextStep: number) => void
 
-type Prefix = 'transition' | 'transition-vertical'
+export type Prefix = 'transition' | 'transition-vertical'
+
+export const transitionDuration: { [key in Prefix]: number } = {
+  transition: 200,
+  'transition-vertical': 200,
+}
 
 function useStepTransition(
   step: number,
