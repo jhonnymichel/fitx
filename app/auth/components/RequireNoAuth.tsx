@@ -1,9 +1,8 @@
-import { useCurrentUser } from 'app/hooks/useCurrentUser'
-import { useRouter } from 'blitz'
+import { useRouter, useSession } from 'blitz'
 import { Suspense, useEffect } from 'react'
 
 function AuthGateway({ children }: { children: React.ReactNode }) {
-  const { user, isLoading } = useCurrentUser()
+  const { userId: user, isLoading } = useSession()
   const router = useRouter()
 
   useEffect(() => {
