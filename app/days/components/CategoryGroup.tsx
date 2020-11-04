@@ -28,25 +28,12 @@ type CategoryGroupProps = {
 }
 
 function CategoryGroup({ icon, score, title, details, children }: CategoryGroupProps) {
-  const localSubmitStatus = useRef<'initial' | 'trigered' | 'submiting'>('initial')
-
   const { isSubmitting } = useFormikContext()
 
   const [isEditing, animationClassNames, setIsEditing] = useStepTransition(
     Number(false),
     'transition-vertical'
   )
-
-  useEffect(() => {
-    if (isSubmitting && localSubmitStatus.current === 'trigered') {
-      localSubmitStatus.current = 'submiting'
-    }
-
-    if (!isSubmitting && localSubmitStatus.current === 'submiting') {
-      localSubmitStatus.current = 'initial'
-      setIsEditing(Number(false))
-    }
-  }, [isSubmitting, setIsEditing])
 
   return (
     <div className="flex h-20 space-x-4 overflow-hidden">
@@ -58,21 +45,19 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
           timeout={transitionDuration['transition-vertical']}
         >
           {isEditing ? (
-            <div className="flex flex-1 space-x-1">
-              <div className="flex-1">{children}</div>
+            <div className="flex flex-1 space-x-4">
+              <div className="flex flex-col justify-center flex-1">{children}</div>
               <div className="flex flex-col flex-shrink-0 space-y-2">
                 <button
-                  disabled={isSubmitting}
                   type="submit"
                   onClick={() => {
-                    localSubmitStatus.current = 'trigered'
+                    setIsEditing(Number(false))
                   }}
                   className="text-teal-900 bg-teal-500 text-bold button hover:bg-teal-600"
                 >
                   OK
                 </button>
                 <button
-                  disabled={isSubmitting}
                   type="button"
                   className="text-orange-900 bg-orange-500 text-bold button hover:bg-orange-600"
                   onClick={() => setIsEditing(Number(false))}

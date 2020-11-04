@@ -6,7 +6,8 @@ export interface TextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements['i
   /** Field name. */
   name: string
   /** Field label. */
-  label: string
+  label?: string
+  disabled?: boolean
   /** Field type. Doesn't include radio buttons and checkboxes */
   type?: 'text' | 'password' | 'email' | 'number'
   outerProps?: PropsWithoutRef<JSX.IntrinsicElements['div']>
@@ -22,10 +23,10 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(func
   return (
     <div {...outerProps}>
       <label className="flex flex-col">
-        <span>{label}</span>
+        {label && <span>{label}</span>}
         <input
           {...input}
-          disabled={isSubmitting}
+          disabled={isSubmitting || props.disabled}
           {...props}
           ref={ref}
           className={classNames(

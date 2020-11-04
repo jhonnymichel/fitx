@@ -38,7 +38,7 @@ function OverallScore({ title, score, comment }) {
         </h1>
         <p className="text-sm">{comment}</p>
       </div>
-      <div className="flex items-center justify-center w-32 h-32 text-6xl font-bold bg-gray-200 rounded-full">
+      <div className="flex items-center justify-center flex-shrink-0 w-32 h-32 text-6xl font-bold bg-gray-200 rounded-full">
         <h2>{fix(score) || '?'}</h2>
       </div>
     </footer>
