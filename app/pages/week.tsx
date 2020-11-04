@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { useState } from 'react'
 
 function Week() {
-  return <Card></Card>
+  return <Card>Month</Card>
 }
 
 Week.getLayout = function WithNavLayout(page) {
