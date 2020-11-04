@@ -21,7 +21,7 @@ export function LoadingDaySummary() {
 function FoodEditMode() {
   const input = useRef<HTMLInputElement | null>(null)
 
-  useFocusOnMount(input, transitionDuration['transition-vertical'])
+  useFocusOnMount(input, transitionDuration['transition-vertical'] * 1.2)
 
   return (
     <div className="flex items-end space-x-2">
