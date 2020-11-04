@@ -36,7 +36,7 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
   )
 
   return (
-    <div className="flex h-20 space-x-4 overflow-hidden">
+    <div className="flex flex-shrink-0 h-20 space-x-4 overflow-hidden">
       <div className="flex-shrink-0">{icon}</div>
       <SwitchTransition>
         <CSSTransition
@@ -85,7 +85,9 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
                   >
                     {score > 0 ? 'Edit' : 'Add'}
                   </button>
-                  {score > 0 && <p className="text-4xl font-semibold">{fix(score)}</p>}
+                  {score > 0 && (
+                    <p className="text-4xl font-semibold">{Math.min(10, fix(score))}</p>
+                  )}
                 </div>
               </div>
             </div>

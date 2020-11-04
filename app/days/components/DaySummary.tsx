@@ -33,6 +33,7 @@ function FoodEditMode() {
         className="w-24 text-xl font-bold text-right text-gray-500 uppercase"
         name="foodCalories"
         type="number"
+        min="0"
         placeholder="Calories"
         aria-label="Calories"
       />
@@ -79,6 +80,7 @@ function CardioEditMode() {
         className="w-24 text-lg font-bold text-right text-gray-500 uppercase"
         name="cardioCount"
         type="number"
+        min="0"
         aria-label={selectField.value === 'activeCalories' ? 'Cal. Burned' : 'Steps'}
       />
     </div>
@@ -86,7 +88,22 @@ function CardioEditMode() {
 }
 
 function StrengthEditMode() {
-  return <div>edit</div>
+  const input = useRef<HTMLInputElement | null>(null)
+
+  // this component animates in, and focusing moving inputs generates flickering.
+  // delaying the focus by 1.2x the transition duration is a safety measure
+  useFocusOnMount(input, transitionDuration['transition-vertical'] * 1.2)
+
+  return (
+    <div className="flex items-end space-x-2">
+      <TextField
+        ref={input}
+        className="w-full text-xl font-bold text-gray-500 uppercase"
+        name="strengthType"
+        label="Today training"
+      />
+    </div>
+  )
 }
 
 function DaySummary({ day }: { day?: Day }) {
@@ -119,8 +136,14 @@ function DaySummary({ day }: { day?: Day }) {
   return (
     <>
       <Form
-        className="space-y-6 lg:space-y-8"
+        className="flex flex-col flex-1 space-y-6 lg:space-y-8"
         onSubmit={async (values) => {
+          if (values.strengthType) {
+            values.strengthDone = true
+          } else {
+            values.strengthDone = false
+          }
+
           setLocalDay(values)
           if (day) {
             await update({
@@ -169,13 +192,15 @@ function DaySummary({ day }: { day?: Day }) {
         >
           <StrengthEditMode />
         </CategoryGroup>
-        <OverallScore
-          title="Day score"
-          score={dayScore}
-          comment={
-            dayScore > 0 ? getDayScoreComment(dayScore) : 'IDK, maybe the day has just started?'
-          }
-        />
+        <div className="flex items-center flex-1">
+          <OverallScore
+            title="Day score"
+            score={dayScore}
+            comment={
+              dayScore > 0 ? getDayScoreComment(dayScore) : 'IDK, maybe the day has just started?'
+            }
+          />
+        </div>
       </Form>
     </>
   )
