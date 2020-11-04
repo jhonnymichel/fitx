@@ -1,27 +1,48 @@
 import logout from 'app/auth/mutations/logout'
 import { useCurrentUser } from 'app/hooks/useCurrentUser'
 import { useMutation } from 'blitz'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useState } from 'react'
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+import { queryCache } from 'react-query'
 
 function Info() {
   const { user } = useCurrentUser()
-  const [performLogout] = useMutation(logout)
 
+  return <>Hey, {user?.name}!</>
+}
+
+function ErrorLoadingInfo({ error, resetErrorBoundary }: FallbackProps) {
   return (
-    <div className="flex-shrink-0 w-full max-w-lg">
-      {user?.name}
-      <button className="button" onClick={performLogout}>
-        logout
+    <div className="text-red-800">
+      Error loading user info{' '}
+      <button
+        className="text-black bg-gray-200 button hover:bg-gray-400"
+        onClick={resetErrorBoundary}
+      >
+        retry
       </button>
     </div>
   )
 }
 
 function UserBar() {
+  const [performLogout] = useMutation(logout)
   return (
-    <Suspense fallback={<>Loading</>}>
-      <Info />
-    </Suspense>
+    <div className="flex items-end justify-between flex-shrink-0 w-full max-w-lg mt-2">
+      <ErrorBoundary
+        FallbackComponent={ErrorLoadingInfo}
+        onReset={() => {
+          queryCache.resetErrorBoundaries()
+        }}
+      >
+        <Suspense fallback={<>Loading</>}>
+          <Info />
+        </Suspense>
+      </ErrorBoundary>
+      <button className="text-blue-600 hover:underline" onClick={performLogout}>
+        logout
+      </button>
+    </div>
   )
 }
 

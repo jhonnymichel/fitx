@@ -7,6 +7,7 @@ export const useCurrentUser = () => {
   const session = useSession()
   const [user] = useQuery(getCurrentUser, null, {
     enabled: !!session.userId,
+    retry: 3,
   })
 
   return { user: session.userId ? user : null, isLoading: session.isLoading }
