@@ -6,13 +6,13 @@ function Nav() {
 
   return (
     <div className="flex-shrink-0 w-full max-w-lg pb-4">
-      <nav className="flex w-full space-x-4">
+      <nav className="flex w-full">
         <Link href="/">
           <a
             className={classNames(
-              'transform text-center block rounded-md bg-white text-green-800 shadow-xs font-semibold text-block py-1 px-2 flex-1 hover:shadow-md hover:scale-105 transition-transform duration-500 origin-center',
+              'transform text-center block text-teal-700 font-semibold text-block py-1 px-2 flex-1 hover:bg-gray-200 border-b border-transparent',
               {
-                'scale-105 shadow-md': router.pathname === '/',
+                'border-teal-700': router.pathname === '/',
               }
             )}
           >
@@ -22,9 +22,9 @@ function Nav() {
         <Link href="/week">
           <a
             className={classNames(
-              'transform text-center block rounded-md bg-white text-green-800 shadow-xs font-semibold text-block py-1 px-2 flex-1 hover:shadow-md hover:scale-105 transition-all duration-500 origin-center',
+              'transform text-center block text-teal-700 font-semibold text-block py-1 px-2 flex-1 hover:bg-gray-200 border-b border-transparent',
               {
-                'scale-105 shadow-md': router.pathname === '/week',
+                'border-teal-700': router.pathname === '/week',
               }
             )}
           >
@@ -34,9 +34,9 @@ function Nav() {
         <Link href="/month">
           <a
             className={classNames(
-              'transform text-center block rounded-md bg-white text-green-800 shadow-xs font-semibold text-block py-1 px-2 flex-1 hover:shadow-md hover:scale-105 transition-transform duration-500 origin-center',
+              'transform text-center block text-teal-700 font-semibold text-block py-1 px-2 flex-1 hover:bg-gray-200 border-b border-transparent',
               {
-                'scale-105 shadow-md': router.pathname === '/month',
+                'border-teal-700': router.pathname === '/month',
               }
             )}
           >
