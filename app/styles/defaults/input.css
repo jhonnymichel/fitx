@@ -1,4 +1,7 @@
 .input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   @apply bg-gray-100 rounded-md p-1 px-2;
 }
 

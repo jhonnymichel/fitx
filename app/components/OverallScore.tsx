@@ -30,7 +30,7 @@ function getScoreTitle(score: number) {
 
 function OverallScore({ title, score, comment }) {
   return (
-    <footer className="flex items-center justify-between md:py-8">
+    <footer className="flex items-center justify-between w-full md:py-8">
       <div>
         <h1>
           <span className="block text-sm font-semibold text-gray-600 uppercase">{title}</span>

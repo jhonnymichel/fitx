@@ -13,36 +13,26 @@ import DayHeader from 'app/days/components/DayHeader'
 import ErrorMessage from 'app/components/ErrorMessage'
 
 function Day() {
-  const [day, { refetch }] = useQuery(getDay, { where: { date: { equals: getCurrentDay() } } }, {})
-
-  return <DaySummary day={day} />
-}
-
-function ErrorGateway({ error, resetErrorBoundary }: FallbackProps) {
-  return error?.name === 'NotFoundError' ? (
-    <DaySummary />
-  ) : (
-    <ErrorMessage error={error} resetErrorBoundary={resetErrorBoundary} />
+  const [day, { refetch, error }] = useQuery(
+    getDay,
+    {
+      where: { date: { equals: getCurrentDay() } },
+    },
+    { suspense: false, useErrorBoundary: false }
   )
-}
 
-function Loading() {
-  return (
-    <>
-      <LoadingDaySummary />
-    </>
-  )
+  if (error && (error as Error).name !== 'NotFoundError') {
+    return <ErrorMessage error={error as Error} resetErrorBoundary={refetch} />
+  }
+
+  return <DaySummary refetch={refetch} day={day} />
 }
 
 function Index() {
   return (
     <Card>
       <DayHeader />
-      <ErrorBoundary FallbackComponent={ErrorGateway}>
-        <Suspense fallback={<Loading />}>
-          <Day />
-        </Suspense>
-      </ErrorBoundary>
+      <Day />
     </Card>
   )
 }

@@ -106,9 +106,11 @@ function StrengthEditMode() {
   )
 }
 
-function DaySummary({ day }: { day?: Day }) {
+function DaySummary({ day, refetch }: { day?: Day; refetch?: () => any }) {
   const [localDay, setLocalDay] = useState<Partial<Day>>(day ?? {})
   const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = localDay
+
+  console.log(day)
 
   const [update] = useMutation(updateDay)
   const [create] = useMutation(createDay)
@@ -145,18 +147,24 @@ function DaySummary({ day }: { day?: Day }) {
           }
 
           setLocalDay(values)
-          if (day) {
-            await update({
-              data: values,
-              where: {
-                id: day.id,
-              },
-            })
-          } else {
-            await create({
-              data: values,
-            })
+          try {
+            if (day) {
+              await update({
+                data: values,
+                where: {
+                  id: day.id,
+                },
+              })
+            } else {
+              await create({
+                data: values,
+              })
+            }
+          } catch (e) {
+            console.error('bugou', e)
           }
+
+          refetch?.()
         }}
         enableReinitialize
         initialValues={{
