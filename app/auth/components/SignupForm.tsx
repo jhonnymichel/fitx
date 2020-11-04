@@ -46,11 +46,13 @@ export const SignupForm = (props: SignupFormProps) => {
           Please reckon that there is currently no way to recover your account if you forget your
           password.
         </p>
-        <div className="flex">
-          Already have an account?{' '}
-          <Link href="/login">
-            <a className="ml-2 text-blue-600 mk2 hover:underline">Sign in</a>
-          </Link>
+        <div className="flex items-start">
+          <div className="flex flex-wrap">
+            Already have an account?{' '}
+            <Link href="/login">
+              <a className="text-blue-600 mk2 hover:underline">Sign in</a>
+            </Link>
+          </div>
           <SubmitButton>Create account</SubmitButton>
         </div>
       </Form>

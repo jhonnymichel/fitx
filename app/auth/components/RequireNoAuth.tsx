@@ -1,3 +1,4 @@
+import LoadingCircle from 'app/components/LoadingCircle'
 import { useRouter, useSession } from 'blitz'
 import { Suspense, useEffect } from 'react'
 
@@ -12,19 +13,15 @@ function AuthGateway({ children }: { children: React.ReactNode }) {
   }, [user, router])
 
   if (isLoading || user) {
-    return <Loading />
+    return <LoadingCircle />
   }
 
   return <>{children}</>
 }
 
-function Loading() {
-  return <>Loading</>
-}
-
 function RequireNoAuth({ children }: { children: React.ReactNode }): JSX.Element {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<LoadingCircle />}>
       <AuthGateway>{children}</AuthGateway>
     </Suspense>
   )

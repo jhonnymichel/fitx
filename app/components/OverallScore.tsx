@@ -30,15 +30,19 @@ function getScoreTitle(score: number) {
 
 function OverallScore({ title, score, comment }) {
   return (
-    <footer className="flex items-center justify-between w-full md:py-8">
+    <footer className="flex items-center justify-between w-full">
       <div>
         <h1>
-          <span className="block text-sm font-semibold text-gray-600 uppercase">{title}</span>
-          <span className="block text-5xl font-semibold uppercase">{getScoreTitle(score)}</span>
+          <span className="block text-xs font-semibold text-gray-600 uppercase xl:text-sm">
+            {title}
+          </span>
+          <span className="block text-4xl font-semibold uppercase xl:text-5xl">
+            {getScoreTitle(score)}
+          </span>
         </h1>
-        <p className="text-sm">{comment}</p>
+        <p className="text-xs xl:text-sm">{comment}</p>
       </div>
-      <div className="flex items-center justify-center flex-shrink-0 w-32 h-32 text-6xl font-bold bg-gray-200 rounded-full">
+      <div className="flex items-center justify-center flex-shrink-0 w-24 h-24 text-5xl font-bold bg-gray-200 rounded-full xl:w-32 xl:h-32 xl:text-6xl">
         <h2>{Math.min(10, fix(score)) || '?'}</h2>
       </div>
     </footer>

@@ -7,7 +7,10 @@ function SubmitButton({ children }: { children: React.ReactNode }): JSX.Element 
   return (
     <button
       type="submit"
-      className={classNames('button', 'block ml-auto bg-green-400 hover:bg-green-500 text-white')}
+      className={classNames(
+        'button',
+        'whitespace-no-wrap block ml-auto bg-green-400 hover:bg-green-500 text-white'
+      )}
       disabled={isSubmitting}
     >
       {children}

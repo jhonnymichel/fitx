@@ -13,7 +13,7 @@ function ProgressBar({ score }: { score: number }) {
 
   return (
     <div
-      className="h-6 transition-all duration-1000 ease-out bg-gray-200 rounded-md"
+      className="h-4 transition-all duration-1000 ease-out bg-gray-200 rounded-md xl:h-6"
       style={{ width: `${Math.min(width || 0.001, 100)}%` }}
     ></div>
   )
@@ -36,7 +36,7 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
   )
 
   return (
-    <div className="flex flex-shrink-0 h-20 space-x-4 overflow-hidden">
+    <div className="flex flex-shrink-0 h-16 space-x-2 overflow-hidden xl:space-x-4 xl:h-20">
       <div className="flex-shrink-0">{icon}</div>
       <SwitchTransition>
         <CSSTransition
@@ -45,21 +45,21 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
           timeout={transitionDuration['transition-vertical']}
         >
           {isEditing ? (
-            <div className="flex flex-1 space-x-4">
+            <div className="flex flex-1 space-x-2 xl:space-x-4">
               <div className="flex flex-col justify-center flex-1">{children}</div>
-              <div className="flex flex-col flex-shrink-0 space-y-2">
+              <div className="flex flex-col flex-shrink-0 space-y-1 xl:space-y-2">
                 <button
                   type="submit"
                   onClick={() => {
                     setIsEditing(Number(false))
                   }}
-                  className="text-teal-900 bg-teal-500 text-bold button hover:bg-teal-600"
+                  className="text-sm text-teal-900 bg-teal-500 text-bold button hover:bg-teal-600"
                 >
                   OK
                 </button>
                 <button
                   type="button"
-                  className="text-orange-900 bg-orange-500 text-bold button hover:bg-orange-600"
+                  className="text-sm text-orange-900 bg-orange-500 text-bold button hover:bg-orange-600"
                   onClick={() => setIsEditing(Number(false))}
                 >
                   X
@@ -67,12 +67,12 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
               </div>
             </div>
           ) : (
-            <div className="w-full min-w-0 space-y-2 lg:space-y-4">
+            <div className="w-full min-w-0 space-y-2 xl:space-y-4">
               <ProgressBar score={score} />
-              <div className="flex justify-between space-x-2">
+              <div className="flex justify-between space-y-1 xl:space-x-2">
                 <div className="flex-1 min-w-0">
-                  <h2 className="font-semibold uppercase">{title}</h2>
-                  <p className="text-sm font-semibold text-gray-400 uppercase truncate">
+                  <h2 className="text-sm font-semibold uppercase xl:text-base">{title}</h2>
+                  <p className="text-xs font-semibold text-gray-400 uppercase truncate xl:text-sm">
                     {details}
                   </p>
                 </div>

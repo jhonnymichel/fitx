@@ -20,7 +20,9 @@ export default function App({ Component, pageProps }: AppProps) {
         queryCache.resetErrorBoundaries()
       }}
     >
-      <div className="h-full px-2">{getLayout(<Component {...pageProps} />)}</div>
+      <div className="flex flex-col justify-center w-full h-full px-2 overflow-x-hidden">
+        {getLayout(<Component {...pageProps} />)}
+      </div>
     </ErrorBoundary>
   )
 }

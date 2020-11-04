@@ -30,14 +30,13 @@ function FoodEditMode() {
     <div className="flex items-end space-x-2">
       <TextField
         ref={input}
-        className="w-24 text-xl font-bold text-right text-gray-500 uppercase"
+        className="w-24 text-base font-bold text-right text-gray-500 uppercase xl:text-xl"
         name="foodCalories"
         type="number"
         min="0"
-        placeholder="Calories"
         aria-label="Calories"
       />
-      <span className="mb-1 text-lg font-bold text-gray-500 uppercase">Kcal</span>
+      <span className="mb-1 text-base font-bold text-gray-500 uppercase xl:text-lg">Kcal</span>
     </div>
   )
 }
@@ -57,13 +56,18 @@ function CardioEditMode() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-around space-y-2">
+    <div className="flex items-center justify-around space-y-2">
+      <TextField
+        ref={inputRef}
+        disabled={!selectField.value}
+        className="w-24 text-base font-bold text-right text-gray-500 uppercase xl:text-lg"
+        name="cardioCount"
+        type="number"
+        min="0"
+        aria-label={selectField.value === 'activeCalories' ? 'Cal. Burned' : 'Steps'}
+      />
       <div>
-        <div
-          role="group0"
-          className="flex justify-around space-x-2"
-          aria-labelledby="my-radio-group"
-        >
+        <div role="group0" className="flex flex-col" aria-labelledby="my-radio-group">
           <label>
             <Field type="radio" name="cardioType" onClick={resetInput} value="activeCalories" />
             <span className="ml-1 text-sm">Active Cal.</span>
@@ -74,15 +78,6 @@ function CardioEditMode() {
           </label>
         </div>
       </div>
-      <TextField
-        ref={inputRef}
-        disabled={!selectField.value}
-        className="w-24 text-lg font-bold text-right text-gray-500 uppercase"
-        name="cardioCount"
-        type="number"
-        min="0"
-        aria-label={selectField.value === 'activeCalories' ? 'Cal. Burned' : 'Steps'}
-      />
     </div>
   )
 }
@@ -98,7 +93,7 @@ function StrengthEditMode() {
     <div className="flex items-end space-x-2">
       <TextField
         ref={input}
-        className="w-full text-xl font-bold text-gray-500 uppercase"
+        className="w-full text-base font-bold text-gray-500 uppercase xl:text-xl"
         name="strengthType"
         label="Today training"
       />
@@ -106,11 +101,17 @@ function StrengthEditMode() {
   )
 }
 
-function DaySummary({ day, refetch }: { day?: Day; refetch?: () => any }) {
+function DaySummary({
+  day,
+  refetch,
+  currentDay,
+}: {
+  day?: Day
+  refetch?: () => any
+  currentDay: Date
+}) {
   const [localDay, setLocalDay] = useState<Partial<Day>>(day ?? {})
   const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = localDay
-
-  console.log(day)
 
   const [update] = useMutation(updateDay)
   const [create] = useMutation(createDay)
@@ -138,7 +139,7 @@ function DaySummary({ day, refetch }: { day?: Day; refetch?: () => any }) {
   return (
     <>
       <Form
-        className="flex flex-col flex-1 space-y-6 lg:space-y-8"
+        className="flex flex-col justify-around flex-1 space-y-6 xl:space-y-8"
         onSubmit={async (values) => {
           if (values.strengthType) {
             values.strengthDone = true
@@ -168,7 +169,7 @@ function DaySummary({ day, refetch }: { day?: Day; refetch?: () => any }) {
         }}
         enableReinitialize
         initialValues={{
-          date: getCurrentDay(),
+          date: currentDay,
           foodCalories: foodCalories ?? 0,
           cardioCount: cardioCount ?? 0,
           cardioType: cardioType ?? '',

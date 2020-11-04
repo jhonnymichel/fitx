@@ -1,8 +1,6 @@
 import { useState, useRef } from 'react'
 import classNames from 'classnames'
 
-type UpdateStep = (nextStep: number) => void
-
 export type Prefix = 'transition' | 'transition-vertical'
 
 export const transitionDuration: { [key in Prefix]: number } = {
@@ -10,15 +8,15 @@ export const transitionDuration: { [key in Prefix]: number } = {
   'transition-vertical': 200,
 }
 
-function useStepTransition(
-  step: number,
+function useStepTransition<TStep = number>(
+  step: TStep,
   prefix: Prefix = 'transition'
-): [number, string, UpdateStep] {
-  const lastStep = useRef<number | null>()
+): [TStep, string, (nextStep: TStep) => void] {
+  const lastStep = useRef<TStep | null>()
   const [currentStep, setCurrentStep] = useState(step)
   const [animationClassNames, setAnimationClassNames] = useState(classNames('transition-next'))
 
-  const updateStep: UpdateStep = (nextStep) => {
+  const updateStep = (nextStep: TStep) => {
     lastStep.current = currentStep
     setAnimationClassNames(
       classNames({
