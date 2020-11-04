@@ -1,0 +1,10 @@
+
+*:focus:not(.focus-visible) {
+  outline: none;
+}
+
+.focus-visible {
+  @apply outline-none shadow-outline !important;
+}
+
+

@@ -1,0 +1,14 @@
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  @apply bg-gray-100 text-gray-700;
+}
+

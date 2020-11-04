@@ -1,0 +1,12 @@
+
+.button:hover {
+  @apply shadow-md;
+}
+
+.button[disabled] {
+  @apply bg-gray-400;
+}
+
+.button[disabled]:hover {
+  @apply bg-gray-400
+}
