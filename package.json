@@ -1,6 +1,6 @@
 {
   "name": "fitx",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "start": "blitz start",
     "studio": "blitz db studio",
