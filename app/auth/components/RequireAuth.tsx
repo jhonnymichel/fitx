@@ -1,18 +1,17 @@
-import { useCurrentUser } from 'app/hooks/useCurrentUser'
-import { useRouter } from 'blitz'
+import { useRouter, useSession } from 'blitz'
 import { Suspense, useEffect } from 'react'
 
 function AuthGateway({ children }: { children: React.ReactNode }) {
-  const { user, isLoading } = useCurrentUser()
+  const { userId, isLoading } = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    if (!user && !isLoading) {
+    if (!userId && !isLoading) {
       router.push('/signup')
     }
-  }, [user, isLoading, router])
+  }, [userId, isLoading, router])
 
-  if (!user) {
+  if (!userId) {
     return <Loading />
   }
 
