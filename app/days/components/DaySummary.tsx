@@ -21,6 +21,8 @@ export function LoadingDaySummary() {
 function FoodEditMode() {
   const input = useRef<HTMLInputElement | null>(null)
 
+  // this component animates in, and focusing moving inputs generates flickering.
+  // delaying the focus by 1.2x the transition duration is a safety measure
   useFocusOnMount(input, transitionDuration['transition-vertical'] * 1.2)
 
   return (
