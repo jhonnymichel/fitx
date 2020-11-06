@@ -6,9 +6,12 @@ export function fix(number) {
   return number
 }
 
+const foodScoreGoal = 1500
+
 export function getFoodScore(foodCalories = 0) {
   if (!foodCalories) return 0
-  return Math.min((1500 / foodCalories) * 10, 10)
+
+  return Math.max(0, Math.min((1 - (foodCalories - foodScoreGoal) / foodScoreGoal) * 10, 10))
 }
 
 export function getCardioScore(type: 'activeCalories' | 'steps', value = 0) {
