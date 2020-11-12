@@ -25,6 +25,18 @@ function ErrorLoadingInfo({ error, resetErrorBoundary }: FallbackProps) {
   )
 }
 
+function Loading() {
+  return (
+    <div className="self-center ph-item">
+      <div>
+        <div className="ph-row">
+          <div className="ph-col-6"></div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function UserBar() {
   const [performLogout] = useMutation(logout)
   return (
@@ -35,7 +47,7 @@ function UserBar() {
           queryCache.resetErrorBoundaries()
         }}
       >
-        <Suspense fallback={<>Loading</>}>
+        <Suspense fallback={<Loading />}>
           <Info />
         </Suspense>
       </ErrorBoundary>
