@@ -1,26 +1,14 @@
 import classNames from 'classnames'
+import { CSSTransition } from 'react-transition-group'
 import FoodIcon from 'app/components/icons/colheita.svg'
 import CardioIcon from 'app/components/icons/tenis-de-corrida.svg'
 import StrengthIcon from 'app/components/icons/academia.svg'
 import LoadingCircle from '../LoadingCircle'
 
-function IconBackground({
-  className,
-  children,
-}: {
+type IconProps = {
   className?: string
   children: React.ReactNode
-}) {
-  return (
-    <div
-      className={classNames(
-        'flex w-16 relative h-16 p-2 bg-gray-200 rounded-full xl:p-3 xl:w-20 xl:h-20 items-center justify-center',
-        className
-      )}
-    >
-      {children}
-    </div>
-  )
+  isLoading?: boolean
 }
 
 function LoadingOverlay() {
@@ -31,48 +19,53 @@ function LoadingOverlay() {
   )
 }
 
+function Icon({ className, children, isLoading }: IconProps) {
+  return (
+    <div
+      className={classNames(
+        'flex w-16 relative h-16 p-2 bg-gray-200 rounded-full xl:p-3 xl:w-20 xl:h-20 items-center justify-center',
+        className
+      )}
+    >
+      <CSSTransition in={isLoading} timeout={200} classNames="transition-fade" unmountOnExit>
+        <LoadingOverlay />
+      </CSSTransition>
+      <div
+        className={classNames('transition-opacity duration-200', {
+          'opacity-25': isLoading,
+          'opacity-100': !isLoading,
+        })}
+      >
+        {children}
+      </div>
+    </div>
+  )
+}
+
 type Props = {
   isLoading?: boolean
 }
 
-export function Food({ isLoading }: Props) {
+export function Food(props: Props) {
   return (
-    <IconBackground className="text-green-900">
-      {isLoading && <LoadingOverlay />}
-      <FoodIcon
-        className={classNames('w-full transition-opacity fill-current', {
-          'opacity-25': isLoading,
-          'opacity-100': !isLoading,
-        })}
-      />
-    </IconBackground>
+    <Icon className="text-green-900" {...props}>
+      <FoodIcon className="w-full fill-current" />
+    </Icon>
   )
 }
 
-export function Cardio({ isLoading }: Props) {
+export function Cardio(props: Props) {
   return (
-    <IconBackground className="text-blue-800">
-      {isLoading && <LoadingOverlay />}
-      <CardioIcon
-        className={classNames('w-full transition-opacity fill-current', {
-          'opacity-25': isLoading,
-          'opacity-100': !isLoading,
-        })}
-      />
-    </IconBackground>
+    <Icon className="text-green-900" {...props}>
+      <CardioIcon className="w-full fill-current" />
+    </Icon>
   )
 }
 
-export function Strength({ isLoading }: Props) {
+export function Strength(props: Props) {
   return (
-    <IconBackground className="text-red-800">
-      {isLoading && <LoadingOverlay />}
-      <StrengthIcon
-        className={classNames('w-full transition-opacity fill-current', {
-          'opacity-25': isLoading,
-          'opacity-100': !isLoading,
-        })}
-      />
-    </IconBackground>
+    <Icon className="text-green-900" {...props}>
+      <StrengthIcon className="w-full fill-current" />
+    </Icon>
   )
 }
