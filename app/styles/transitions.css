@@ -87,3 +87,21 @@
   transform: translateY(80px);
   transition: all 200ms;
 }
+
+.transition-fade-enter {
+  opacity: 0.01;
+}
+
+.transition-fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-out;
+}
+
+.transition-fade-exit {
+  opacity: 1;
+}
+
+.transition-fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 200ms ease-out;
+}
