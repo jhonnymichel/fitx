@@ -43,6 +43,7 @@ function CardioEditMode() {
   // this component animates in, and focusing moving inputs generates flickering.
   // delaying the focus by 1.2x the transition duration is a safety measure
   useFocusOnMount(selectRef, transitionDuration['transition-vertical'] * 1.2)
+
   const [selectField] = useField('cardioType')
   const { setFieldValue } = useFormikContext()
 
@@ -142,6 +143,7 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
           }
 
           setLocalDay(values)
+
           try {
             if (day) {
               await update({

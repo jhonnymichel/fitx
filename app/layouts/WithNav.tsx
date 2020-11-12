@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import { Head } from 'blitz'
 import Nav from 'app/components/Nav'
-import UserBar from 'app/components/UserBar'
+import UserBar from 'app/auth/components/UserBar'
 import RequireAuth from 'app/auth/components/RequireAuth'
 
 type LayoutProps = {
