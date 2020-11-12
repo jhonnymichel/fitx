@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
-import { fix } from '../get-score'
-import useStepTransition, { transitionDuration } from 'app/hooks/useStepTransition'
+import { useEffect, useState } from 'react'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import { useFormikContext } from 'formik'
+import useStepTransition, { transitionDuration } from 'app/hooks/useStepTransition'
+import { fix } from 'app/days/getScore'
 
 function ProgressBar({ score }: { score: number }) {
   const [width, setWidth] = useState(0)
@@ -19,17 +19,28 @@ function ProgressBar({ score }: { score: number }) {
   )
 }
 
+function LoadingTitle() {
+  return (
+    <div className="ph-item">
+      <div className="flex flex-col justify-end w-full h-full space-y-1">
+        <div className="space-y-1 ph-row">
+          <div className="ph-col-4" style={{ height: '1rem' }}></div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 type CategoryGroupProps = {
   icon: React.ReactNode
   score: number
+  isLoading?: boolean
   title: string
   details: string | null | undefined
   children: React.ReactNode
 }
 
-function CategoryGroup({ icon, score, title, details, children }: CategoryGroupProps) {
-  const { isSubmitting } = useFormikContext()
-
+function CategoryGroup({ icon, score, isLoading, title, details, children }: CategoryGroupProps) {
   const [isEditing, animationClassNames, setIsEditing] = useStepTransition(
     Number(false),
     'transition-vertical'
@@ -72,21 +83,29 @@ function CategoryGroup({ icon, score, title, details, children }: CategoryGroupP
               <div className="flex justify-between space-y-1 xl:space-x-2">
                 <div className="flex-1 min-w-0">
                   <h2 className="text-sm font-semibold uppercase xl:text-base">{title}</h2>
-                  <p className="text-xs font-semibold text-gray-400 uppercase truncate xl:text-sm">
-                    {details}
-                  </p>
+                  {isLoading ? (
+                    <LoadingTitle />
+                  ) : (
+                    <p className="text-xs font-semibold text-gray-400 uppercase truncate xl:text-sm">
+                      {details}
+                    </p>
+                  )}
                 </div>
                 <div className="flex items-end flex-shrink-0 space-x-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsEditing(Number(true))
-                    }}
-                  >
-                    {score > 0 ? 'Edit' : 'Add'}
-                  </button>
-                  {score > 0 && (
-                    <p className="text-4xl font-semibold">{Math.min(10, fix(score))}</p>
+                  {!isLoading && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsEditing(Number(true))
+                        }}
+                      >
+                        {score > 0 ? 'Edit' : 'Add'}
+                      </button>
+                      {score > 0 && (
+                        <p className="text-4xl font-semibold">{Math.min(10, fix(score))}</p>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

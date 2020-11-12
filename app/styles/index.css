@@ -1,6 +1,5 @@
 @import './transitions';
 @import './defaults';
-@import 'placeholder-loading/dist/css/placeholder-loading';
 
 @tailwind base;
 @tailwind components;

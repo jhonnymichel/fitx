@@ -2,22 +2,17 @@ import { Day } from 'db'
 import * as Icons from 'app/components/icons'
 import { useEffect, useRef, useState } from 'react'
 import OverallScore from 'app/components/OverallScore'
-import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from '../get-score'
+import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from '../getScore'
 import Form from 'app/components/Form'
 import TextField from 'app/components/TextField'
 import { useMutation } from 'blitz'
 import updateDay from '../mutations/updateDay'
 import createDay from '../mutations/createDay'
-import { getCurrentDay } from '../date-utils'
 import getDayScoreComment from '../getDayScoreComment'
 import CategoryGroup from './CategoryGroup'
 import useFocusOnMount from 'app/hooks/useFocusOnMount'
 import { transitionDuration } from 'app/hooks/useStepTransition'
 import { Field, useField, useFormikContext } from 'formik'
-
-export function LoadingDaySummary() {
-  return <>Loading</>
-}
 
 function FoodEditMode() {
   const input = useRef<HTMLInputElement | null>(null)
@@ -101,15 +96,22 @@ function StrengthEditMode() {
   )
 }
 
-function DaySummary({
-  day,
-  refetch,
-  currentDay,
-}: {
+function getCardioText(count, type) {
+  if (type === 'activeCalories') {
+    return count + ' Cal. Burned'
+  }
+
+  return `${count} ${type}`
+}
+
+type DaySummaryProps = {
   day?: Day
-  refetch?: () => any
+  isLoading?: boolean
+  refetch?: () => void
   currentDay: Date
-}) {
+}
+
+function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
   const [localDay, setLocalDay] = useState<Partial<Day>>(day ?? {})
   const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = localDay
 
@@ -124,14 +126,6 @@ function DaySummary({
     food: getFoodScore(foodCalories),
     cardio: getCardioScore(cardioType as any, cardioCount),
     strength: getStrengthScore(strengthDone),
-  }
-
-  function getCardioText(count, type) {
-    if (type === 'activeCalories') {
-      return count + ' Cal. Burned'
-    }
-
-    return `${count} ${type}`
   }
 
   const dayScore = getDayScore(scores)
@@ -178,7 +172,8 @@ function DaySummary({
         }}
       >
         <CategoryGroup
-          icon={<Icons.Food />}
+          isLoading={isLoading}
+          icon={<Icons.Food isLoading={isLoading} />}
           score={scores.food}
           title="Food"
           details={foodCalories ? `${foodCalories} KCAL` : 'You gotta eat, cmon'}
@@ -186,7 +181,8 @@ function DaySummary({
           <FoodEditMode />
         </CategoryGroup>
         <CategoryGroup
-          icon={<Icons.Cardio />}
+          isLoading={isLoading}
+          icon={<Icons.Cardio isLoading={isLoading} />}
           score={scores.cardio}
           title="Cardio"
           details={cardioCount ? getCardioText(cardioCount, cardioType) : 'Did you run today?'}
@@ -194,7 +190,8 @@ function DaySummary({
           <CardioEditMode />
         </CategoryGroup>
         <CategoryGroup
-          icon={<Icons.Strength />}
+          isLoading={isLoading}
+          icon={<Icons.Strength isLoading={isLoading} />}
           score={scores.strength}
           title="Strength"
           details={strengthType || 'NO PAIN NO GAIN'}
@@ -203,6 +200,7 @@ function DaySummary({
         </CategoryGroup>
         <div className="flex items-center flex-1">
           <OverallScore
+            isLoading={isLoading}
             title="Day score"
             score={dayScore}
             comment={

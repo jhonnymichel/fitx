@@ -1,0 +1,22 @@
+@import 'placeholder-loading/dist/css/placeholder-loading';
+
+.ph-item {
+  background-color: transparent;
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  box-shadow: none;
+}
+
+.ph-row, .ph-row .big, .ph-row div {
+  margin-bottom: 0px;
+}
+
+.ph-row div {
+  @apply bg-gray-200;
+}
+
+.ph-item > * {
+  padding-left: 0px;
+  padding-right: 0px;
+}
