@@ -1,10 +1,11 @@
 import { Day } from 'db'
+import classNames from 'classnames'
 import * as Icons from 'app/components/icons'
-import { useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import OverallScore from 'app/components/OverallScore'
 import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from '../getScore'
 import Form from 'app/components/Form'
-import TextField from 'app/components/TextField'
+import TextField, { TextFieldProps } from 'app/components/TextField'
 import { useMutation } from 'blitz'
 import updateDay from '../mutations/updateDay'
 import createDay from '../mutations/createDay'
@@ -13,6 +14,20 @@ import CategoryGroup from './CategoryGroup'
 import useFocusOnMount from 'app/hooks/useFocusOnMount'
 import { transitionDuration } from 'app/hooks/useStepTransition'
 import { Field, useField, useFormikContext } from 'formik'
+
+type InputProps = TextFieldProps
+
+const Input = forwardRef<HTMLInputElement, InputProps>(function Input(props, ref) {
+  const { className, ...textFieldProps } = props
+
+  return (
+    <TextField
+      ref={ref}
+      className={classNames('text-base font-bold text-right text-gray-500 uppercase', className)}
+      {...textFieldProps}
+    />
+  )
+})
 
 function FoodEditMode() {
   const input = useRef<HTMLInputElement | null>(null)
@@ -23,9 +38,9 @@ function FoodEditMode() {
 
   return (
     <div className="flex items-end space-x-2">
-      <TextField
+      <Input
         ref={input}
-        className="w-24 text-base font-bold text-right text-gray-500 uppercase xl:text-xl"
+        className="w-24 xl:text-xl"
         name="foodCalories"
         type="number"
         min="0"
@@ -53,10 +68,10 @@ function CardioEditMode() {
 
   return (
     <div className="flex items-center justify-around space-y-2">
-      <TextField
+      <Input
         ref={inputRef}
         disabled={!selectField.value}
-        className="w-24 text-base font-bold text-right text-gray-500 uppercase xl:text-lg"
+        className="w-24 xl:text-lg"
         name="cardioCount"
         type="number"
         min="0"
@@ -87,12 +102,7 @@ function StrengthEditMode() {
 
   return (
     <div className="flex items-end space-x-2">
-      <TextField
-        ref={input}
-        className="w-full text-base font-bold text-gray-500 uppercase xl:text-xl"
-        name="strengthType"
-        label="Today training"
-      />
+      <Input ref={input} className="xl:text-xl" name="strengthType" label="Today training" />
     </div>
   )
 }
