@@ -1,6 +1,10 @@
 import { fix } from 'app/days/getScore'
 
-function getScoreTitle(score: number) {
+function getScoreTitle(score: number, noData?: boolean) {
+  if (noData) {
+    return 'NO DATA'
+  }
+
   if (score <= 5) {
     return 'AWFUL'
   }
@@ -24,6 +28,14 @@ function getScoreTitle(score: number) {
   return 'PRFCT'
 }
 
+function getScore(score: number, noData?: boolean) {
+  if (noData) {
+    return '?'
+  }
+
+  return Math.min(10, fix(score))
+}
+
 function LoadingTitle() {
   return (
     <div className="ph-item">
@@ -38,10 +50,12 @@ function LoadingTitle() {
 
 function LoadingComment() {
   return (
-    <div className="w-full py-1 ph-item">
-      <div className="flex flex-col justify-end w-full h-full space-y-1">
-        <div className="space-y-1 ph-row">
-          <div className="ph-col-8"></div>
+    <div>
+      <div className="w-full py-1 ph-item">
+        <div className="flex flex-col justify-end w-full h-full space-y-1">
+          <div className="space-y-1 ph-row">
+            <div className="ph-col-8"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -53,7 +67,7 @@ type OverralScoreProps = {
   score: number
   comment: string
   isLoading?: boolean
-  noData: boolean
+  noData?: boolean
 }
 
 function OverallScore({ title, score, comment, isLoading, noData }: OverralScoreProps) {
@@ -68,20 +82,14 @@ function OverallScore({ title, score, comment, isLoading, noData }: OverralScore
             <LoadingTitle />
           ) : (
             <span className="block text-4xl font-semibold uppercase xl:text-5xl">
-              {noData ? 'No data' : getScoreTitle(score)}
+              {getScoreTitle(score, noData)}
             </span>
           )}
         </h1>
-        {isLoading ? (
-          <div>
-            <LoadingComment />
-          </div>
-        ) : (
-          <p className="text-xs xl:text-sm">{comment}</p>
-        )}
+        {isLoading ? <LoadingComment /> : <p className="text-xs xl:text-sm">{comment}</p>}
       </div>
       <div className="flex items-center justify-center flex-shrink-0 w-24 h-24 text-5xl font-bold bg-gray-200 rounded-full xl:w-32 xl:h-32 xl:text-6xl">
-        {!isLoading && <h2>{!noData ? Math.min(10, fix(score)) : '?'}</h2>}
+        {!isLoading && <h2>{getScore(score, noData)}</h2>}
       </div>
     </footer>
   )
