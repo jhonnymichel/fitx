@@ -103,5 +103,49 @@
 
 .transition-fade-exit-active {
   opacity: 0.01;
-  transition: opacity 200ms ease-out;
+  transition: opacity 100ms ease-out;
+}
+
+.transition-route-change-enter {
+  opacity: 0.01;
+  transform: translateY(80px);
+}
+
+.transition-route-change-enter-active {
+  opacity: 1;
+  transition: all 200ms;
+  transform: translateY(0px);
+}
+
+.transition-route-change-exit {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.transition-route-change-exit-active {
+  opacity: 0.01;
+  transform: translateY(80px);
+  transition: all 200ms;
+}
+
+.transition-gateway-enter {
+  opacity: 0.01;
+  transform: translateY(80px);
+}
+
+.transition-gateway-enter-active {
+  opacity: 1;
+  transition: all 200ms;
+  transform: translateY(0px);
+}
+
+.transition-gateway-exit {
+  opacity: 1;
+  transform: translateY(0px);
+}
+
+.transition-gateway-exit-active {
+  opacity: 0.01;
+  transform: translateY(0px);
+  transition: all 200ms;
 }

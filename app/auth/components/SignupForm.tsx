@@ -48,9 +48,9 @@ export const SignupForm = (props: SignupFormProps) => {
         </p>
         <div className="flex items-start">
           <div className="flex flex-wrap">
-            Already have an account?{' '}
+            Already have an account?
             <Link href="/login">
-              <a className="text-blue-600 mk2 hover:underline">Sign in</a>
+              <a className="ml-1 text-blue-600 hover:underline">Sign in</a>
             </Link>
           </div>
           <SubmitButton>Create account</SubmitButton>

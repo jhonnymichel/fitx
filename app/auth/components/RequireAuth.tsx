@@ -1,8 +1,9 @@
 import LoadingCircle from 'app/components/LoadingCircle'
 import { useRouter, useSession } from 'blitz'
-import { Suspense, useEffect } from 'react'
+import { useEffect } from 'react'
+import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
-function AuthGateway({ children }: { children: React.ReactNode }) {
+function RequireAuth({ children }: { children: React.ReactNode }) {
   const { userId, isLoading } = useSession()
   const router = useRouter()
 
@@ -12,18 +13,12 @@ function AuthGateway({ children }: { children: React.ReactNode }) {
     }
   }, [userId, isLoading, router])
 
-  if (!userId) {
-    return <LoadingCircle />
-  }
-
-  return <>{children}</>
-}
-
-function RequireAuth({ children }: { children: React.ReactNode }): JSX.Element {
   return (
-    <Suspense fallback={<LoadingCircle />}>
-      <AuthGateway>{children}</AuthGateway>
-    </Suspense>
+    <SwitchTransition>
+      <CSSTransition key={userId} classNames="transition-gateway" timeout={200}>
+        {!userId ? <LoadingCircle /> : children}
+      </CSSTransition>
+    </SwitchTransition>
   )
 }
 
