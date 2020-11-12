@@ -1,10 +1,6 @@
 import { fix } from 'app/days/getScore'
 
 function getScoreTitle(score: number) {
-  if (score === 0) {
-    return 'NO DATA'
-  }
-
   if (score <= 5) {
     return 'AWFUL'
   }
@@ -57,9 +53,10 @@ type OverralScoreProps = {
   score: number
   comment: string
   isLoading?: boolean
+  noData: boolean
 }
 
-function OverallScore({ title, score, comment, isLoading }: OverralScoreProps) {
+function OverallScore({ title, score, comment, isLoading, noData }: OverralScoreProps) {
   return (
     <footer className="flex items-center justify-between w-full space-x-2">
       <div className="w-full">
@@ -71,7 +68,7 @@ function OverallScore({ title, score, comment, isLoading }: OverralScoreProps) {
             <LoadingTitle />
           ) : (
             <span className="block text-4xl font-semibold uppercase xl:text-5xl">
-              {getScoreTitle(score)}
+              {noData ? 'No data' : getScoreTitle(score)}
             </span>
           )}
         </h1>
@@ -84,7 +81,7 @@ function OverallScore({ title, score, comment, isLoading }: OverralScoreProps) {
         )}
       </div>
       <div className="flex items-center justify-center flex-shrink-0 w-24 h-24 text-5xl font-bold bg-gray-200 rounded-full xl:w-32 xl:h-32 xl:text-6xl">
-        {!isLoading && <h2>{Math.min(10, fix(score)) || '?'}</h2>}
+        {!isLoading && <h2>{!noData ? Math.min(10, fix(score)) : '?'}</h2>}
       </div>
     </footer>
   )

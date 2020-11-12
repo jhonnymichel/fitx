@@ -172,6 +172,7 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
         }}
       >
         <CategoryGroup
+          noData={!foodCalories}
           isLoading={isLoading}
           icon={<Icons.Food isLoading={isLoading} />}
           score={scores.food}
@@ -181,6 +182,7 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
           <FoodEditMode />
         </CategoryGroup>
         <CategoryGroup
+          noData={!cardioCount}
           isLoading={isLoading}
           icon={<Icons.Cardio isLoading={isLoading} />}
           score={scores.cardio}
@@ -190,6 +192,7 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
           <CardioEditMode />
         </CategoryGroup>
         <CategoryGroup
+          noData={!strengthType}
           isLoading={isLoading}
           icon={<Icons.Strength isLoading={isLoading} />}
           score={scores.strength}
@@ -200,6 +203,7 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
         </CategoryGroup>
         <div className="flex items-center flex-1">
           <OverallScore
+            noData={foodCalories == null && cardioCount == null && strengthType == null}
             isLoading={isLoading}
             title="Day score"
             score={dayScore}

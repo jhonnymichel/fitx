@@ -38,9 +38,12 @@ type CategoryGroupProps = {
   title: string
   details: string | null | undefined
   children: React.ReactNode
+  noData: boolean
 }
 
-function CategoryGroup({ icon, score, isLoading, title, details, children }: CategoryGroupProps) {
+function CategoryGroup(props: CategoryGroupProps) {
+  const { icon, score, isLoading, title, details, children, noData } = props
+
   const [isEditing, animationClassNames, setIsEditing] = useStepTransition(
     Number(false),
     'transition-vertical'
@@ -100,9 +103,9 @@ function CategoryGroup({ icon, score, isLoading, title, details, children }: Cat
                           setIsEditing(Number(true))
                         }}
                       >
-                        {score > 0 ? 'Edit' : 'Add'}
+                        {noData ? 'Add' : 'Edit'}
                       </button>
-                      {score > 0 && (
+                      {!noData && (
                         <p className="text-4xl font-semibold">{Math.min(10, fix(score))}</p>
                       )}
                     </>
