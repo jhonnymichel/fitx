@@ -186,7 +186,7 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
         <CategoryGroup
           noData={!foodCalories}
           isLoading={isLoading}
-          icon={<Icons.Food isLoading={isLoading} />}
+          icon={<Icons.Food />}
           score={scores.food}
           title="Food"
           details={foodCalories ? `${foodCalories} KCAL` : 'You gotta eat, cmon'}
@@ -196,7 +196,7 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
         <CategoryGroup
           noData={!cardioCount}
           isLoading={isLoading}
-          icon={<Icons.Cardio isLoading={isLoading} />}
+          icon={<Icons.Cardio />}
           score={scores.cardio}
           title="Cardio"
           details={cardioCount ? getCardioText(cardioCount, cardioType) : 'Did you run today?'}
@@ -206,7 +206,7 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
         <CategoryGroup
           noData={!strengthType}
           isLoading={isLoading}
-          icon={<Icons.Strength isLoading={isLoading} />}
+          icon={<Icons.Strength />}
           score={scores.strength}
           title="Strength"
           details={strengthType || 'NO PAIN NO GAIN'}
