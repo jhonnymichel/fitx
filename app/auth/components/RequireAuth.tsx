@@ -9,7 +9,9 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!userId && !isLoading) {
-      router.push('/signup')
+      if (router.asPath !== '/signup') {
+        router.push('/signup')
+      }
     }
   }, [userId, isLoading, router])
 

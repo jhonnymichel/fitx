@@ -9,7 +9,9 @@ function RequireNoAuth({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (user) {
-      router.push('/')
+      if (router.asPath !== '/') {
+        router.push('/')
+      }
     }
   }, [user, router])
 
