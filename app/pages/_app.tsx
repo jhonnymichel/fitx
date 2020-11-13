@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <SwitchTransition>
         <CSSTransition
           key={getTransitionKey(router.asPath)}
-          classNames="transition-gateway"
+          classNames="transition-route-change"
           timeout={200}
         >
           <div className="flex flex-col justify-center w-full h-full px-2">
