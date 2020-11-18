@@ -10,7 +10,7 @@ import useStepTransition, { transitionDuration } from 'app/hooks/useStepTransiti
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 function Day({ currentDay }: { currentDay: Date }) {
-  const [day, { refetch, isLoading, error }] = useQuery(
+  const [day, { refetch, setQueryData, error, isLoading }] = useQuery(
     getDay,
     {
       where: { date: { equals: currentDay } },
@@ -22,7 +22,15 @@ function Day({ currentDay }: { currentDay: Date }) {
     return <ErrorMessage error={error as Error} resetErrorBoundary={refetch} />
   }
 
-  return <DaySummary isLoading={isLoading} refetch={refetch} day={day} currentDay={currentDay} />
+  return (
+    <DaySummary
+      isLoading={isLoading}
+      setQueryData={setQueryData}
+      refetch={refetch}
+      day={day}
+      currentDay={currentDay}
+    />
+  )
 }
 
 function Index() {

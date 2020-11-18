@@ -43,6 +43,7 @@ function FoodEditMode() {
         className="w-24 xl:text-xl"
         name="foodCalories"
         type="number"
+        pattern="[0-9]*"
         min="0"
         aria-label="Calories"
       />
@@ -74,6 +75,7 @@ function CardioEditMode() {
         className="w-24 xl:text-lg"
         name="cardioCount"
         type="number"
+        pattern="[0-9]*"
         min="0"
         aria-label={selectField.value === 'activeCalories' ? 'Cal. Burned' : 'Steps'}
       />
@@ -119,10 +121,11 @@ type DaySummaryProps = {
   day?: Day
   isLoading?: boolean
   refetch?: () => void
+  setQueryData?: (data: Day) => void
   currentDay: Date
 }
 
-function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
+function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProps) {
   const [localDay, setLocalDay] = useState<Partial<Day>>(day ?? {})
   const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = localDay
 
@@ -163,21 +166,21 @@ function DaySummary({ day, isLoading, refetch, currentDay }: DaySummaryProps) {
                 },
               })
             } else {
-              await create({
+              const dayData = await create({
                 data: values,
               })
+
+              setQueryData?.(dayData)
             }
           } catch (e) {
             console.error('bugou', e)
           }
-
-          refetch?.()
         }}
         enableReinitialize
         initialValues={{
           date: currentDay,
-          foodCalories: foodCalories ?? 0,
-          cardioCount: cardioCount ?? 0,
+          foodCalories: foodCalories ?? '',
+          cardioCount: cardioCount ?? '',
           cardioType: cardioType ?? '',
           strengthDone: strengthDone ?? false,
           strengthType: strengthType ?? '',
