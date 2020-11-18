@@ -155,6 +155,14 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
             values.strengthDone = false
           }
 
+          if (!values.cardioCount) {
+            values.cardioCount = 0
+          }
+
+          if (!values.foodCalories) {
+            values.foodCalories = 0
+          }
+
           setLocalDay(values)
 
           try {
