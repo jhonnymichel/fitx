@@ -3,7 +3,7 @@ import { Link, useMutation } from 'blitz'
 import TextField from 'app/components/TextField'
 import { Form, FORM_ERROR } from 'app/components/Form'
 import login from 'app/auth/mutations/login'
-import { LoginInput } from 'app/auth/validations'
+import { Login as LoginInput } from 'app/auth/validations'
 import FormTitle from './FormTitle'
 import SubmitButton from './SubmitButton'
 

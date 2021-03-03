@@ -1,8 +1,9 @@
-import * as z from "zod"
+import * as z from 'zod'
 
 const password = z.string().min(10).max(100)
 
 export const Signup = z.object({
+  name: z.string().nonempty(),
   email: z.string().email(),
   password,
 })
@@ -24,7 +25,7 @@ export const ResetPassword = z
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords don't match",
-    path: ["passwordConfirmation"], // set the path of the error
+    path: ['passwordConfirmation'], // set the path of the error
   })
 
 export const ChangePassword = z.object({

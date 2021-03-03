@@ -13,7 +13,7 @@ generator client {
 // --------------------------------------
 
 model User {
-  id             Int       @default(autoincrement()) @id
+  id             Int       @id @default(autoincrement())
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   name           String?
@@ -21,10 +21,12 @@ model User {
   hashedPassword String?
   role           String    @default("user")
   sessions       Session[]
+  Day            Day[]
+  Token          Token[]
 }
 
 model Session {
-  id                 Int       @default(autoincrement()) @id
+  id                 Int       @id @default(autoincrement())
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   expiresAt          DateTime?
@@ -38,31 +40,32 @@ model Session {
 }
 
 model Day {
-  id                 Int       @default(autoincrement()) @id
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  date               DateTime
-  cardioType        String? // activeCalories | steps
-  cardioCount       Int       @default(0)
-  foodCalories      Int       @default(0)
-  strengthDone      Boolean   @default(false)
-  strengthType      String?
-  user               User?     @relation(fields: [userId], references: [id])
-  userId             Int?
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  date         DateTime
+  cardioType   String? // activeCalories | steps
+  cardioCount  Int      @default(0)
+  foodCalories Int      @default(0)
+  strengthDone Boolean  @default(false)
+  strengthType String?
+  user         User?    @relation(fields: [userId], references: [id])
+  userId       Int?
 
   @@unique([userId, date], name: "Day_userId_date_unique_constraint")
 }
 
 model Token {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   hashedToken String
   type        TokenType
   expiresAt   DateTime
   sentTo      String
-  user        User @relation(fields: [userId], references: [id])
-  userId Int
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+
   @@unique([hashedToken, type])
 }
 
