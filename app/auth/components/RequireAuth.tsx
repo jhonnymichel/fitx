@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
-  const { userId, isLoading } = useSession()
+  const { userId, isLoading } = useSession({ suspense: false })
   const router = useRouter()
 
   useEffect(() => {

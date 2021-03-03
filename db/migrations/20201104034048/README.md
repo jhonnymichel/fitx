@@ -47,7 +47,7 @@ PRIMARY KEY ("id")
 
 CREATE UNIQUE INDEX "User.email_unique" ON "public"."User"("email")
 
-CREATE UNIQUE INDEX "Session.handle_unique" ON "public"."Session"("handle")
+CREATE UNIQUE INDEX "session.$handle_unique" ON "public"."Session"("handle")
 
 ALTER TABLE "public"."Session" ADD FOREIGN KEY("userId")REFERENCES "public"."User"("id") ON DELETE SET NULL ON UPDATE CASCADE
 

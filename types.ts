@@ -1,11 +1,18 @@
-import { DefaultCtx, SessionContext, DefaultPublicData } from 'blitz'
+import { DefaultCtx, SessionContext } from 'blitz'
+import { SimpleRolesIsAuthorized } from '@blitzjs/server'
 import { User } from 'db'
+
+export type Role = 'admin' | 'user'
 
 declare module 'blitz' {
   export interface Ctx extends DefaultCtx {
     session: SessionContext
   }
-  export interface PublicData extends DefaultPublicData {
-    userId: User['id']
+  export interface Session {
+    isAuthorized: SimpleRolesIsAuthorized<Role>
+    PublicData: {
+      userId: User['id']
+      roles: Role
+    }
   }
 }

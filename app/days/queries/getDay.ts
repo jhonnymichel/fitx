@@ -4,7 +4,7 @@ import db, { FindFirstDayArgs } from 'db'
 type GetDayInput = Pick<FindFirstDayArgs, 'where'>
 
 export default async function getDay({ where }: GetDayInput, ctx: Ctx) {
-  ctx.session.authorize()
+  ctx.session.$authorize()
 
   const day = await db.day.findFirst({ where: { ...where, userId: ctx.session.userId } })
 

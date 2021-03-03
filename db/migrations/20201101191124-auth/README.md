@@ -33,7 +33,7 @@ CREATE TABLE "Session" (
 
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email")
 
-CREATE UNIQUE INDEX "Session.handle_unique" ON "Session"("handle")
+CREATE UNIQUE INDEX "session.$handle_unique" ON "Session"("handle")
 ```
 
 ## Changes
