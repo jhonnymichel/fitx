@@ -22,14 +22,14 @@
   },
   "dependencies": {
     "@babel/plugin-syntax-typescript": "7.12.1",
-    "@prisma/client": "2.18.0",
+    "@prisma/client": "2.17.0",
     "@types/luxon": "1.25.0",
-    "blitz": "0.30.6",
+    "blitz": "0.31.0",
     "focus-visible": "5.2.0",
     "formik": "2.2.1",
     "luxon": "1.25.0",
     "placeholder-loading": "0.2.6",
-    "prisma": "2.18.0",
+    "prisma": "2.17.0",
     "react": "0.0.0-experimental-7f28234f8",
     "react-dom": "0.0.0-experimental-7f28234f8",
     "react-error-boundary": "2.3.2",
@@ -44,10 +44,8 @@
     "@testing-library/react": "11.1.0",
     "@testing-library/react-hooks": "3.4.2",
     "@types/jest": "26.0.15",
-    "@types/react": "16.9.55",
     "@types/preview-email": "2.0.0",
-    "preview-email": "3.0.3",
-    "prettier-plugin-prisma": "0.4.0",
+    "@types/react": "16.9.55",
     "@types/secure-password": "3.1.0",
     "@typescript-eslint/eslint-plugin": "4.6.0",
     "@typescript-eslint/parser": "4.6.0",
@@ -69,10 +67,12 @@
     "lint-staged": "10.5.1",
     "postcss-preset-env": "6.7.0",
     "prettier": "2.1.2",
+    "prettier-plugin-prisma": "0.4.0",
     "pretty-quick": "3.1.0",
+    "preview-email": "3.0.3",
     "react-test-renderer": "16.14.0",
     "ts-jest": "26.4.3",
-    "typescript": "4.0.5"
+    "typescript": "4.1.5"
   },
   "private": true
 }

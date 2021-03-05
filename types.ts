@@ -1,5 +1,5 @@
 import { DefaultCtx, SessionContext } from 'blitz'
-import { SimpleRolesIsAuthorized } from '@blitzjs/server'
+import { SimpleRolesIsAuthorized } from 'blitz'
 import { User } from 'db'
 
 export type Role = 'admin' | 'user'
