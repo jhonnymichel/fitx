@@ -2,13 +2,14 @@ import NavButton from 'app/components/NavButton'
 import { DateTime } from 'luxon'
 import { MouseEvent } from 'react'
 
-type DayHeaderProps = {
-  currentDay: Date
+type WeekHeaderProps = {
+  weekRange: [Date, Date]
   onPrevClick: (e: MouseEvent<HTMLButtonElement>) => void
   onNextClick: (e: MouseEvent<HTMLButtonElement>) => void
 }
 
-function DayHeader({ currentDay, onPrevClick, onNextClick }: DayHeaderProps) {
+function WeekHeader({ weekRange, onPrevClick, onNextClick }: WeekHeaderProps) {
+  const [start, end] = weekRange
   return (
     <div className="flex justify-between w-full mb-6">
       <div className="space-x-1">
@@ -16,10 +17,12 @@ function DayHeader({ currentDay, onPrevClick, onNextClick }: DayHeaderProps) {
         <NavButton onClick={onNextClick}>{`>`}</NavButton>
       </div>
       <h1 className="text-2xl text-semibold">
-        {DateTime.fromJSDate(currentDay).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}
+        {DateTime.fromJSDate(start).toLocaleString(DateTime.DATE_MED)}
+        {' - '}
+        {DateTime.fromJSDate(end).toLocaleString(DateTime.DATE_MED)}
       </h1>
     </div>
   )
 }
 
-export default DayHeader
+export default WeekHeader

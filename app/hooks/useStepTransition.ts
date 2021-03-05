@@ -10,18 +10,20 @@ export const transitionDuration: { [key in Prefix]: number } = {
 
 function useStepTransition<TStep = number>(
   step: TStep,
-  prefix: Prefix = 'transition'
+  prefix: Prefix = 'transition',
+  getIsForward: (currentStep: TStep, nextStep: TStep) => boolean = (c, n) => n > c
 ): [TStep, string, (nextStep: TStep) => void] {
   const lastStep = useRef<TStep | null>()
   const [currentStep, setCurrentStep] = useState(step)
   const [animationClassNames, setAnimationClassNames] = useState(classNames('transition-next'))
 
   const updateStep = (nextStep: TStep) => {
+    const isForward = getIsForward(currentStep, nextStep)
     lastStep.current = currentStep
     setAnimationClassNames(
       classNames({
-        [`${prefix}-next`]: nextStep > currentStep,
-        [`${prefix}-prev`]: nextStep < currentStep,
+        [`${prefix}-next`]: isForward,
+        [`${prefix}-prev`]: !isForward,
       })
     )
 

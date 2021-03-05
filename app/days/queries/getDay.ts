@@ -1,7 +1,7 @@
 import { Ctx, NotFoundError } from 'blitz'
-import db, { FindFirstDayArgs } from 'db'
+import db, { Prisma } from 'db'
 
-type GetDayInput = Pick<FindFirstDayArgs, 'where'>
+type GetDayInput = Pick<Prisma.UserFindFirstArgs, 'where'>
 
 export default async function getDay({ where }: GetDayInput, ctx: Ctx) {
   ctx.session.$authorize()

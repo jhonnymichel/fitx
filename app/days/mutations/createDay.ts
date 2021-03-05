@@ -1,7 +1,7 @@
 import { Ctx } from 'blitz'
-import db, { DayCreateArgs } from 'db'
+import db, { Prisma } from 'db'
 
-type CreateDayInput = Pick<DayCreateArgs, 'data'>
+type CreateDayInput = Pick<Prisma.DayCreateArgs, 'data'>
 export default async function createDay({ data }: CreateDayInput, ctx: Ctx) {
   ctx.session.$authorize()
 
