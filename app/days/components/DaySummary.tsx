@@ -228,7 +228,9 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
             title="Day score"
             score={dayScore}
             comment={
-              dayScore > 0 ? getDayScoreComment(dayScore) : 'IDK, maybe the day has just started?'
+              [foodCalories, cardioCount, strengthType].every((i) => typeof i !== 'undefined')
+                ? getDayScoreComment(dayScore)
+                : 'IDK, maybe the day has just started?'
             }
           />
         </div>
