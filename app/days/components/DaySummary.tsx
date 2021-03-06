@@ -173,7 +173,7 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
               })
             } else {
               const dayData = await create({
-                data: values,
+                data: { ...values, date: currentDay },
               })
 
               setQueryData?.(dayData)
