@@ -163,15 +163,13 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
             values.foodCalories = 0
           }
 
-          setLocalDay(values)
+          setLocalDay({ ...values, day: currentDay })
 
           try {
             if (day) {
               await update({
                 data: values,
-                where: {
-                  id: day.id,
-                },
+                date: day.date,
               })
             } else {
               const dayData = await create({
@@ -186,7 +184,6 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
         }}
         enableReinitialize
         initialValues={{
-          date: currentDay,
           foodCalories: foodCalories ?? '',
           cardioCount: cardioCount ?? '',
           cardioType: cardioType ?? '',

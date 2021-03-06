@@ -1,24 +1,30 @@
 import { Ctx } from 'blitz'
 import db, { Prisma } from 'db'
+import * as z from 'zod'
 
 type UpdateDayInput = {
   data: Pick<
     Prisma.DayUpdateInput,
     'cardioType' | 'cardioCount' | 'foodCalories' | 'strengthDone' | 'strengthType'
   >
-  where: Pick<Prisma.DayUpdateArgs['where'], 'id'>
+  date: Date
 }
 
-export default async function updateDay({ where, data }: UpdateDayInput, ctx: Ctx) {
+const NoDateAllowed = z
+  .object({
+    date: z.undefined(),
+  })
+  .nonstrict()
+
+export default async function updateDay({ date, data }: UpdateDayInput, ctx: Ctx) {
   ctx.session.$authorize()
 
-  const prevDay = await db.day.findFirst({ where: { id: where.id, userId: ctx.session.userId } })
+  NoDateAllowed.parse(data)
 
-  if (!prevDay) {
-    throw new Error('Wrong credentials')
-  }
-
-  const day = await db.day.update({ where, data })
+  const day = await db.day.update({
+    where: { uniqueDatePerUser: { date, userId: ctx.session.userId } },
+    data,
+  })
 
   return day
 }
