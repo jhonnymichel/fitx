@@ -1,16 +1,16 @@
-import { useState, ReactNode, PropsWithoutRef } from "react"
-import { Formik, FormikProps } from "formik"
-import * as z from "zod"
+import { useState, ReactNode, PropsWithoutRef } from 'react'
+import { Formik, FormikProps } from 'formik'
+import * as z from 'zod'
 
 export interface FormProps<S extends z.ZodType<any, any>>
-  extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
+  extends Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> {
   /** All your form fields */
   children?: ReactNode
   /** Text to display in the submit button */
   submitText?: string
   schema?: S
   onSubmit: (values: z.infer<S>) => Promise<void | OnSubmitResult>
-  initialValues?: FormikProps<z.infer<S>>["initialValues"]
+  initialValues?: FormikProps<z.infer<S>>['initialValues']
 }
 
 interface OnSubmitResult {
@@ -18,7 +18,7 @@ interface OnSubmitResult {
   [prop: string]: any
 }
 
-export const FORM_ERROR = "FORM_ERROR"
+export const FORM_ERROR = 'FORM_ERROR'
 
 export function Form<S extends z.ZodType<any, any>>({
   children,
@@ -58,7 +58,7 @@ export function Form<S extends z.ZodType<any, any>>({
           {children}
 
           {formError && (
-            <div role="alert" style={{ color: "red" }}>
+            <div role="alert" style={{ color: 'red' }}>
               {formError}
             </div>
           )}

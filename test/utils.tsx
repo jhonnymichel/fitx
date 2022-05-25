@@ -1,8 +1,8 @@
-import { RouterContext, BlitzRouter } from "blitz"
-import { render as defaultRender } from "@testing-library/react"
-import { renderHook as defaultRenderHook } from "@testing-library/react-hooks"
+import { RouterContext, BlitzRouter } from 'blitz'
+import { render as defaultRender } from '@testing-library/react'
+import { renderHook as defaultRenderHook } from '@testing-library/react-hooks'
 
-export * from "@testing-library/react"
+export * from '@testing-library/react'
 
 // --------------------------------------------------------------------------------
 // This file customizes the render() and renderHook() test functions provided
@@ -63,10 +63,11 @@ export function renderHook(
 }
 
 export const mockRouter: BlitzRouter = {
-  basePath: "",
-  pathname: "/",
-  route: "/",
-  asPath: "/",
+  isPreview: false,
+  basePath: '',
+  pathname: '/',
+  route: '/',
+  asPath: '/',
   params: {},
   query: {},
   isReady: true,

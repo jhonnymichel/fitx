@@ -23,7 +23,7 @@ function Week({ range }: { range: [Date, Date] }) {
   return <pre>{JSON.stringify(days, null, 2)}</pre>
 }
 
-function Index() {
+function WeekPage() {
   const [currentWeek, animationClassNames, setCurrentWeek] = useStepTransition<[Date, Date]>(
     getCurrentWeekRange(),
     'transition',
@@ -57,6 +57,6 @@ function Index() {
   )
 }
 
-Index.getLayout = getWithNavLayout
+WeekPage.getLayout = getWithNavLayout
 
-export default Index
+export default WeekPage

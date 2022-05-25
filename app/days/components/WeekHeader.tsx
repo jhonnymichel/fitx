@@ -1,3 +1,4 @@
+import { HeaderContainer, HeaderNav, HeaderTitle } from 'app/components/Header'
 import NavButton from 'app/components/NavButton'
 import { DateTime } from 'luxon'
 import { MouseEvent } from 'react'
@@ -11,17 +12,17 @@ type WeekHeaderProps = {
 function WeekHeader({ weekRange, onPrevClick, onNextClick }: WeekHeaderProps) {
   const [start, end] = weekRange
   return (
-    <div className="flex justify-between w-full mb-6">
-      <div className="space-x-1">
+    <HeaderContainer>
+      <HeaderNav>
         <NavButton onClick={onPrevClick}>{`<`}</NavButton>
         <NavButton onClick={onNextClick}>{`>`}</NavButton>
-      </div>
-      <h1 className="text-2xl text-semibold">
+      </HeaderNav>
+      <HeaderTitle>
         {DateTime.fromJSDate(start).toLocaleString(DateTime.DATE_MED)}
         {' - '}
         {DateTime.fromJSDate(end).toLocaleString(DateTime.DATE_MED)}
-      </h1>
-    </div>
+      </HeaderTitle>
+    </HeaderContainer>
   )
 }
 

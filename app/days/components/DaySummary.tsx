@@ -167,10 +167,12 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
 
           try {
             if (day) {
-              await update({
+              const dayData = await update({
                 data: values,
                 date: day.date,
               })
+
+              setQueryData?.(dayData)
             } else {
               const dayData = await create({
                 data: { ...values, date: currentDay },
@@ -184,11 +186,11 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
         }}
         enableReinitialize
         initialValues={{
-          foodCalories: foodCalories ?? '',
-          cardioCount: cardioCount ?? '',
-          cardioType: cardioType ?? '',
-          strengthDone: strengthDone ?? false,
-          strengthType: strengthType ?? '',
+          foodCalories: foodCalories || '',
+          cardioCount: cardioCount || '',
+          cardioType: cardioType || '',
+          strengthDone: strengthDone || false,
+          strengthType: strengthType || '',
         }}
       >
         <CategoryGroup

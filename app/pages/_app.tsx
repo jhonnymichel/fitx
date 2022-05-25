@@ -1,6 +1,11 @@
-import { AppProps, ErrorComponent, useRouter } from 'blitz'
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
-import { queryCache } from 'react-query'
+import {
+  AppProps,
+  ErrorBoundary,
+  ErrorComponent,
+  ErrorFallbackProps,
+  useQueryErrorResetBoundary,
+  useRouter,
+} from 'blitz'
 import LoginForm from 'app/auth/components/LoginForm'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import 'focus-visible'
@@ -19,15 +24,15 @@ function getTransitionKey(path) {
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
   const router = useRouter()
+  const boundary = useQueryErrorResetBoundary()
 
   return (
     <ErrorBoundary
       FallbackComponent={RootErrorFallback}
-      resetKeys={[router.asPath]}
       onReset={() => {
         // This ensures the Blitz useQuery hooks will automatically refetch
         // data any time you reset the error boundary
-        queryCache.resetErrorBoundaries()
+        boundary.reset()
       }}
     >
       <SwitchTransition>
@@ -45,7 +50,7 @@ export default function App({ Component, pageProps }: AppProps) {
   )
 }
 
-function RootErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
   if (error?.name === 'AuthenticationError') {
     return <LoginForm onSuccess={resetErrorBoundary} />
   } else if (error?.name === 'AuthorizationError') {

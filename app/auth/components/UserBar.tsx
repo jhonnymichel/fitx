@@ -1,9 +1,8 @@
 import logout from 'app/auth/mutations/logout'
 import { useCurrentUser } from 'app/hooks/useCurrentUser'
-import { useMutation } from 'blitz'
+import { useMutation, useQueryErrorResetBoundary } from 'blitz'
 import { Suspense, useEffect, useState } from 'react'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
-import { queryCache } from 'react-query'
 
 function Info() {
   const { user } = useCurrentUser()
@@ -38,13 +37,15 @@ function Loading() {
 }
 
 function UserBar() {
+  const boundary = useQueryErrorResetBoundary()
+
   const [performLogout] = useMutation(logout)
   return (
     <div className="flex items-end justify-between flex-shrink-0 w-full max-w-lg mt-2">
       <ErrorBoundary
         FallbackComponent={ErrorLoadingInfo}
         onReset={() => {
-          queryCache.resetErrorBoundaries()
+          boundary.reset()
         }}
       >
         <Suspense fallback={<Loading />}>

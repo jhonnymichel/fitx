@@ -1,6 +1,9 @@
 const { sessionMiddleware, simpleRolesIsAuthorized } = require('blitz')
 
 module.exports = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   middleware: [
     sessionMiddleware({
       isAuthorized: simpleRolesIsAuthorized,
