@@ -33,8 +33,6 @@ DATABASE_URL=postgresql://<YOUR_DB_USERNAME>@localhost:5432/fitx_test
 Runs your tests using Jest.
 
 ```
-blitz test
-or
 yarn test
 ```
 
