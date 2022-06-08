@@ -32,3 +32,20 @@ export function getNextWeekRange(date: Date): [Date, Date] {
 
   return [start.toJSDate(), end.toJSDate()]
 }
+
+export function getWeekProgress(startDate: Date, endDate: Date, progress = 0): number {
+  const now = DateTime.local()
+  const start = DateTime.fromJSDate(startDate)
+  const end = DateTime.fromJSDate(endDate)
+  const dateToCheck = start.plus({ days: progress })
+
+  if (now.toMillis() > end.endOf('day').toMillis()) {
+    return 7
+  }
+
+  if (now.toMillis() < dateToCheck.endOf('day').toMillis()) {
+    return progress
+  }
+
+  return getWeekProgress(startDate, endDate, progress + 1)
+}

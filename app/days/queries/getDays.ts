@@ -16,14 +16,7 @@ export default async function getDays({ where, orderBy, skip = 0, take }: GetDay
     skip,
   })
 
-  const count = await db.day.count()
-  const hasMore = typeof take === 'number' ? skip + take < count : false
-  const nextPage = hasMore ? { take, skip: skip + take! } : null
-
   return {
     days,
-    nextPage,
-    hasMore,
-    count,
   }
 }
