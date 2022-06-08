@@ -63,7 +63,7 @@ function Week({ range }: { range: [Date, Date] }) {
       dayScore: 0,
     }
   )
-  const weekScore = weekTotalScores.dayScore / Math.max(Math.min(1, weekProgress), scores.length)
+  const weekScore = weekTotalScores.dayScore / Math.max(Math.max(1, weekProgress), scores.length)
 
   return <pre>{JSON.stringify(weekScore, null, 2)}</pre>
 }
