@@ -10,5 +10,9 @@ export default async function getDay({ where }: GetDayInput, ctx: Ctx) {
 
   if (!day) throw new NotFoundError()
 
-  return day
+  const { id, userId, createdAt, updatedAt, ...dayPayload } = day
+
+  return dayPayload
 }
+
+export type DayPayload = Awaited<ReturnType<typeof getDay>>

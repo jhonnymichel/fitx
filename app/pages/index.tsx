@@ -1,37 +1,10 @@
 import Card from 'app/components/Card'
-import getDay from 'app/days/queries/getDay'
 import { getWithNavLayout } from 'app/layouts/WithNav'
-import { useQuery } from 'blitz'
 import { getCurrentDay, getNextDay, getPreviousDay } from 'app/days/dateUtils'
 import DaySummary from 'app/days/components/DaySummary'
 import DayHeader from 'app/days/components/DayHeader'
-import ErrorMessage from 'app/components/ErrorMessage'
 import useStepTransition, { transitionDuration } from 'app/hooks/useStepTransition'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
-
-function Day({ currentDay }: { currentDay: Date }) {
-  const [day, { refetch, setQueryData, error, isLoading }] = useQuery(
-    getDay,
-    {
-      where: { date: { equals: currentDay } },
-    },
-    { suspense: false, useErrorBoundary: false }
-  )
-
-  if (error && (error as Error).name !== 'NotFoundError') {
-    return <ErrorMessage error={error as Error} resetErrorBoundary={refetch} />
-  }
-
-  return (
-    <DaySummary
-      isLoading={isLoading}
-      setQueryData={setQueryData}
-      refetch={refetch}
-      day={day}
-      currentDay={currentDay}
-    />
-  )
-}
 
 function Index() {
   const [currentDay, animationClassNames, setCurrentDay] = useStepTransition<Date>(getCurrentDay())
@@ -53,7 +26,7 @@ function Index() {
           timeout={transitionDuration.transition}
         >
           <Card>
-            <Day currentDay={currentDay} />
+            <DaySummary currentDay={currentDay} />
           </Card>
         </CSSTransition>
       </SwitchTransition>

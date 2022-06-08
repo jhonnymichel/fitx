@@ -1,19 +1,19 @@
-import { Day } from 'db'
 import classNames from 'classnames'
 import * as Icons from 'app/components/icons'
-import { forwardRef, useEffect, useRef, useState } from 'react'
+import { forwardRef, useRef } from 'react'
 import OverallScore from 'app/components/OverallScore'
 import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from '../getScore'
-import Form from 'app/components/Form'
 import TextField, { TextFieldProps } from 'app/components/TextField'
-import { useMutation } from 'blitz'
+import { useMutation, useQuery } from 'blitz'
 import updateDay from '../mutations/updateDay'
 import createDay from '../mutations/createDay'
 import getDayScoreComment from '../getDayScoreComment'
 import CategoryGroup from './CategoryGroup'
 import useFocusOnMount from 'app/hooks/useFocusOnMount'
 import { transitionDuration } from 'app/hooks/useStepTransition'
-import { Field, useField, useFormikContext } from 'formik'
+import { Field, Form, Formik, useField, useFormikContext } from 'formik'
+import getDay, { DayPayload } from '../queries/getDay'
+import ErrorMessage from 'app/components/ErrorMessage'
 
 type InputProps = TextFieldProps
 
@@ -118,23 +118,22 @@ function getCardioText(count, type) {
 }
 
 type DaySummaryProps = {
-  day?: Day
-  isLoading?: boolean
-  refetch?: () => void
-  setQueryData?: (data: Day) => void
   currentDay: Date
 }
 
-function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProps) {
-  const [localDay, setLocalDay] = useState<Partial<Day>>(day ?? {})
-  const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = localDay
+function DaySummary({ currentDay }: DaySummaryProps) {
+  const [day, { refetch, setQueryData, error, isLoading }] = useQuery(
+    getDay,
+    {
+      where: { date: { equals: currentDay } },
+    },
+    { suspense: false, useErrorBoundary: false }
+  )
+
+  const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = day ?? {}
 
   const [update] = useMutation(updateDay)
   const [create] = useMutation(createDay)
-
-  useEffect(() => {
-    setLocalDay(day ?? {})
-  }, [setLocalDay, day])
 
   const scores = {
     food: getFoodScore(foodCalories),
@@ -144,55 +143,50 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
 
   const dayScore = getDayScore(scores)
 
+  if (error && (error as Error).name !== 'NotFoundError') {
+    return <ErrorMessage error={error as Error} resetErrorBoundary={refetch} />
+  }
+
   return (
-    <>
-      <Form
-        className="flex flex-col justify-around flex-1 space-y-6 xl:space-y-8"
-        onSubmit={async (values) => {
-          if (values.strengthType) {
-            values.strengthDone = true
+    <Formik
+      onSubmit={async (values) => {
+        const data: Omit<DayPayload, 'date'> = {
+          ...values,
+          strengthDone: Boolean(values.strengthType),
+          cardioCount: Number(values.cardioCount || 0),
+          foodCalories: Number(values.foodCalories || 0),
+        }
+
+        setQueryData({ ...data, date: currentDay }, { refetch: false })
+
+        try {
+          if (day) {
+            await update({
+              data,
+              date: day.date,
+            })
           } else {
-            values.strengthDone = false
+            await create({
+              data: { ...data, date: currentDay },
+            })
           }
-
-          if (!values.cardioCount) {
-            values.cardioCount = 0
+        } catch (e) {
+          console.error('bugou', e)
+          if (day) {
+            setQueryData(day, { refetch: false })
           }
-
-          if (!values.foodCalories) {
-            values.foodCalories = 0
-          }
-
-          setLocalDay({ ...values, day: currentDay })
-
-          try {
-            if (day) {
-              const dayData = await update({
-                data: values,
-                date: day.date,
-              })
-
-              setQueryData?.(dayData)
-            } else {
-              const dayData = await create({
-                data: { ...values, date: currentDay },
-              })
-
-              setQueryData?.(dayData)
-            }
-          } catch (e) {
-            console.error('bugou', e)
-          }
-        }}
-        enableReinitialize
-        initialValues={{
-          foodCalories: foodCalories || '',
-          cardioCount: cardioCount || '',
-          cardioType: cardioType || '',
-          strengthDone: strengthDone || false,
-          strengthType: strengthType || '',
-        }}
-      >
+        }
+      }}
+      enableReinitialize
+      initialValues={{
+        foodCalories: foodCalories || '',
+        cardioCount: cardioCount || '',
+        cardioType: cardioType || '',
+        strengthDone: strengthDone || false,
+        strengthType: strengthType || '',
+      }}
+    >
+      <Form className="flex flex-col justify-around flex-1 space-y-6 xl:space-y-8">
         <CategoryGroup
           noData={!foodCalories}
           isLoading={isLoading}
@@ -237,7 +231,7 @@ function DaySummary({ day, isLoading, setQueryData, currentDay }: DaySummaryProp
           />
         </div>
       </Form>
-    </>
+    </Formik>
   )
 }
 
