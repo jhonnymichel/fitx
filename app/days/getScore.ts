@@ -6,7 +6,7 @@ export function fix(number) {
   return number
 }
 
-const foodScoreGoal = 1500
+const foodScoreGoal = 2000
 
 export function getFoodScore(foodCalories = 0) {
   if (!foodCalories) return 0
