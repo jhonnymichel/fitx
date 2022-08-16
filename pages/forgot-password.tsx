@@ -1,4 +1,5 @@
-import { BlitzPage, useMutation } from 'blitz'
+import { useMutation } from '@blitzjs/rpc'
+import { BlitzPage } from '@blitzjs/next'
 import Layout from 'app/core/layouts/Layout'
 import { LabeledTextField } from 'app/core/components/LabeledTextField'
 import { Form, FORM_ERROR } from 'app/core/components/Form'

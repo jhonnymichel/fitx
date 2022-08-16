@@ -1,16 +1,19 @@
 import React, { useState, ReactNode, PropsWithoutRef, useContext, Context } from 'react'
-import { Formik, Form as FormikForm, FormikProps } from 'formik'
+import { Formik, Form as FormikForm, FormikProps, FormikHelpers } from 'formik'
 import * as z from 'zod'
 
 type FormProps<S extends z.ZodType<any, any>> = {
   /** All your form fields */
-  children: ReactNode
   schema?: S
   className?: string
   onSubmit: (values: z.infer<S>) => Promise<void | OnSubmitResult>
   initialValues?: FormikProps<z.infer<S>>['initialValues']
-} & Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit'> &
-  Partial<FormikProps<any>>
+} & Omit<PropsWithoutRef<JSX.IntrinsicElements['form']>, 'onSubmit' | 'children'> &
+  Partial<FormikProps<z.infer<S>>> & {
+    children?:
+      | ((bag: FormikHelpers<z.infer<S>> & { formError: string | null }) => React.ReactNode)
+      | React.ReactNode
+  }
 
 type OnSubmitResult = {
   FORM_ERROR?: string
@@ -60,7 +63,11 @@ export function Form<S extends z.ZodType<any, any>>({
       {(formikBag) => (
         <FormErrorContext.Provider value={formError}>
           <FormikForm className={props.className}>
-            {typeof children === 'function' ? children({ ...formikBag, formError }) : children}
+            {
+              (typeof children === 'function'
+                ? children({ ...formikBag, formError })
+                : children) as ReactNode
+            }
           </FormikForm>
         </FormErrorContext.Provider>
       )}

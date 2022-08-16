@@ -1,6 +1,6 @@
+import { useQuery } from '@blitzjs/rpc'
 import Card from 'app/components/Card'
 import { getWithNavLayout } from 'app/layouts/WithNav'
-import { useQuery } from 'blitz'
 import {
   getCurrentWeekRange,
   getNextWeekRange,

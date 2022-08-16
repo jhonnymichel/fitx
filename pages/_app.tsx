@@ -1,11 +1,10 @@
-import {
-  AppProps,
-  ErrorBoundary,
-  ErrorComponent,
-  ErrorFallbackProps,
-  useQueryErrorResetBoundary,
-  useRouter,
-} from 'blitz'
+import { withBlitz } from 'app/blitz-client'
+import { useRouter } from 'next/router'
+import { useQueryErrorResetBoundary } from '@blitzjs/rpc'
+import { ErrorFallbackProps } from '@blitzjs/next'
+import { ErrorComponent } from '@blitzjs/next'
+import { ErrorBoundary } from '@blitzjs/next'
+import { AppProps } from '@blitzjs/next'
 import LoginForm from 'app/auth/components/LoginForm'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import 'focus-visible'
@@ -21,7 +20,7 @@ function getTransitionKey(path) {
   }
 }
 
-export default function App({ Component, pageProps }: AppProps) {
+export default withBlitz(function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
   const router = useRouter()
   const boundary = useQueryErrorResetBoundary()
@@ -48,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </SwitchTransition>
     </ErrorBoundary>
   )
-}
+})
 
 function RootErrorFallback({ error, resetErrorBoundary }: ErrorFallbackProps) {
   if (error?.name === 'AuthenticationError') {

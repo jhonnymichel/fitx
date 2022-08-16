@@ -1,4 +1,5 @@
-import { Ctx, NotFoundError } from 'blitz'
+import { NotFoundError } from 'blitz'
+import { Ctx } from 'blitz'
 import db, { Prisma } from 'db'
 
 type GetDayInput = Pick<Prisma.DayFindFirstArgs, 'where'>

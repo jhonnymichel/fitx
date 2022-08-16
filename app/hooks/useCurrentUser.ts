@@ -1,4 +1,5 @@
-import { useQuery, useSession } from 'blitz'
+import { useSession } from '@blitzjs/auth'
+import { useQuery } from '@blitzjs/rpc'
 import getCurrentUser from 'app/users/queries/getCurrentUser'
 
 export const useCurrentUser = () => {

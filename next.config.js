@@ -1,14 +1,7 @@
-const { sessionMiddleware, simpleRolesIsAuthorized } = require('blitz')
+const { withBlitz } = require('@blitzjs/next')
 
-module.exports = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  middleware: [
-    sessionMiddleware({
-      isAuthorized: simpleRolesIsAuthorized,
-    }),
-  ],
+module.exports = withBlitz({
+  blitz: {},
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.forEach((rule) => {
       if (rule.test !== undefined && rule.test.source.includes('|svg|')) {
@@ -23,4 +16,7 @@ module.exports = {
 
     return config
   },
-}
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+})

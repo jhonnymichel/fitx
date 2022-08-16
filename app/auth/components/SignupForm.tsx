@@ -1,5 +1,6 @@
+import Link from 'next/link'
+import { useMutation } from '@blitzjs/rpc'
 import React from 'react'
-import { Link, useMutation } from 'blitz'
 import { Form, FORM_ERROR } from 'app/components/Form'
 import signup from 'app/auth/mutations/signup'
 import { Signup as SignupInput } from 'app/auth/validations'

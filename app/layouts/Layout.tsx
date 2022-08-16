@@ -1,5 +1,5 @@
+import Head from 'next/head'
 import { ReactNode } from 'react'
-import { Head } from 'blitz'
 
 type LayoutProps = {
   title?: string

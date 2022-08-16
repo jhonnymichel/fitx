@@ -21,8 +21,8 @@ model User {
   hashedPassword String?
   role           String    @default("user")
   sessions       Session[]
-  Day            Day[]
-  Token          Token[]
+  days            Day[]
+  tokens          Token[]
 }
 
 model Session {

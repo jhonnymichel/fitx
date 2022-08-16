@@ -1,4 +1,5 @@
-import { Link, useRouter } from 'blitz'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import classNames from 'classnames'
 
 function NavLink({ href, children }) {

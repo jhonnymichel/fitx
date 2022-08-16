@@ -1,7 +1,8 @@
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import RequireAuth from 'app/auth/components/RequireAuth'
 import Card from 'app/components/Card'
 import WithNav from 'app/layouts/WithNav'
-import { Link, useRouter } from 'blitz'
 import classNames from 'classnames'
 import { useState } from 'react'
 

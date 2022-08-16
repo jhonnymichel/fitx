@@ -1,8 +1,9 @@
+import { ErrorBoundary, ErrorFallbackProps } from '@blitzjs/next'
+import { useQueryErrorResetBoundary } from '@blitzjs/rpc'
+import { useMutation } from '@blitzjs/rpc'
 import logout from 'app/auth/mutations/logout'
 import { useCurrentUser } from 'app/hooks/useCurrentUser'
-import { useMutation, useQueryErrorResetBoundary } from 'blitz'
 import { Suspense, useEffect, useState } from 'react'
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 
 function Info() {
   const { user } = useCurrentUser()
@@ -10,7 +11,7 @@ function Info() {
   return <>Hey, {user?.name}!</>
 }
 
-function ErrorLoadingInfo({ error, resetErrorBoundary }: FallbackProps) {
+function ErrorLoadingInfo({ error, resetErrorBoundary }: ErrorFallbackProps) {
   return (
     <div className="text-red-800">
       Error loading user info{' '}

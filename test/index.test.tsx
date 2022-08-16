@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'test/utils'
 
-import Home from './index'
+import Home from '../pages/index'
 import { useCurrentUser } from 'app/hooks/useCurrentUser'
 
 jest.mock('app/hooks/useCurrentUser')

@@ -1,6 +1,8 @@
-import { RouterContext, BlitzRouter } from 'blitz'
+import { RouterContext } from '@blitzjs/next'
 import { render as defaultRender } from '@testing-library/react'
 import { renderHook as defaultRenderHook } from '@testing-library/react-hooks'
+import { NextRouter } from 'next/router'
+import { PropsWithChildren } from 'react'
 
 export * from '@testing-library/react'
 
@@ -27,7 +29,7 @@ export * from '@testing-library/react'
 export function render(ui: RenderUI, { wrapper, router, ...options }: RenderOptions = {}) {
   if (!wrapper) {
     // Add a default context wrapper if one isn't supplied from the test
-    wrapper = ({ children }) => (
+    wrapper = ({ children }: PropsWithChildren<{}>) => (
       <RouterContext.Provider value={{ ...mockRouter, ...router }}>
         {children}
       </RouterContext.Provider>
@@ -62,13 +64,12 @@ export function renderHook(
   return defaultRenderHook(hook, { wrapper, ...options })
 }
 
-export const mockRouter: BlitzRouter = {
+export const mockRouter: NextRouter = {
   isPreview: false,
   basePath: '',
   pathname: '/',
   route: '/',
   asPath: '/',
-  params: {},
   query: {},
   isReady: true,
   isLocaleDomain: false,
@@ -88,8 +89,8 @@ export const mockRouter: BlitzRouter = {
 
 type DefaultParams = Parameters<typeof defaultRender>
 type RenderUI = DefaultParams[0]
-type RenderOptions = DefaultParams[1] & { router?: Partial<BlitzRouter> }
+type RenderOptions = DefaultParams[1] & { router?: Partial<NextRouter> }
 
 type DefaultHookParams = Parameters<typeof defaultRenderHook>
 type RenderHook = DefaultHookParams[0]
-type RenderHookOptions = DefaultHookParams[1] & { router?: Partial<BlitzRouter> }
+type RenderHookOptions = DefaultHookParams[1] & { router?: Partial<NextRouter> }
