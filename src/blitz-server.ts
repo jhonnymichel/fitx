@@ -1,15 +1,23 @@
+import type { BlitzCliConfig } from 'blitz'
 import { setupBlitzServer } from '@blitzjs/next'
 import { AuthServerPlugin, PrismaStorage } from '@blitzjs/auth'
-import db from 'db'
 import { simpleRolesIsAuthorized } from '@blitzjs/auth'
-import { authConfig } from './blitz-client'
+import { BlitzLogger } from 'blitz'
+import db from 'db'
 
-export const { gSSP, gSP, api } = setupBlitzServer({
+const { api, getAppSession, useAuthenticatedAppSession } = setupBlitzServer({
   plugins: [
     AuthServerPlugin({
-      ...authConfig,
-      storage: PrismaStorage(db as any),
+      cookiePrefix: 'web-cookie-prefix',
+      storage: PrismaStorage(db),
       isAuthorized: simpleRolesIsAuthorized,
     }),
   ],
+  logger: BlitzLogger({}),
 })
+
+export { api, getAppSession, useAuthenticatedAppSession }
+
+export const cliConfig: BlitzCliConfig = {
+  customTemplates: 'src/templates',
+}

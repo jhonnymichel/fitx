@@ -56,8 +56,8 @@ export const LoginForm = (props: LoginFormProps): JSX.Element => {
 
       <div style={{ marginTop: '1rem' }}>
         Or
-        <Link href="/signup">
-          <a className="ml-2 text-blue-600 mk2 hover:underline">Sign up</a>
+        <Link href="/signup" className="ml-2 text-blue-600 mk2 hover:underline">
+          Sign up
         </Link>
       </div>
     </div>

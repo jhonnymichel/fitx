@@ -50,8 +50,8 @@ export const SignupForm = (props: SignupFormProps) => {
         <div className="flex items-start">
           <div className="flex flex-wrap">
             Already have an account?
-            <Link href="/login">
-              <a className="ml-1 text-blue-600 hover:underline">Sign in</a>
+            <Link href="/login" className="ml-1 text-blue-600 hover:underline">
+              Sign in
             </Link>
           </div>
           <SubmitButton>Create account</SubmitButton>
