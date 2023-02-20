@@ -3,5 +3,9 @@
     "source.fixAll.eslint": true
   },
   "editor.formatOnSave": false,
-  "editor.rulers": [100]
+  "editor.rulers": [
+    100
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

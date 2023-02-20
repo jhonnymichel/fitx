@@ -1,6 +1,10 @@
 const { withBlitz } = require('@blitzjs/next')
 
 module.exports = withBlitz({
+  experimental: {
+    appDir: true,
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
+  },
   blitz: {},
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.forEach((rule) => {
