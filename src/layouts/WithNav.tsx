@@ -1,9 +1,8 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useRef } from 'react'
+import { ReactNode } from 'react'
 import Nav from 'src/components/Nav'
 import UserBar from 'src/auth/components/UserBar'
-import RequireAuth from 'src/auth/components/RequireAuth'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 type LayoutProps = {
@@ -34,12 +33,10 @@ const WithNav = ({ title, children }: LayoutProps) => {
   )
 }
 
+WithNav.authenticate = { redirectTo: '/signup' }
+
 export function getWithNavLayout(page) {
-  return (
-    <RequireAuth>
-      <WithNav>{page}</WithNav>
-    </RequireAuth>
-  )
+  return <WithNav>{page}</WithNav>
 }
 
 export default WithNav
