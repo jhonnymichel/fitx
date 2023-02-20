@@ -17,7 +17,9 @@ function ErrorLoadingInfo({ error, resetErrorBoundary }: ErrorFallbackProps) {
       Error loading user info{' '}
       <button
         className="text-black bg-gray-200 button hover:bg-gray-400"
-        onClick={resetErrorBoundary}
+        onClick={() => {
+          resetErrorBoundary()
+        }}
       >
         retry
       </button>
