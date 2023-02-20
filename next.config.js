@@ -8,7 +8,7 @@ module.exports = withBlitz({
   blitz: {},
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.forEach((rule) => {
-      if (rule.test !== undefined && rule.test.source.includes('|svg|')) {
+      if (rule.test !== undefined && rule.test.source?.includes('|svg|')) {
         rule.test = new RegExp(rule.test.source.replace('|svg|', '|'))
       }
     })

@@ -1,6 +1,7 @@
+'use client'
+
 import { useQuery } from '@blitzjs/rpc'
 import Card from 'src/components/Card'
-import { getWithNavLayout } from 'src/layouts/WithNav'
 import {
   getCurrentWeekRange,
   getNextWeekRange,
@@ -101,7 +102,5 @@ function WeekPage() {
     </div>
   )
 }
-
-WeekPage.getLayout = getWithNavLayout
 
 export default WeekPage

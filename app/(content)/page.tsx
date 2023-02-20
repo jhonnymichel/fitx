@@ -1,5 +1,6 @@
+'use client'
+
 import Card from 'src/components/Card'
-import { getWithNavLayout } from 'src/layouts/WithNav'
 import { getCurrentDay, getNextDay, getPreviousDay } from 'src/days/dateUtils'
 import DaySummary from 'src/days/components/DaySummary'
 import DayHeader from 'src/days/components/DayHeader'
@@ -33,7 +34,5 @@ function Index() {
     </div>
   )
 }
-
-Index.getLayout = getWithNavLayout
 
 export default Index
