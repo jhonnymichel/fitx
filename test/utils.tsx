@@ -85,6 +85,7 @@ export const mockRouter: NextRouter = {
     emit: jest.fn(),
   },
   isFallback: false,
+  forward: jest.fn(),
 }
 
 type DefaultParams = Parameters<typeof defaultRender>

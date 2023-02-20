@@ -1,6 +1,6 @@
 import { NotFoundError } from 'blitz'
 import { resolver } from '@blitzjs/rpc'
-import { SecurePassword } from '@blitzjs/auth'
+import { SecurePassword } from '@blitzjs/auth/secure-password'
 import db from 'db'
 import { authenticateUser } from 'src/auth/auth-utils'
 import { ChangePassword } from '../validations'
