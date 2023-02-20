@@ -1,6 +1,6 @@
 import { useSession } from '@blitzjs/auth'
 import { useRouter } from 'next/router'
-import LoadingCircle from 'app/components/LoadingCircle'
+import LoadingCircle from 'src/components/LoadingCircle'
 import { useEffect } from 'react'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 

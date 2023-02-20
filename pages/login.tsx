@@ -1,10 +1,10 @@
 import { BlitzPage } from '@blitzjs/next'
 import { useRouter } from 'next/router'
 import React from 'react'
-import Layout from 'app/layouts/Layout'
-import { LoginForm } from 'app/auth/components/LoginForm'
-import Card from 'app/components/Card'
-import RequireNoAuth from 'app/auth/components/RequireNoAuth'
+import Layout from 'src/layouts/Layout'
+import { LoginForm } from 'src/auth/components/LoginForm'
+import Card from 'src/components/Card'
+import RequireNoAuth from 'src/auth/components/RequireNoAuth'
 
 const LoginPage: BlitzPage = () => {
   const router = useRouter()

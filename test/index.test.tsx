@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'test/utils'
 
 import Home from '../pages/index'
-import { useCurrentUser } from 'app/hooks/useCurrentUser'
+import { useCurrentUser } from 'src/hooks/useCurrentUser'
 
 jest.mock('app/hooks/useCurrentUser')
 const mockUseCurrentUser = useCurrentUser as jest.MockedFunction<typeof useCurrentUser>

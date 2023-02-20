@@ -1,14 +1,14 @@
-import { withBlitz } from 'app/blitz-client'
+import { withBlitz } from 'src/blitz-client'
 import { useRouter } from 'next/router'
 import { useQueryErrorResetBoundary } from '@blitzjs/rpc'
 import { ErrorFallbackProps } from '@blitzjs/next'
 import { ErrorComponent } from '@blitzjs/next'
 import { ErrorBoundary } from '@blitzjs/next'
 import { AppProps } from '@blitzjs/next'
-import LoginForm from 'app/auth/components/LoginForm'
+import LoginForm from 'src/auth/components/LoginForm'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import 'focus-visible'
-import 'app/styles/index.css'
+import 'src/styles/index.css'
 
 function getTransitionKey(path) {
   switch (path) {

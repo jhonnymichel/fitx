@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import { CSSTransition } from 'react-transition-group'
-import FoodIcon from 'app/components/icons/colheita.svg'
-import CardioIcon from 'app/components/icons/tenis-de-corrida.svg'
-import StrengthIcon from 'app/components/icons/academia.svg'
+import FoodIcon from 'src/components/icons/colheita.svg'
+import CardioIcon from 'src/components/icons/tenis-de-corrida.svg'
+import StrengthIcon from 'src/components/icons/academia.svg'
 import LoadingCircle from '../LoadingCircle'
 
 type IconProps = {

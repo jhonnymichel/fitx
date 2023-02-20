@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useRef } from 'react'
-import Nav from 'app/components/Nav'
-import UserBar from 'app/auth/components/UserBar'
-import RequireAuth from 'app/auth/components/RequireAuth'
+import Nav from 'src/components/Nav'
+import UserBar from 'src/auth/components/UserBar'
+import RequireAuth from 'src/auth/components/RequireAuth'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 type LayoutProps = {

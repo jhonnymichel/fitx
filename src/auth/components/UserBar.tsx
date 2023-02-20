@@ -1,8 +1,8 @@
 import { ErrorBoundary, ErrorFallbackProps } from '@blitzjs/next'
 import { useQueryErrorResetBoundary } from '@blitzjs/rpc'
 import { useMutation } from '@blitzjs/rpc'
-import logout from 'app/auth/mutations/logout'
-import { useCurrentUser } from 'app/hooks/useCurrentUser'
+import logout from 'src/auth/mutations/logout'
+import { useCurrentUser } from 'src/hooks/useCurrentUser'
 import { Suspense, useEffect, useState } from 'react'
 
 function Info() {
@@ -53,7 +53,12 @@ function UserBar() {
           <Info />
         </Suspense>
       </ErrorBoundary>
-      <button className="text-blue-600 hover:underline" onClick={performLogout}>
+      <button
+        className="text-blue-600 hover:underline"
+        onClick={() => {
+          performLogout()
+        }}
+      >
         logout
       </button>
     </div>

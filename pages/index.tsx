@@ -1,9 +1,9 @@
-import Card from 'app/components/Card'
-import { getWithNavLayout } from 'app/layouts/WithNav'
-import { getCurrentDay, getNextDay, getPreviousDay } from 'app/days/dateUtils'
-import DaySummary from 'app/days/components/DaySummary'
-import DayHeader from 'app/days/components/DayHeader'
-import useStepTransition, { transitionDuration } from 'app/hooks/useStepTransition'
+import Card from 'src/components/Card'
+import { getWithNavLayout } from 'src/layouts/WithNav'
+import { getCurrentDay, getNextDay, getPreviousDay } from 'src/days/dateUtils'
+import DaySummary from 'src/days/components/DaySummary'
+import DayHeader from 'src/days/components/DayHeader'
+import useStepTransition, { transitionDuration } from 'src/hooks/useStepTransition'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 
 function Index() {

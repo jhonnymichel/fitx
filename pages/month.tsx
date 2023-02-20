@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import RequireAuth from 'app/auth/components/RequireAuth'
-import Card from 'app/components/Card'
-import WithNav from 'app/layouts/WithNav'
+import RequireAuth from 'src/auth/components/RequireAuth'
+import Card from 'src/components/Card'
+import WithNav from 'src/layouts/WithNav'
 import classNames from 'classnames'
 import { useState } from 'react'
 

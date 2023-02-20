@@ -2,11 +2,11 @@ import Link from 'next/link'
 import { useMutation } from '@blitzjs/rpc'
 import { useRouter } from 'next/router'
 import { BlitzPage } from '@blitzjs/next'
-import Layout from 'app/core/layouts/Layout'
-import { LabeledTextField } from 'app/core/components/LabeledTextField'
-import { Form, FORM_ERROR } from 'app/core/components/Form'
-import { ResetPassword } from 'app/auth/validations'
-import resetPassword from 'app/auth/mutations/resetPassword'
+import Layout from 'src/core/layouts/Layout'
+import { LabeledTextField } from 'src/core/components/LabeledTextField'
+import { Form, FORM_ERROR } from 'src/core/components/Form'
+import { ResetPassword } from 'src/auth/validations'
+import resetPassword from 'src/auth/mutations/resetPassword'
 
 const ResetPasswordPage: BlitzPage = () => {
   const query = useRouter().query

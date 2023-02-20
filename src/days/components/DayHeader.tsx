@@ -1,5 +1,5 @@
-import { HeaderContainer, HeaderNav, HeaderTitle } from 'app/components/Header'
-import NavButton from 'app/components/NavButton'
+import { HeaderContainer, HeaderNav, HeaderTitle } from 'src/components/Header'
+import NavButton from 'src/components/NavButton'
 import { DateTime } from 'luxon'
 import { MouseEvent } from 'react'
 

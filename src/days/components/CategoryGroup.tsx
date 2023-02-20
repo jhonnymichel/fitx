@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import { useFormikContext } from 'formik'
-import useStepTransition, { transitionDuration } from 'app/hooks/useStepTransition'
-import { fix } from 'app/days/getScore'
+import useStepTransition, { transitionDuration } from 'src/hooks/useStepTransition'
+import { fix } from 'src/days/getScore'
 
 function ProgressBar({ score }: { score: number }) {
   const [width, setWidth] = useState(0)
