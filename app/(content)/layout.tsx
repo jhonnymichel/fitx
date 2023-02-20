@@ -10,7 +10,7 @@ function ContentLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex flex-col items-center h-full space-y-4 app-shell">
-      {/* <UserBar /> */}
+      <UserBar />
       <SwitchTransition>
         <CSSTransition key={path} classNames="transition-route-change" timeout={200}>
           <div className="flex flex-1 w-full max-w-lg mx-auto overflow-hidden">{children}</div>

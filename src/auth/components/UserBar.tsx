@@ -1,9 +1,10 @@
-import { ErrorBoundary, ErrorFallbackProps } from '@blitzjs/next'
+import { ErrorFallbackProps } from '@blitzjs/next'
 import { useQueryErrorResetBoundary } from '@blitzjs/rpc'
 import { useMutation } from '@blitzjs/rpc'
 import logout from 'src/auth/mutations/logout'
 import { useCurrentUser } from 'src/hooks/useCurrentUser'
-import { Suspense, useEffect, useState } from 'react'
+import React, { Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
 
 function Info() {
   const { user } = useCurrentUser()
