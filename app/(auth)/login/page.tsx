@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { LoginForm } from 'src/auth/components/LoginForm'
 import Card from 'src/components/Card'
 
-const LoginPage: BlitzPage = () => {
+const LoginPage = () => {
   const router = useRouter()
 
   return (

@@ -5,13 +5,13 @@ import { useRouter } from 'next/navigation'
 import { SignupForm } from 'src/auth/components/SignupForm'
 import Card from 'src/components/Card'
 
-const SignupPage: BlitzPage = () => {
+const SignupPage = () => {
   const router = useRouter()
 
   return (
     <div className="w-full max-w-lg mx-auto">
       <Card>
-        <SignupForm />
+        <SignupForm onSuccess={() => router.push('/')} />
       </Card>
     </div>
   )
