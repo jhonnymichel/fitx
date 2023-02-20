@@ -1,8 +1,6 @@
-'use client'
-
 import Head from 'next/head'
-import React from 'react'
 import { BlitzProvider } from 'src/blitz-client'
+import 'src/styles/index.css'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

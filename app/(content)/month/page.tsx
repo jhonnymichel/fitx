@@ -1,3 +1,5 @@
+'use client'
+
 import Card from 'src/components/Card'
 
 function Month() {
