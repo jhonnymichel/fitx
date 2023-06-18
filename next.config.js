@@ -1,6 +1,7 @@
 const { withBlitz } = require('@blitzjs/next')
 
 const config = withBlitz({
+  reactStrictMode: true,
   blitz: {},
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.forEach((rule) => {
@@ -20,7 +21,5 @@ const config = withBlitz({
     ignoreDuringBuilds: true,
   },
 })
-
-delete config.target
 
 module.exports = config
