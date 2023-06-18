@@ -5,7 +5,7 @@ import { simpleRolesIsAuthorized } from '@blitzjs/auth'
 import { BlitzLogger } from 'blitz'
 import db from 'db'
 
-const { api, getAppSession, useAuthenticatedAppSession } = setupBlitzServer({
+const { api } = setupBlitzServer({
   plugins: [
     AuthServerPlugin({
       cookiePrefix: 'web-cookie-prefix',
@@ -16,7 +16,7 @@ const { api, getAppSession, useAuthenticatedAppSession } = setupBlitzServer({
   logger: BlitzLogger({}),
 })
 
-export { api, getAppSession, useAuthenticatedAppSession }
+export { api }
 
 export const cliConfig: BlitzCliConfig = {
   customTemplates: 'src/templates',
