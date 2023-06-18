@@ -21,4 +21,6 @@ const config = withBlitz({
   },
 })
 
+delete config.target
+
 module.exports = config
