@@ -1,7 +1,10 @@
 const { withBlitz } = require('@blitzjs/next')
 
-const config = withBlitz({
-  reactStrictMode: true,
+module.exports = withBlitz({
+  experimental: {
+    appDir: true,
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
+  },
   blitz: {},
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
     config.module.rules.forEach((rule) => {
@@ -21,5 +24,3 @@ const config = withBlitz({
     ignoreDuringBuilds: true,
   },
 })
-
-module.exports = config
