@@ -11,7 +11,7 @@ function NavLink({ href, children }) {
       className={classNames(
         'transform text-center block text-teal-700 font-semibold text-block py-1 px-2 flex-1 hover:bg-neutral-100 border-b border-transparent',
         {
-          'border-teal-700': router.pathname === href,
+          '!border-teal-700!': router.pathname === href,
         }
       )}
     >
