@@ -33,7 +33,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(func
             'input',
             {
               'border border-red-600': meta.error && meta.touched,
-              'border border-gray-300': !meta.error,
+              'border border-neutral-300': !meta.error,
             },
             props.className
           )}

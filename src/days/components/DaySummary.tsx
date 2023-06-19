@@ -24,7 +24,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(props, ref
   return (
     <TextField
       ref={ref}
-      className={classNames('text-base font-bold text-right text-gray-500 uppercase', className)}
+      className={classNames('text-base font-bold text-right text-neutral-500 uppercase', className)}
       {...textFieldProps}
     />
   )
@@ -48,7 +48,7 @@ function FoodEditMode() {
         min="0"
         aria-label="Calories"
       />
-      <span className="mb-1 text-base font-bold text-gray-500 uppercase xl:text-lg">Kcal</span>
+      <span className="mb-1 text-base font-bold text-neutral-500 uppercase xl:text-lg">Kcal</span>
     </div>
   )
 }

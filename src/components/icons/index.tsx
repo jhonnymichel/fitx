@@ -13,7 +13,7 @@ type IconProps = {
 
 function LoadingOverlay() {
   return (
-    <div className="absolute z-50 transform scale-50">
+    <div className="absolute z-50 scale-50">
       <LoadingCircle />
     </div>
   )
@@ -23,7 +23,7 @@ function Icon({ className, children, isLoading }: IconProps) {
   return (
     <div
       className={classNames(
-        'flex w-16 relative h-16 p-2 bg-gray-200 rounded-full xl:p-3 xl:w-20 xl:h-20 items-center justify-center',
+        'flex w-16 relative h-16 p-2 bg-neutral-100 rounded-full xl:p-3 xl:w-20 xl:h-20 items-center justify-center',
         className
       )}
     >

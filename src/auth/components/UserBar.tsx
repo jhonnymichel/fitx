@@ -16,7 +16,7 @@ function ErrorLoadingInfo({ error, resetErrorBoundary }: ErrorFallbackProps) {
     <div className="text-red-800">
       Error loading user info{' '}
       <button
-        className="text-black bg-gray-200 button hover:bg-gray-400"
+        className="text-black bg-neutral-100 button hover:bg-neutral-400"
         onClick={() => {
           resetErrorBoundary()
         }}
@@ -44,7 +44,7 @@ function UserBar() {
 
   const [performLogout] = useMutation(logout)
   return (
-    <div className="flex items-end justify-between flex-shrink-0 w-full max-w-lg mt-2">
+    <div className="flex items-end justify-between shrink-0 w-full max-w-lg mt-2">
       <ErrorBoundary
         FallbackComponent={ErrorLoadingInfo}
         onReset={() => {

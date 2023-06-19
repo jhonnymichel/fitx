@@ -75,7 +75,7 @@ function OverallScore({ title, score, comment, isLoading, noData }: OverralScore
     <footer className="flex items-center justify-between w-full space-x-2">
       <div className="w-full">
         <h1>
-          <span className="block text-xs font-semibold text-gray-600 uppercase xl:text-sm">
+          <span className="block text-xs font-semibold text-neutral-600 uppercase xl:text-sm">
             {title}
           </span>
           {isLoading ? (
@@ -88,7 +88,7 @@ function OverallScore({ title, score, comment, isLoading, noData }: OverralScore
         </h1>
         {isLoading ? <LoadingComment /> : <p className="text-xs xl:text-sm">{comment}</p>}
       </div>
-      <div className="flex items-center justify-center flex-shrink-0 w-24 h-24 text-5xl font-bold bg-gray-200 rounded-full xl:w-32 xl:h-32 xl:text-6xl">
+      <div className="flex items-center justify-center shrink-0 w-24 h-24 text-5xl font-bold bg-neutral-100 rounded-full xl:w-32 xl:h-32 xl:text-6xl">
         {!isLoading && <h2>{getScore(score, noData)}</h2>}
       </div>
     </footer>

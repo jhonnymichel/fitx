@@ -1,7 +1,9 @@
+import classNames from 'classnames'
 import React from 'react'
 
 type HeaderItemProps = {
   children: React.ReactNode
+  className?: string
 }
 
 export function HeaderContainer(props: HeaderItemProps) {
@@ -13,5 +15,5 @@ export function HeaderNav(props: HeaderItemProps) {
 }
 
 export function HeaderTitle(props: HeaderItemProps) {
-  return <h1 className="text-2xl text-semibold">{props.children}</h1>
+  return <h1 className={classNames('text-2xl text-semibold', props.className)}>{props.children}</h1>
 }

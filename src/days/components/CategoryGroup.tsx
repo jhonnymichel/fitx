@@ -13,7 +13,7 @@ function ProgressBar({ score }: { score: number }) {
 
   return (
     <div
-      className="h-4 transition-all duration-1000 ease-out bg-gray-200 rounded-md xl:h-6"
+      className="h-4 transition-all duration-1000 ease-out bg-neutral-100 rounded-md xl:h-6"
       style={{ width: `${Math.min(width || 0.001, 100)}%` }}
     ></div>
   )
@@ -50,8 +50,8 @@ function CategoryGroup(props: CategoryGroupProps) {
   )
 
   return (
-    <div className="flex flex-shrink-0 h-16 space-x-2 overflow-hidden xl:space-x-4 xl:h-20">
-      <div className="flex-shrink-0">{icon}</div>
+    <div className="flex shrink-0 h-16 space-x-2 overflow-hidden xl:space-x-4 xl:h-20">
+      <div className="shrink-0">{icon}</div>
       <SwitchTransition>
         <CSSTransition
           key={isEditing}
@@ -61,7 +61,7 @@ function CategoryGroup(props: CategoryGroupProps) {
           {isEditing ? (
             <div className="flex flex-1 space-x-2 xl:space-x-4">
               <div className="flex flex-col justify-center flex-1">{children}</div>
-              <div className="flex flex-col flex-shrink-0 space-y-1 xl:space-y-2">
+              <div className="flex flex-col shrink-0 space-y-1 xl:space-y-2">
                 <button
                   type="submit"
                   onClick={() => {
@@ -89,12 +89,12 @@ function CategoryGroup(props: CategoryGroupProps) {
                   {isLoading ? (
                     <LoadingTitle />
                   ) : (
-                    <p className="text-xs font-semibold text-gray-400 uppercase truncate xl:text-sm">
+                    <p className="text-xs font-semibold text-neutral-400 uppercase truncate xl:text-sm">
                       {details}
                     </p>
                   )}
                 </div>
-                <div className="flex items-end flex-shrink-0 space-x-2">
+                <div className="flex items-end shrink-0 space-x-2">
                   {!isLoading && (
                     <>
                       <button

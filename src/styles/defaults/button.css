@@ -4,9 +4,9 @@
 }
 
 .button[disabled] {
-  @apply bg-gray-400;
+  @apply bg-neutral-400;
 }
 
 .button[disabled]:hover {
-  @apply bg-gray-400
+  @apply bg-neutral-400
 }

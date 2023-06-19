@@ -4,7 +4,7 @@
 }
 
 .focus-visible {
-  @apply outline-none shadow-outline !important;
+  @apply outline-none ring !important;
 }
 
 

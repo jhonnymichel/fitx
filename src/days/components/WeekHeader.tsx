@@ -17,7 +17,7 @@ function WeekHeader({ weekRange, onPrevClick, onNextClick }: WeekHeaderProps) {
         <NavButton onClick={onPrevClick}>{`<`}</NavButton>
         <NavButton onClick={onNextClick}>{`>`}</NavButton>
       </HeaderNav>
-      <HeaderTitle>
+      <HeaderTitle className="text-xl">
         {DateTime.fromJSDate(start).toLocaleString(DateTime.DATE_MED)}
         {' - '}
         {DateTime.fromJSDate(end).toLocaleString(DateTime.DATE_MED)}

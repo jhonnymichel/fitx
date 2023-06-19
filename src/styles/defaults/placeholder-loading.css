@@ -14,7 +14,7 @@
 }
 
 .ph-row div {
-  @apply bg-gray-200;
+  @apply bg-neutral-100;
 }
 
 .ph-item > * {
