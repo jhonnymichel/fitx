@@ -13,16 +13,18 @@ generator client {
 // --------------------------------------
 
 model User {
-  id             Int       @id @default(autoincrement())
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
   name           String?
-  email          String    @unique
+  email          String   @unique
   hashedPassword String?
-  role           String    @default("user")
-  sessions       Session[]
-  days            Day[]
-  tokens          Token[]
+  role           String   @default("user")
+
+  sessions Session[]
+  days     Day[]
+  tokens   Token[]
+  goals    UserGoals?
 }
 
 model Session {
@@ -39,20 +41,72 @@ model Session {
   privateData        String?
 }
 
+enum GoalType {
+  CEILING
+  FLOOR
+  EXACT
+}
+
+model UserGoals {
+  id   Int  @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+
+  foodCalories Int @default(2300)
+  foodProtein  Int @default(150)
+  foodCarbs    Int @default(250)
+  foodFat      Int @default(100)
+
+  foodCaloriesType GoalType @default(CEILING)
+  foodProteinType  GoalType @default(FLOOR)
+  foodCarbsType    GoalType @default(CEILING)
+  foodFatType      GoalType @default(CEILING)
+
+  userId Int @unique
+}
+
 model Day {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  date         DateTime
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  date      DateTime
+
+  //************ DEPRECATED FIELDS ***************//
   cardioType   String? // activeCalories | steps
-  cardioCount  Int      @default(0)
-  foodCalories Int      @default(0)
-  strengthDone Boolean  @default(false)
+  cardioCount  Int     @default(0)
+  strengthDone Boolean @default(false)
   strengthType String?
-  user         User?    @relation(fields: [userId], references: [id])
-  userId       Int?
+  //*********************************************//
+
+  foodCalories Int @default(0)
+  foodProtein  Int @default(0)
+  foodCarbs    Int @default(0)
+  foodFat      Int @default(0)
+
+  caloriesBurned Int @default(0)
+
+  user   User?     @relation(fields: [userId], references: [id])
+  userId Int?
+  goals  DayGoals?
+  goalId Int?
 
   @@unique([userId, date], name: "uniqueDatePerUser")
+}
+
+model DayGoals {
+  id  Int @id @default(autoincrement())
+  day Day @relation(fields: [dayId], references: [id])
+
+  foodCalories Int @default(2300)
+  foodProtein  Int @default(150)
+  foodCarbs    Int @default(250)
+  foodFat      Int @default(100)
+
+  foodCaloriesType GoalType @default(CEILING)
+  foodProteinType  GoalType @default(FLOOR)
+  foodCarbsType    GoalType @default(CEILING)
+  foodFatType      GoalType @default(CEILING)
+
+  dayId Int @unique
 }
 
 model Token {

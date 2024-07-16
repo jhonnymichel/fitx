@@ -10,7 +10,7 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import 'focus-visible'
 import 'src/styles/index.css'
 
-function getTransitionKey(path) {
+function getTransitionKey(path: string) {
   switch (path) {
     case '/signup':
     case '/login':

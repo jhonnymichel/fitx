@@ -5,7 +5,7 @@ import * as z from 'zod'
 type UpdateDayInput = {
   data: Pick<
     Prisma.DayUpdateInput,
-    'cardioType' | 'cardioCount' | 'foodCalories' | 'strengthDone' | 'strengthType'
+    'caloriesBurned' | 'foodCarbs' | 'foodFat' | 'foodProtein' | 'foodCalories'
   >
   date: Date
 }

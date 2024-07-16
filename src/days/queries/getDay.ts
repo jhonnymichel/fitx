@@ -7,7 +7,12 @@ type GetDayInput = Pick<Prisma.DayFindFirstArgs, 'where'>
 export default async function getDay({ where }: GetDayInput, ctx: Ctx) {
   ctx.session.$authorize()
 
-  const day = await db.day.findFirst({ where: { ...where, userId: ctx.session.userId } })
+  const day = await db.day.findFirst({
+    where: { ...where, userId: ctx.session.userId },
+    include: {
+      goals: true,
+    },
+  })
 
   if (!day) throw new NotFoundError()
 
