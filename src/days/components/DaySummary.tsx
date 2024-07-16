@@ -13,6 +13,7 @@ import { Field, Form, Formik, useField, useFormikContext } from 'formik'
 import getDay, { DayPayload } from '../queries/getDay'
 import ErrorMessage from 'src/components/ErrorMessage'
 import Macros from './Macros'
+import Calories from './Calories'
 
 type InputProps = TextFieldProps
 
@@ -126,7 +127,7 @@ function DaySummary({ currentDay }: DaySummaryProps) {
         ) : day ? (
           <>
             <Card>
-              <Macros day={day}></Macros>
+              <Calories day={day}></Calories>
             </Card>
             <Card>
               <Macros day={day}></Macros>

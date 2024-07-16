@@ -23,7 +23,7 @@ function Icon({ className, children, isLoading }: IconProps) {
   return (
     <div
       className={classNames(
-        'flex w-16 relative h-16 p-2 bg-neutral-100 rounded-full xl:p-3 xl:w-20 xl:h-20 items-center justify-center',
+        'flex w-14 relative h-14 p-2 bg-neutral-200 rounded-full items-center justify-center',
         className
       )}
     >
