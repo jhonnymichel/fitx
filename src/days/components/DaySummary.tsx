@@ -12,6 +12,7 @@ import { transitionDuration } from 'src/hooks/useStepTransition'
 import { Field, Form, Formik, useField, useFormikContext } from 'formik'
 import getDay, { DayPayload } from '../queries/getDay'
 import ErrorMessage from 'src/components/ErrorMessage'
+import Macros from './Macros'
 
 type InputProps = TextFieldProps
 
@@ -35,7 +36,6 @@ type FieldEditModeProps = {
 
 function FieldEditMode(props: FieldEditModeProps) {
   const input = useRef<HTMLInputElement | null>(null)
-
   // this component animates in, and focusing moving inputs generates flickering.
   // delaying the focus by 1.2x the transition duration is a safety measure
   useFocusOnMount(input, transitionDuration['transition-vertical'] * 1.2)
@@ -56,6 +56,10 @@ function FieldEditMode(props: FieldEditModeProps) {
       </span>
     </div>
   )
+}
+
+function Card(props: { children: React.ReactNode }) {
+  return <section className="w-full p-2 space-y-2 bg-neutral-100">{props.children}</section>
 }
 
 type DaySummaryProps = {
@@ -116,8 +120,22 @@ function DaySummary({ currentDay }: DaySummaryProps) {
         foodFat: day?.foodFat,
       }}
     >
-      <Form className="flex flex-col justify-around flex-1 space-y-6 xl:space-y-8">
-        <CategoryGroup
+      <Form className="flex flex-col justify-start flex-1 space-y-4 xl:space-y-4">
+        {isLoading ? (
+          'Loading'
+        ) : day ? (
+          <>
+            <Card>
+              <Macros day={day}></Macros>
+            </Card>
+            <Card>
+              <Macros day={day}></Macros>
+            </Card>
+          </>
+        ) : (
+          'No Data'
+        )}
+        {/* <CategoryGroup
           noData={!day?.foodCalories}
           isLoading={isLoading}
           icon={<Icons.Food />}
@@ -156,7 +174,7 @@ function DaySummary({ currentDay }: DaySummaryProps) {
           details={day?.foodFat ? `${day.foodFat}g.` : 'Try and avoid this one'}
         >
           <FieldEditMode name="foodFat" label="Grams" />
-        </CategoryGroup>
+        </CategoryGroup> */}
         {/* <div className="flex items-center flex-1">
           <OverallScore
             noData={foodCalories == null && cardioCount == null && strengthType == null}
