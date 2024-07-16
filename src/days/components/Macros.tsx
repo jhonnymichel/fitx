@@ -72,7 +72,7 @@ function MacroValue(props: MacroValueProps) {
         {props.value}
         <span className="text-sm">/{props.goal}g</span>
       </div>
-      <div className={props.className}>{props.label}</div>
+      <div className={classNames('text-sm', props.className)}>{props.label}</div>
     </div>
   )
 }

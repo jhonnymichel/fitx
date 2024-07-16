@@ -51,15 +51,17 @@ model UserGoals {
   id   Int  @id @default(autoincrement())
   user User @relation(fields: [userId], references: [id])
 
-  foodCalories Int @default(2300)
-  foodProtein  Int @default(150)
-  foodCarbs    Int @default(250)
-  foodFat      Int @default(100)
+  foodCalories   Int @default(2300)
+  foodProtein    Int @default(150)
+  foodCarbs      Int @default(250)
+  foodFat        Int @default(100)
+  caloriesBurned Int @default(3000)
 
-  foodCaloriesType GoalType @default(CEILING)
-  foodProteinType  GoalType @default(FLOOR)
-  foodCarbsType    GoalType @default(CEILING)
-  foodFatType      GoalType @default(CEILING)
+  caloriesBurnedType GoalType @default(FLOOR)
+  foodCaloriesType   GoalType @default(CEILING)
+  foodProteinType    GoalType @default(FLOOR)
+  foodCarbsType      GoalType @default(CEILING)
+  foodFatType        GoalType @default(CEILING)
 
   userId Int @unique
 }
@@ -96,15 +98,17 @@ model DayGoals {
   id  Int @id @default(autoincrement())
   day Day @relation(fields: [dayId], references: [id])
 
-  foodCalories Int @default(2300)
-  foodProtein  Int @default(150)
-  foodCarbs    Int @default(250)
-  foodFat      Int @default(100)
+  foodCalories   Int @default(2300)
+  foodProtein    Int @default(150)
+  foodCarbs      Int @default(250)
+  foodFat        Int @default(100)
+  caloriesBurned Int @default(3000)
 
-  foodCaloriesType GoalType @default(CEILING)
-  foodProteinType  GoalType @default(FLOOR)
-  foodCarbsType    GoalType @default(CEILING)
-  foodFatType      GoalType @default(CEILING)
+  caloriesBurnedType GoalType @default(FLOOR)
+  foodCaloriesType   GoalType @default(CEILING)
+  foodProteinType    GoalType @default(FLOOR)
+  foodCarbsType      GoalType @default(CEILING)
+  foodFatType        GoalType @default(CEILING)
 
   dayId Int @unique
 }

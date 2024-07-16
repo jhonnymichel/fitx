@@ -10,6 +10,7 @@ export default async function getDay({ where }: GetDayInput, ctx: Ctx) {
     where: { ...where, userId: ctx.session.userId },
     select: {
       date: true,
+      caloriesBurned: true,
       foodCalories: true,
       foodCarbs: true,
       foodProtein: true,
