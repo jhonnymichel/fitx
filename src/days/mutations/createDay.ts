@@ -11,7 +11,19 @@ type CreateDayInput = {
 export default async function createDay({ data }: CreateDayInput, ctx: Ctx) {
   ctx.session.$authorize()
 
-  const goals = await db.userGoals.findFirstOrThrow({ where: { userId: ctx.session.userId } })
+  const goals = await db.userGoals.findFirstOrThrow({
+    where: { userId: ctx.session.userId },
+    select: {
+      foodCalories: true,
+      foodCaloriesType: true,
+      foodCarbs: true,
+      foodCarbsType: true,
+      foodFat: true,
+      foodFatType: true,
+      foodProtein: true,
+      foodProteinType: true,
+    },
+  })
 
   const day = await db.day.create({
     data: {

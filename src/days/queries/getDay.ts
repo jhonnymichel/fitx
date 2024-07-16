@@ -9,16 +9,19 @@ export default async function getDay({ where }: GetDayInput, ctx: Ctx) {
 
   const day = await db.day.findFirst({
     where: { ...where, userId: ctx.session.userId },
-    include: {
+    select: {
+      date: true,
+      foodCalories: true,
+      foodCarbs: true,
+      foodProtein: true,
+      foodFat: true,
       goals: true,
     },
   })
 
   if (!day) throw new NotFoundError()
 
-  const { id, userId, createdAt, updatedAt, ...dayPayload } = day
-
-  return dayPayload
+  return day
 }
 
 export type DayPayload = Awaited<ReturnType<typeof getDay>>

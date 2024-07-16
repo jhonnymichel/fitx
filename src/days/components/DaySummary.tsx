@@ -3,12 +3,9 @@ import { useMutation } from '@blitzjs/rpc'
 import classNames from 'classnames'
 import * as Icons from 'src/components/icons'
 import { forwardRef, useRef } from 'react'
-import OverallScore from 'src/components/OverallScore'
-import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from '../getScore'
 import TextField, { TextFieldProps } from 'src/components/TextField'
 import updateDay from '../mutations/updateDay'
 import createDay from '../mutations/createDay'
-import getDayScoreComment from '../getDayScoreComment'
 import CategoryGroup from './CategoryGroup'
 import useFocusOnMount from 'src/hooks/useFocusOnMount'
 import { transitionDuration } from 'src/hooks/useStepTransition'
@@ -30,7 +27,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(props, ref
   )
 })
 
-function FoodEditMode() {
+type FieldEditModeProps = {
+  label: string
+  ariaLabel?: string
+  name: string
+}
+
+function FieldEditMode(props: FieldEditModeProps) {
   const input = useRef<HTMLInputElement | null>(null)
 
   // this component animates in, and focusing moving inputs generates flickering.
@@ -42,80 +45,17 @@ function FoodEditMode() {
       <Input
         ref={input}
         className="w-24 xl:text-xl"
-        name="foodCalories"
+        name={props.name}
         type="number"
         pattern="[0-9]*"
         min="0"
-        aria-label="Calories"
+        aria-label={props.ariaLabel || props.name}
       />
-      <span className="mb-1 text-base font-bold text-neutral-500 uppercase xl:text-lg">Kcal</span>
+      <span className="mb-1 text-base font-bold uppercase text-neutral-500 xl:text-lg">
+        {props.label}
+      </span>
     </div>
   )
-}
-
-function CardioEditMode() {
-  const selectRef = useRef<HTMLSelectElement | null>(null)
-  const inputRef = useRef<HTMLInputElement | null>(null)
-
-  // this component animates in, and focusing moving inputs generates flickering.
-  // delaying the focus by 1.2x the transition duration is a safety measure
-  useFocusOnMount(selectRef, transitionDuration['transition-vertical'] * 1.2)
-
-  const [selectField] = useField('cardioType')
-  const { setFieldValue } = useFormikContext()
-
-  const resetInput = () => {
-    setFieldValue('cardioCount', 0)
-  }
-
-  return (
-    <div className="flex items-center justify-around space-y-2">
-      <Input
-        ref={inputRef}
-        disabled={!selectField.value}
-        className="w-24 xl:text-lg"
-        name="cardioCount"
-        type="number"
-        pattern="[0-9]*"
-        min="0"
-        aria-label={selectField.value === 'activeCalories' ? 'Cal. Burned' : 'Steps'}
-      />
-      <div>
-        <div role="group0" className="flex flex-col" aria-labelledby="my-radio-group">
-          <label>
-            <Field type="radio" name="cardioType" onClick={resetInput} value="activeCalories" />
-            <span className="ml-1 text-sm">Active Cal.</span>
-          </label>
-          <label>
-            <Field type="radio" name="cardioType" onClick={resetInput} value="steps" />
-            <span className="ml-1 text-sm">Steps</span>
-          </label>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function StrengthEditMode() {
-  const input = useRef<HTMLInputElement | null>(null)
-
-  // this component animates in, and focusing moving inputs generates flickering.
-  // delaying the focus by 1.2x the transition duration is a safety measure
-  useFocusOnMount(input, transitionDuration['transition-vertical'] * 1.2)
-
-  return (
-    <div className="flex items-end space-x-2">
-      <Input ref={input} className="xl:text-xl" name="strengthType" label="Today training" />
-    </div>
-  )
-}
-
-function getCardioText(count, type) {
-  if (type === 'activeCalories') {
-    return count + ' Cal. Burned'
-  }
-
-  return `${count} ${type}`
 }
 
 type DaySummaryProps = {
@@ -131,18 +71,8 @@ function DaySummary({ currentDay }: DaySummaryProps) {
     { suspense: false, useErrorBoundary: false }
   )
 
-  const { foodCalories, cardioCount, cardioType, strengthDone, strengthType } = day ?? {}
-
   const [update] = useMutation(updateDay)
   const [create] = useMutation(createDay)
-
-  const scores = {
-    food: getFoodScore(foodCalories),
-    cardio: getCardioScore(cardioType as any, cardioCount),
-    strength: getStrengthScore(strengthDone),
-  }
-
-  const dayScore = getDayScore(scores)
 
   if (error && (error as Error).name !== 'NotFoundError') {
     return <ErrorMessage error={error as Error} resetErrorBoundary={refetch} />
@@ -151,14 +81,14 @@ function DaySummary({ currentDay }: DaySummaryProps) {
   return (
     <Formik
       onSubmit={async (values) => {
-        const data: Omit<DayPayload, 'date'> = {
-          ...values,
-          strengthDone: Boolean(values.strengthType),
-          cardioCount: Number(values.cardioCount || 0),
+        const data: Omit<DayPayload, 'date' | 'goals'> = {
           foodCalories: Number(values.foodCalories || 0),
+          foodCarbs: Number(values.foodCarbs || 0),
+          foodFat: Number(values.foodFat || 0),
+          foodProtein: Number(values.foodProtein || 0),
         }
 
-        setQueryData({ ...data, date: currentDay }, { refetch: false })
+        setQueryData({ ...data, date: currentDay, goals: day?.goals ?? null }, { refetch: false })
 
         try {
           if (day) {
@@ -180,45 +110,54 @@ function DaySummary({ currentDay }: DaySummaryProps) {
       }}
       enableReinitialize
       initialValues={{
-        foodCalories: foodCalories || '',
-        cardioCount: cardioCount || '',
-        cardioType: cardioType || '',
-        strengthDone: strengthDone || false,
-        strengthType: strengthType || '',
+        foodCalories: day?.foodCalories || '',
+        foodCarbs: day?.foodCarbs || '',
+        foodProtein: day?.foodProtein || '',
+        foodFat: day?.foodFat,
       }}
     >
       <Form className="flex flex-col justify-around flex-1 space-y-6 xl:space-y-8">
         <CategoryGroup
-          noData={!foodCalories}
+          noData={!day?.foodCalories}
           isLoading={isLoading}
           icon={<Icons.Food />}
-          score={scores.food}
-          title="Food"
-          details={foodCalories ? `${foodCalories} KCAL` : 'You gotta eat, cmon'}
+          value={day?.foodCalories}
+          title="Calories"
+          details={day?.foodCalories ? `${day?.foodCalories} KCAL` : 'You gotta eat, cmon'}
         >
-          <FoodEditMode />
+          <FieldEditMode name="foodCalories" label="KCAL" />
         </CategoryGroup>
         <CategoryGroup
-          noData={!cardioCount}
+          noData={!day?.foodCarbs}
           isLoading={isLoading}
-          icon={<Icons.Cardio />}
-          score={scores.cardio}
-          title="Cardio"
-          details={cardioCount ? getCardioText(cardioCount, cardioType) : 'Did you run today?'}
+          icon={<Icons.Food />}
+          value={day?.foodCarbs}
+          title="Carbs"
+          details={day?.foodCarbs ? `${day.foodCarbs}g.` : 'Energy for working out!'}
         >
-          <CardioEditMode />
+          <FieldEditMode name="foodCarbs" label="Grams" />
         </CategoryGroup>
         <CategoryGroup
-          noData={!strengthType}
+          noData={!day?.foodProtein}
           isLoading={isLoading}
-          icon={<Icons.Strength />}
-          score={scores.strength}
-          title="Strength"
-          details={strengthType || 'NO PAIN NO GAIN'}
+          icon={<Icons.Food />}
+          value={day?.foodProtein}
+          title="Protein"
+          details={day?.foodProtein ? `${day.foodProtein}g.` : 'Chicken Breast Galore'}
         >
-          <StrengthEditMode />
+          <FieldEditMode name="foodProtein" label="Grams" />
         </CategoryGroup>
-        <div className="flex items-center flex-1">
+        <CategoryGroup
+          noData={!day?.foodFat}
+          isLoading={isLoading}
+          icon={<Icons.Food />}
+          value={day?.foodFat}
+          title="Fat"
+          details={day?.foodFat ? `${day.foodFat}g.` : 'Try and avoid this one'}
+        >
+          <FieldEditMode name="foodFat" label="Grams" />
+        </CategoryGroup>
+        {/* <div className="flex items-center flex-1">
           <OverallScore
             noData={foodCalories == null && cardioCount == null && strengthType == null}
             isLoading={isLoading}
@@ -230,7 +169,7 @@ function DaySummary({ currentDay }: DaySummaryProps) {
                 : 'IDK, maybe the day has just started?'
             }
           />
-        </div>
+        </div> */}
       </Form>
     </Formik>
   )

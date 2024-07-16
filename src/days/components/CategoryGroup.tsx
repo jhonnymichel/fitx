@@ -13,7 +13,7 @@ function ProgressBar({ score }: { score: number }) {
 
   return (
     <div
-      className="h-4 transition-all duration-1000 ease-out bg-neutral-100 rounded-md xl:h-6"
+      className="h-4 transition-all duration-1000 ease-out rounded-md bg-neutral-100 xl:h-6"
       style={{ width: `${Math.min(width || 0.001, 100)}%` }}
     ></div>
   )
@@ -33,7 +33,7 @@ function LoadingTitle() {
 
 type CategoryGroupProps = {
   icon: React.ReactNode
-  score: number
+  value?: number
   isLoading?: boolean
   title: string
   details: string | null | undefined
@@ -42,7 +42,7 @@ type CategoryGroupProps = {
 }
 
 function CategoryGroup(props: CategoryGroupProps) {
-  const { icon, score, isLoading, title, details, children, noData } = props
+  const { icon, value, isLoading, title, details, children, noData } = props
 
   const [isEditing, animationClassNames, setIsEditing] = useStepTransition(
     Number(false),
@@ -50,7 +50,7 @@ function CategoryGroup(props: CategoryGroupProps) {
   )
 
   return (
-    <div className="flex shrink-0 h-16 space-x-2 overflow-hidden xl:space-x-4 xl:h-20">
+    <div className="flex h-16 space-x-2 overflow-hidden shrink-0 xl:space-x-4 xl:h-20">
       <div className="shrink-0">{icon}</div>
       <SwitchTransition>
         <CSSTransition
@@ -61,7 +61,7 @@ function CategoryGroup(props: CategoryGroupProps) {
           {isEditing ? (
             <div className="flex flex-1 space-x-2 xl:space-x-4">
               <div className="flex flex-col justify-center flex-1">{children}</div>
-              <div className="flex flex-col shrink-0 space-y-1 xl:space-y-2">
+              <div className="flex flex-col space-y-1 shrink-0 xl:space-y-2">
                 <button
                   type="submit"
                   onClick={() => {
@@ -82,19 +82,18 @@ function CategoryGroup(props: CategoryGroupProps) {
             </div>
           ) : (
             <div className="w-full min-w-0 space-y-2 xl:space-y-4">
-              <ProgressBar score={score} />
               <div className="flex justify-between space-y-1 xl:space-x-2">
                 <div className="flex-1 min-w-0">
                   <h2 className="text-sm font-semibold uppercase xl:text-base">{title}</h2>
                   {isLoading ? (
                     <LoadingTitle />
                   ) : (
-                    <p className="text-xs font-semibold text-neutral-400 uppercase truncate xl:text-sm">
+                    <p className="text-xs font-semibold uppercase truncate text-neutral-400 xl:text-sm">
                       {details}
                     </p>
                   )}
                 </div>
-                <div className="flex items-end shrink-0 space-x-2">
+                <div className="flex items-end space-x-2 shrink-0">
                   {!isLoading && (
                     <>
                       <button
@@ -105,9 +104,7 @@ function CategoryGroup(props: CategoryGroupProps) {
                       >
                         {noData ? 'Add' : 'Edit'}
                       </button>
-                      {!noData && (
-                        <p className="text-4xl font-semibold">{Math.min(10, fix(score))}</p>
-                      )}
+                      {!noData && <p className="text-4xl font-semibold">{value}</p>}
                     </>
                   )}
                 </div>
