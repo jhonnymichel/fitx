@@ -172,9 +172,14 @@ function DaySummary({ currentDay }: DaySummaryProps) {
               <Card>
                 <CardTitle>
                   <CardIcon component={Icons.Strength}></CardIcon>
-                  <span>Calorie Deficit</span>
+                  <span>
+                    Calorie {day.goals?.foodCaloriesType === 'CEILING' ? 'Deficit' : 'Superavit'}
+                  </span>
                 </CardTitle>
-                <CalorieDeficit day={day} />
+                <CalorieDeficit
+                  day={day}
+                  goalType={day.goals?.foodCaloriesType === 'CEILING' ? 'DEFICIT' : 'SUPERAVIT'}
+                />
               </Card>
             </div>
           </>

@@ -7,7 +7,12 @@ type CaloriesBurnedProps = {
 }
 
 function CaloriesBurned(props: CaloriesBurnedProps) {
-  const score = props.day.caloriesBurned / (props.day.goals?.caloriesBurned ?? 3000)
+  const goal = props.day.goals?.caloriesBurned ?? 3000
+  const goalType = props.day.goals?.caloriesBurnedType ?? 'FLOOR'
+  let score = props.day.caloriesBurned / goal
+  if (goalType === 'CEILING') {
+    score = goal / props.day?.caloriesBurned
+  }
 
   return (
     <div className="flex items-center justify-between space-x-3">
@@ -16,7 +21,7 @@ function CaloriesBurned(props: CaloriesBurnedProps) {
           <p
             className={classNames('text-2xl font-extrabold', {
               'text-emerald-500': score >= 1,
-              'text-emerald-300': score < 1 && score >= 0.9,
+              'text-emerald-400': score < 1 && score >= 0.9,
               'text-yellow-500': score < 0.9 && score >= 0.66,
               'text-red-700': score < 0.66,
             })}
