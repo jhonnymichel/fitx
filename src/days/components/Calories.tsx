@@ -3,12 +3,8 @@ import { DayPayload } from '../queries/getDay'
 import classNames from 'classnames'
 import * as Icons from 'src/components/icons'
 
-function ProgressBar({ score }: { score: number }) {
-  const [width, setWidth] = useState(0)
-
-  useEffect(() => {
-    setWidth(score * 100)
-  }, [score])
+function ProgressBar({ score, width }: { score: number; width: number }) {
+  const cssWidth = width * 100
 
   return (
     <div
@@ -18,7 +14,7 @@ function ProgressBar({ score }: { score: number }) {
         'bg-red-500': score > 1.2 && score <= 1.35,
         'bg-red-700': score >= 1.35,
       })}
-      style={{ width: `${Math.min(width || 0.001, 100)}%` }}
+      style={{ width: `${Math.min(cssWidth || 0.001, 100)}%` }}
     ></div>
   )
 }
@@ -28,7 +24,20 @@ type CaloriesProps = {
 }
 
 function Calories(props: CaloriesProps) {
-  const score = props.day.foodCalories / (props.day.goals?.foodCalories ?? 2300)
+  const goalType = props.day.goals?.foodCaloriesType ?? 'CEILING'
+  const goal = props.day.goals?.foodCalories ?? 2300
+
+  let score = 0
+
+  if (goalType === 'CEILING') {
+    score = props.day.foodCalories / goal
+  }
+
+  if (goalType === 'FLOOR') {
+    score = goal / props.day.foodCalories
+  }
+
+  console.log(score)
 
   return (
     <div className="flex items-center justify-between space-x-5">
@@ -36,7 +45,7 @@ function Calories(props: CaloriesProps) {
         <Icons.Food className="!w-12 !h-12" />
       </div>
       <div className="flex flex-col items-end w-full">
-        <ProgressBar score={score} />
+        <ProgressBar score={score} width={props.day.foodCalories / goal} />
         <div className="flex justify-between w-full space-x-2">
           <h1
             className={classNames('text-2xl font-extrabold', {
@@ -47,11 +56,13 @@ function Calories(props: CaloriesProps) {
             })}
           >
             {props.day.foodCalories}
-            <span className="text-sm text-neutral-500">/{props.day.goals?.foodCalories} kcal.</span>
+            <span className="text-sm text-neutral-500">/{goal} kcal.</span>
           </h1>
-          <p className="font-bold text-md text-neutral-500">
-            {(props.day.goals?.foodCalories ?? 2300) - props.day.foodCalories} left
-          </p>
+          {goalType === 'CEILING' && (
+            <p className="font-bold text-md text-neutral-500">
+              {goal - props.day.foodCalories} left
+            </p>
+          )}
         </div>
       </div>
     </div>

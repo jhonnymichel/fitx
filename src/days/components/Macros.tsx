@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 import { DayPayload } from '../queries/getDay'
+import { GoalType } from 'db'
 
 function calculateMacroPercentages(carbs: number, protein: number, fat: number) {
   // Caloric values per gram
@@ -57,12 +58,20 @@ function MacroContainer(props: MacroContainerProps) {
 type MacroValueProps = {
   value: number
   goal: number
+  goalType: GoalType
   children: React.ReactNode
   className?: string
 }
 
 function MacroValue(props: MacroValueProps) {
-  const score = props.value / props.goal
+  let score = 0
+  if (props.goalType === 'CEILING') {
+    score = props.value / props.goal
+  }
+
+  if (props.goalType === 'FLOOR') {
+    score = props.goal / props.value
+  }
 
   return (
     <div className="flex flex-col items-center justify-center text-lg font-extrabold leading-6 uppercase">
@@ -107,19 +116,31 @@ function Macros(props: MacrosProps) {
         </MacroContainer>
       </div>
       <div className="flex justify-around">
-        <MacroValue value={day.foodCarbs} goal={day.goals?.foodCarbs ?? 0}>
+        <MacroValue
+          value={day.foodCarbs}
+          goal={day.goals?.foodCarbs ?? 0}
+          goalType={day.goals?.foodCarbsType ?? 'CEILING'}
+        >
           <h2 className="flex items-center space-x-1">
             <span>Carbs</span>
             <span className="inline-block w-3 h-3 text-xs bg-orange-500 rounded-sm"></span>
           </h2>
         </MacroValue>
-        <MacroValue value={day.foodProtein} goal={day.goals?.foodProtein ?? 0}>
+        <MacroValue
+          value={day.foodProtein}
+          goal={day.goals?.foodProtein ?? 0}
+          goalType={day.goals?.foodProteinType ?? 'FLOOR'}
+        >
           <h2 className="flex items-center space-x-1">
             <span>Protein</span>
             <span className="inline-block w-3 h-3 text-xs bg-blue-500 rounded-sm"></span>
           </h2>
         </MacroValue>
-        <MacroValue value={day.foodFat} goal={day.goals?.foodFat ?? 0}>
+        <MacroValue
+          value={day.foodFat}
+          goal={day.goals?.foodFat ?? 0}
+          goalType={day.goals?.foodFatType ?? 'CEILING'}
+        >
           <h2 className="flex items-center space-x-1 text-xs">
             <span>Fat</span>
             <span className="inline-block w-3 h-3 bg-purple-500 rounded-sm"></span>
