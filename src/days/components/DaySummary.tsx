@@ -14,6 +14,8 @@ import getDay, { DayPayload } from '../queries/getDay'
 import ErrorMessage from 'src/components/ErrorMessage'
 import Macros from './Macros'
 import Calories from './Calories'
+import CaloriesBurned from './CaloriesBurned'
+import CalorieDeficit from './CalorieDeficit'
 
 type InputProps = TextFieldProps
 
@@ -42,7 +44,7 @@ function FieldEditMode(props: FieldEditModeProps) {
   useFocusOnMount(input, transitionDuration['transition-vertical'] * 1.2)
 
   return (
-    <div className="flex items-end space-x-2">
+    <div className="flex items-end space-x-3">
       <Input
         ref={input}
         className="w-24 xl:text-xl"
@@ -61,6 +63,24 @@ function FieldEditMode(props: FieldEditModeProps) {
 
 function Card(props: { children: React.ReactNode }) {
   return <section className="w-full p-2 space-y-2 bg-neutral-100">{props.children}</section>
+}
+
+function CardTitle(props: { children: React.ReactNode }) {
+  return (
+    <h1 className="flex items-center space-x-2 text-xs font-extrabold uppercase text-neutral-500">
+      {props.children}
+    </h1>
+  )
+}
+
+function CardIcon(props: {
+  component: React.FunctionComponent<{
+    className?: string
+  }>
+}) {
+  const { component: Component } = props
+
+  return <Component className="!w-5 !h-5 !p-0 !bg-transparent"></Component>
 }
 
 type DaySummaryProps = {
@@ -87,6 +107,7 @@ function DaySummary({ currentDay }: DaySummaryProps) {
     <Formik
       onSubmit={async (values) => {
         const data: Omit<DayPayload, 'date' | 'goals'> = {
+          caloriesBurned: Number(values.foodCalories || 0),
           foodCalories: Number(values.foodCalories || 0),
           foodCarbs: Number(values.foodCarbs || 0),
           foodFat: Number(values.foodFat || 0),
@@ -115,23 +136,47 @@ function DaySummary({ currentDay }: DaySummaryProps) {
       }}
       enableReinitialize
       initialValues={{
+        caloriesBurned: day?.caloriesBurned || '',
         foodCalories: day?.foodCalories || '',
         foodCarbs: day?.foodCarbs || '',
         foodProtein: day?.foodProtein || '',
         foodFat: day?.foodFat,
       }}
     >
-      <Form className="flex flex-col justify-start flex-1 space-y-4 xl:space-y-4">
+      <Form className="flex flex-col justify-start flex-1 space-y-3 xl:space-y-4">
         {isLoading ? (
           'Loading'
         ) : day ? (
           <>
             <Card>
+              <CardTitle>
+                <span>Calories Consumed</span>
+              </CardTitle>
               <Calories day={day}></Calories>
             </Card>
             <Card>
+              <CardTitle>
+                <CardIcon component={Icons.Food}></CardIcon>
+                <span>Macros Consumed</span>
+              </CardTitle>
               <Macros day={day}></Macros>
             </Card>
+            <div className="flex space-x-3 xl:space-x-4">
+              <Card>
+                <CardTitle>
+                  <CardIcon component={Icons.Cardio}></CardIcon>
+                  <span>Calories Burned</span>
+                </CardTitle>
+                <CaloriesBurned day={day} />
+              </Card>
+              <Card>
+                <CardTitle>
+                  <CardIcon component={Icons.Strength}></CardIcon>
+                  <span>Calorie Deficit</span>
+                </CardTitle>
+                <CalorieDeficit day={day} />
+              </Card>
+            </div>
           </>
         ) : (
           'No Data'

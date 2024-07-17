@@ -33,11 +33,7 @@ type ProgressBarProps = {
 }
 
 function ProgressBar(props: ProgressBarProps) {
-  return (
-    <div
-      className={classNames('h-4 rounded-sm bg-neutral-100 xl:h-6 w-full', props.className)}
-    ></div>
-  )
+  return <div className={classNames('h-1 rounded-sm xl:h-2 w-full', props.className)}></div>
 }
 
 type MacroContainerProps = {
@@ -61,18 +57,29 @@ function MacroContainer(props: MacroContainerProps) {
 type MacroValueProps = {
   value: number
   goal: number
-  label: string
+  children: React.ReactNode
   className?: string
 }
 
 function MacroValue(props: MacroValueProps) {
+  const score = props.value / props.goal
+
   return (
     <div className="flex flex-col items-center justify-center text-lg font-extrabold leading-6 uppercase">
-      <div className="normal-case text-neutral-500">
+      <div
+        className={classNames('normal-case', {
+          'text-emerald-500': score <= 1,
+          'text-yellow-500': score > 1 && score <= 1.2,
+          'text-red-500': score > 1.2 && score <= 1.35,
+          'text-red-700': score >= 1.35,
+        })}
+      >
         {props.value}
-        <span className="text-sm">/{props.goal}g</span>
+        <span className="text-sm text-neutral-500">/{props.goal}g</span>
       </div>
-      <div className={classNames('text-sm', props.className)}>{props.label}</div>
+      <div className={classNames('text-sm text-neutral-500', props.className)}>
+        {props.children}
+      </div>
     </div>
   )
 }
@@ -100,24 +107,24 @@ function Macros(props: MacrosProps) {
         </MacroContainer>
       </div>
       <div className="flex justify-around">
-        <MacroValue
-          value={day.foodCarbs}
-          className="text-orange-500"
-          goal={day.goals?.foodCarbs ?? 0}
-          label="Carbs"
-        ></MacroValue>
-        <MacroValue
-          value={day.foodProtein}
-          className="text-blue-500"
-          goal={day.goals?.foodProtein ?? 0}
-          label="Protein"
-        ></MacroValue>
-        <MacroValue
-          value={day.foodFat}
-          className="text-purple-500"
-          goal={day.goals?.foodFat ?? 0}
-          label="Fat"
-        ></MacroValue>
+        <MacroValue value={day.foodCarbs} goal={day.goals?.foodCarbs ?? 0}>
+          <h2 className="flex items-center space-x-1">
+            <span>Carbs</span>
+            <span className="inline-block w-3 h-3 text-xs bg-orange-500 rounded-sm"></span>
+          </h2>
+        </MacroValue>
+        <MacroValue value={day.foodProtein} goal={day.goals?.foodProtein ?? 0}>
+          <h2 className="flex items-center space-x-1">
+            <span>Protein</span>
+            <span className="inline-block w-3 h-3 text-xs bg-blue-500 rounded-sm"></span>
+          </h2>
+        </MacroValue>
+        <MacroValue value={day.foodFat} goal={day.goals?.foodFat ?? 0}>
+          <h2 className="flex items-center space-x-1 text-xs">
+            <span>Fat</span>
+            <span className="inline-block w-3 h-3 bg-purple-500 rounded-sm"></span>
+          </h2>
+        </MacroValue>
       </div>
     </>
   )
