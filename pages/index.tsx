@@ -57,15 +57,18 @@ function Index() {
                 </Card>
               ) : (
                 <Card>
-                  <DaySummary
-                    data={data}
-                    isLoading={isLoading}
-                    error={error}
-                    refetch={refetch}
-                    onEditRequest={() => {
-                      setIsEditing(true)
-                    }}
-                  />
+                  <DaySummary data={data} isLoading={isLoading} error={error} refetch={refetch} />
+                  <div>
+                    <button
+                      onClick={() => {
+                        setIsEditing(true)
+                      }}
+                      type="button"
+                      className="block w-auto mx-auto mt-4 text-white bg-teal-700 button"
+                    >
+                      Enter Data
+                    </button>
+                  </div>
                 </Card>
               )}
             </CSSTransition>

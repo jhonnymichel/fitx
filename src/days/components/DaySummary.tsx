@@ -33,10 +33,9 @@ type DaySummaryProps = {
   data?: DayPayload
   refetch: () => void
   error: unknown
-  onEditRequest: () => void
 }
 
-function DaySummary({ data: day, refetch, error, isLoading, onEditRequest }: DaySummaryProps) {
+function DaySummary({ data: day, refetch, error, isLoading }: DaySummaryProps) {
   if (error && (error as Error).name !== 'NotFoundError') {
     return <ErrorMessage error={error as Error} resetErrorBoundary={refetch} />
   }
@@ -82,15 +81,6 @@ function DaySummary({ data: day, refetch, error, isLoading, onEditRequest }: Day
             />
           </Card>
         </div>
-        <button
-          onClick={() => {
-            onEditRequest()
-          }}
-          type="button"
-          className="button"
-        >
-          Enter Data
-        </button>
       </div>
     )
   }
