@@ -44,7 +44,7 @@ function UserBar() {
 
   const [performLogout] = useMutation(logout)
   return (
-    <div className="flex items-end justify-between w-full max-w-lg px-2 mt-2 shrink-0">
+    <div className="flex items-end justify-between w-full max-w-lg px-3 mt-2 shrink-0">
       <ErrorBoundary
         FallbackComponent={ErrorLoadingInfo}
         onReset={() => {

@@ -7,7 +7,7 @@ type HeaderItemProps = {
 }
 
 export function HeaderContainer(props: HeaderItemProps) {
-  return <div className="flex justify-between w-full mb-6">{props.children}</div>
+  return <div className="flex justify-between w-full mb-3">{props.children}</div>
 }
 
 export function HeaderNav(props: HeaderItemProps) {
