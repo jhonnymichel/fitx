@@ -22,7 +22,7 @@ function NavLink({ href, children }) {
 
 function Nav() {
   return (
-    <div className="w-full max-w-lg pb-4 shrink-0">
+    <div className="w-full max-w-lg px-2 pb-4 shrink-0">
       <nav className="flex w-full">
         <NavLink href="/">Day</NavLink>
         <NavLink href="/week">Week</NavLink>

@@ -40,7 +40,7 @@ export default withBlitz(function App({ Component, pageProps }: AppProps) {
           classNames="transition-route-change"
           timeout={200}
         >
-          <div className="flex flex-col justify-center w-full h-full px-2">
+          <div className="flex flex-col justify-center w-full h-full">
             {getLayout(<Component {...pageProps} />)}
           </div>
         </CSSTransition>
