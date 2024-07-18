@@ -24,7 +24,9 @@ const WithNav = ({ title, children }: LayoutProps) => {
         <UserBar />
         <SwitchTransition>
           <CSSTransition key={router.asPath} classNames="transition-route-change" timeout={200}>
-            <div className="flex flex-1 w-full max-w-lg mx-auto overflow-hidden">{children}</div>
+            <div className="box-content flex flex-1 w-full max-w-lg px-3 pt-1 pb-6 mx-auto !-mb-6 overflow-hidden">
+              {children}
+            </div>
           </CSSTransition>
         </SwitchTransition>
         <Nav />
