@@ -7,14 +7,15 @@ type DayHeaderProps = {
   currentDay: Date
   onPrevClick: (e: MouseEvent<HTMLButtonElement>) => void
   onNextClick: (e: MouseEvent<HTMLButtonElement>) => void
+  disabled?: boolean
 }
 
-function DayHeader({ currentDay, onPrevClick, onNextClick }: DayHeaderProps) {
+function DayHeader({ disabled, currentDay, onPrevClick, onNextClick }: DayHeaderProps) {
   return (
     <HeaderContainer>
       <HeaderNav>
-        <NavButton onClick={onPrevClick}>{`<`}</NavButton>
-        <NavButton onClick={onNextClick}>{`>`}</NavButton>
+        <NavButton disabled={disabled} onClick={onPrevClick}>{`<`}</NavButton>
+        <NavButton disabled={disabled} onClick={onNextClick}>{`>`}</NavButton>
       </HeaderNav>
       <HeaderTitle>
         {DateTime.fromJSDate(currentDay).toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY)}

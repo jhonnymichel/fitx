@@ -149,3 +149,26 @@
   transform: translateY(0px);
   transition: all 200ms;
 }
+
+.transition-fade-enter {
+  transform: scale(.85);
+  opacity: 0;
+}
+
+.transition-fade-enter-active {
+  transform: scale(1);
+  opacity: 1;
+
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.transition-fade-exit {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.transition-fade-exit-active {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  transform: scale(.85);
+  opacity: 0;
+}
