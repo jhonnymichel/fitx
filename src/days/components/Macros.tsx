@@ -78,9 +78,10 @@ function MacroValue(props: MacroValueProps) {
       <div
         className={classNames('normal-case', {
           'text-emerald-500': score <= 1,
-          'text-yellow-500': score > 1 && score <= 1.2,
-          'text-red-500': score > 1.2 && score <= 1.35,
-          'text-red-700': score >= 1.35,
+          'text-emerald-400': score > 1 && score <= 1.15,
+          'text-yellow-500': score > 1.15 && score <= 1.3,
+          'text-red-500': score > 1.3 && score <= 1.45,
+          'text-red-700': score >= 1.45,
         })}
       >
         {props.value}

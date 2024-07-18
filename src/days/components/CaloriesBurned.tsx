@@ -21,9 +21,10 @@ function CaloriesBurned(props: CaloriesBurnedProps) {
           <p
             className={classNames('text-2xl font-extrabold', {
               'text-emerald-500': score >= 1,
-              'text-emerald-400': score < 1 && score >= 0.9,
-              'text-yellow-500': score < 0.9 && score >= 0.66,
-              'text-red-700': score < 0.66,
+              'text-emerald-400': score < 1 && score >= 0.85,
+              'text-yellow-500': score < 0.85 && score >= 0.7,
+              'text-red-500': score < 0.5 && score >= 0.65,
+              'text-red-700': score < 0.65,
             })}
           >
             {props.day.caloriesBurned}

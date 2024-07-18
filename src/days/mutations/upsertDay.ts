@@ -1,15 +1,25 @@
 import { Ctx } from 'blitz'
 import db, { Prisma } from 'db'
+import * as z from 'zod'
 
-type CreateDayInput = {
+type UpsertDay = {
   data: Omit<
     Prisma.DayCreateArgs['data'],
-    'userId' | 'id' | 'cardioType' | 'cardioCount' | 'strengthDone' | 'strengthType'
+    'date' | 'userId' | 'id' | 'cardioType' | 'cardioCount' | 'strengthDone' | 'strengthType'
   >
+  date: Date
 }
 
-export default async function createDay({ data }: CreateDayInput, ctx: Ctx) {
+const NoDateAllowed = z
+  .object({
+    date: z.undefined(),
+  })
+  .nonstrict()
+
+export default async function upsertDay({ date, data }: UpsertDay, ctx: Ctx) {
   ctx.session.$authorize()
+
+  NoDateAllowed.parse(data)
 
   const goals = await db.userGoals.findFirstOrThrow({
     where: { userId: ctx.session.userId },
@@ -25,8 +35,10 @@ export default async function createDay({ data }: CreateDayInput, ctx: Ctx) {
     },
   })
 
-  const day = await db.day.create({
-    data: {
+  const day = await db.day.upsert({
+    where: { uniqueDatePerUser: { date, userId: ctx.session.userId } },
+    create: {
+      date,
       ...data,
       user: {
         connect: {
@@ -39,6 +51,7 @@ export default async function createDay({ data }: CreateDayInput, ctx: Ctx) {
         },
       },
     },
+    update: data,
   })
 
   return day

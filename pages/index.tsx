@@ -6,17 +6,28 @@ import DayHeader from 'src/days/components/DayHeader'
 import useStepTransition, { transitionDuration } from 'src/hooks/useStepTransition'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import { useState } from 'react'
+import { useQuery } from '@blitzjs/rpc'
+import getDay from 'src/days/queries/getDay'
+import DayForm from 'src/days/components/DayForm'
 
 function Index() {
-  const [currentDay, animationClassNames, setCurrentDay] = useStepTransition(getCurrentDay())
+  const [currentDate, animationClassNames, setCurrentDate] = useStepTransition(getCurrentDay())
   const [isEditing, setIsEditing] = useState(false)
 
   const prevDay = () => {
-    setCurrentDay(getPreviousDay(currentDay))
+    setCurrentDate(getPreviousDay(currentDate))
   }
   const nextDay = () => {
-    setCurrentDay(getNextDay(currentDay))
+    setCurrentDate(getNextDay(currentDate))
   }
+
+  const [data, { refetch, error, isLoading }] = useQuery(
+    getDay,
+    {
+      where: { date: { equals: currentDate } },
+    },
+    { suspense: false, useErrorBoundary: false }
+  )
 
   return (
     <div className="flex flex-col w-full h-full">
@@ -24,11 +35,11 @@ function Index() {
         disabled={isEditing}
         onPrevClick={prevDay}
         onNextClick={nextDay}
-        currentDay={currentDay}
+        currentDay={currentDate}
       />
       <SwitchTransition>
         <CSSTransition
-          key={currentDay}
+          key={currentDate}
           classNames={animationClassNames}
           timeout={transitionDuration.transition}
         >
@@ -36,29 +47,25 @@ function Index() {
             <CSSTransition key={isEditing} classNames={'transition-fade'} timeout={200}>
               {isEditing ? (
                 <Card>
-                  <div>Fala Nighel</div>
-                  <button
-                    onClick={() => {
+                  <DayForm
+                    data={data}
+                    currentDate={currentDate}
+                    onEditFinished={() => {
                       setIsEditing(false)
                     }}
-                    className="button"
-                    type="button"
-                  >
-                    Done
-                  </button>
+                  />
                 </Card>
               ) : (
                 <Card>
-                  <DaySummary currentDay={currentDay} />
-                  <button
-                    onClick={() => {
+                  <DaySummary
+                    data={data}
+                    isLoading={isLoading}
+                    error={error}
+                    refetch={refetch}
+                    onEditRequest={() => {
                       setIsEditing(true)
                     }}
-                    className="button"
-                    type="button"
-                  >
-                    Enter Data
-                  </button>
+                  />
                 </Card>
               )}
             </CSSTransition>
