@@ -1,20 +1,17 @@
+import { parseCalorieDeficit } from 'src/fitnessMetrics/calorieDeficit'
 import { DayPayload } from '../queries/getDay'
 import classNames from 'classnames'
 
 type CalorieDeficitProps = {
   day: DayPayload
-  goalType: 'DEFICIT' | 'SUPERAVIT'
 }
 
 function CalorieDeficit(props: CalorieDeficitProps) {
-  let deficit = props.day.caloriesBurned - props.day.foodCalories
-  const goal = (props.day.goals?.caloriesBurned ?? 3000) - (props.day.goals?.foodCalories ?? 2300)
-  let score = deficit / goal
-
-  if (props.goalType === 'SUPERAVIT') {
-    deficit *= -1
-    score *= -1
-  }
+  const { deficit, score, goal } = parseCalorieDeficit(
+    props.day.caloriesBurned,
+    props.day.foodCalories,
+    props.day.goals
+  )
 
   return (
     <div className="flex items-center justify-between space-x-3">

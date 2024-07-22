@@ -6,8 +6,7 @@ import Calories from './Calories'
 import CaloriesBurned from './CaloriesBurned'
 import CalorieDeficit from './CalorieDeficit'
 import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/components/WidgetCard'
-
-
+import { getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
 
 type DaySummaryProps = {
   isLoading: boolean
@@ -53,13 +52,10 @@ function DaySummary({ data: day, refetch, error, isLoading }: DaySummaryProps) {
             <WidgetCardTitle>
               <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
               <span>
-                Calorie {day.goals?.foodCaloriesType === 'CEILING' ? 'Deficit' : 'Superavit'}
+                Calorie {getCaloriesGoalType(day.goals) === 'DEFICIT' ? 'Deficit' : 'Superavit'}
               </span>
             </WidgetCardTitle>
-            <CalorieDeficit
-              day={day}
-              goalType={day.goals?.foodCaloriesType === 'CEILING' ? 'DEFICIT' : 'SUPERAVIT'}
-            />
+            <CalorieDeficit day={day} />
           </WidgetCard>
         </div>
       </div>

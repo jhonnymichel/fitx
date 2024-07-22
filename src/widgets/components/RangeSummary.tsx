@@ -1,7 +1,9 @@
+import * as Icons from 'src/components/icons'
 import { useQuery, useQueryErrorResetBoundary } from '@blitzjs/rpc'
 import getRangeSummary from '../queries/getRangeSummary'
 import { ErrorBoundary, ErrorFallbackProps } from '@blitzjs/next'
 import { Suspense } from 'react'
+import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/components/WidgetCard'
 
 function ErrorLoadingSummary({ error, resetErrorBoundary }: ErrorFallbackProps) {
   if (error.name === 'NotFoundError') {
@@ -54,16 +56,24 @@ function RangeSummary(props: RangeSummaryProps) {
   const boundary = useQueryErrorResetBoundary()
 
   return (
-    <ErrorBoundary
-      FallbackComponent={ErrorLoadingSummary}
-      onReset={() => {
-        boundary.reset()
-      }}
-    >
-      <Suspense fallback={<LoadingSummary />}>
-        <RangeSummaryWidget {...props} />
-      </Suspense>
-    </ErrorBoundary>
+    <WidgetCard>
+      <WidgetCardTitle>
+        <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>
+        <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
+        <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
+        <span>{props.title}</span>
+      </WidgetCardTitle>
+      <ErrorBoundary
+        FallbackComponent={ErrorLoadingSummary}
+        onReset={() => {
+          boundary.reset()
+        }}
+      >
+        <Suspense fallback={<LoadingSummary />}>
+          <RangeSummaryWidget {...props} />
+        </Suspense>
+      </ErrorBoundary>
+    </WidgetCard>
   )
 }
 

@@ -36,6 +36,7 @@ export default resolver.pipe(
           foodCarbs: summary.foodCarbs + day.foodCarbs,
           foodFat: summary.foodFat + day.foodFat,
           foodProtein: summary.foodProtein + day.foodProtein,
+          currentGoals: day.goals,
         }
       },
       {
@@ -44,6 +45,7 @@ export default resolver.pipe(
         foodCarbs: 0,
         foodProtein: 0,
         foodFat: 0,
+        currentGoals: null,
       }
     )
   }
