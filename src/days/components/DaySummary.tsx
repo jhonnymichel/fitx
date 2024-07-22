@@ -5,28 +5,9 @@ import Macros from './Macros'
 import Calories from './Calories'
 import CaloriesBurned from './CaloriesBurned'
 import CalorieDeficit from './CalorieDeficit'
+import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/components/WidgetCard'
 
-function Card(props: { children: React.ReactNode }) {
-  return <section className="w-full p-2 space-y-2 bg-neutral-100">{props.children}</section>
-}
 
-function CardTitle(props: { children: React.ReactNode }) {
-  return (
-    <h1 className="flex items-center space-x-2 text-xs font-extrabold uppercase text-neutral-500">
-      {props.children}
-    </h1>
-  )
-}
-
-function CardIcon(props: {
-  component: React.FunctionComponent<{
-    className?: string
-  }>
-}) {
-  const { component: Component } = props
-
-  return <Component className="!w-5 !h-5 !p-0 !bg-transparent"></Component>
-}
 
 type DaySummaryProps = {
   isLoading: boolean
@@ -47,39 +28,39 @@ function DaySummary({ data: day, refetch, error, isLoading }: DaySummaryProps) {
   if (day) {
     return (
       <div className="space-y-3">
-        <Card>
-          <CardTitle>
+        <WidgetCard>
+          <WidgetCardTitle>
             <span>Calories Consumed</span>
-          </CardTitle>
+          </WidgetCardTitle>
           <Calories day={day}></Calories>
-        </Card>
-        <Card>
-          <CardTitle>
-            <CardIcon component={Icons.Food}></CardIcon>
+        </WidgetCard>
+        <WidgetCard>
+          <WidgetCardTitle>
+            <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
             <span>Macros Consumed</span>
-          </CardTitle>
+          </WidgetCardTitle>
           <Macros day={day}></Macros>
-        </Card>
+        </WidgetCard>
         <div className="flex space-x-3 xl:space-x-4">
-          <Card>
-            <CardTitle>
-              <CardIcon component={Icons.Cardio}></CardIcon>
+          <WidgetCard>
+            <WidgetCardTitle>
+              <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>
               <span>Calories Burned</span>
-            </CardTitle>
+            </WidgetCardTitle>
             <CaloriesBurned day={day} />
-          </Card>
-          <Card>
-            <CardTitle>
-              <CardIcon component={Icons.Strength}></CardIcon>
+          </WidgetCard>
+          <WidgetCard>
+            <WidgetCardTitle>
+              <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
               <span>
                 Calorie {day.goals?.foodCaloriesType === 'CEILING' ? 'Deficit' : 'Superavit'}
               </span>
-            </CardTitle>
+            </WidgetCardTitle>
             <CalorieDeficit
               day={day}
               goalType={day.goals?.foodCaloriesType === 'CEILING' ? 'DEFICIT' : 'SUPERAVIT'}
             />
-          </Card>
+          </WidgetCard>
         </div>
       </div>
     )

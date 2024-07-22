@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { useQuery } from '@blitzjs/rpc'
 import getDay from 'src/days/queries/getDay'
 import DayForm from 'src/days/components/DayForm'
+import RangeSummary from 'src/widgets/components/RangeSummary'
 
 function Index() {
   const [currentDate, animationClassNames, setCurrentDate] = useStepTransition(getCurrentDay())
@@ -64,11 +65,12 @@ function Index() {
                         setIsEditing(true)
                       }}
                       type="button"
-                      className="block w-auto mx-auto mt-4 text-white bg-teal-700 button"
+                      className="block w-auto mx-auto mt-4 mb-4 text-white bg-teal-700 button"
                     >
                       Enter Data
                     </button>
                   </div>
+                  <RangeSummary rangeInDays={7} title="Last 10 Days" currentDate={currentDate} />
                 </Card>
               )}
             </CSSTransition>

@@ -21,7 +21,7 @@ function ErrorLoadingInfo({ error, resetErrorBoundary }: ErrorFallbackProps) {
           resetErrorBoundary()
         }}
       >
-        retry
+        Retry
       </button>
     </div>
   )

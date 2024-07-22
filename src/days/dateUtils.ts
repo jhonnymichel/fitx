@@ -1,4 +1,4 @@
-import { DateTime } from 'luxon'
+import { DateTime, Duration } from 'luxon'
 
 export function getCurrentDay() {
   return DateTime.local().startOf('day').toJSDate()
@@ -17,6 +17,14 @@ export function getCurrentWeekRange(): [Date, Date] {
   const end = start.endOf('week')
 
   return [start.toJSDate(), end.toJSDate()]
+}
+
+export function subtractDays(date: Date, days: number): Date {
+  const result = DateTime.fromJSDate(date)
+    .startOf('day')
+    .minus(Duration.fromObject({ days: days }))
+
+  return result.toJSDate()
 }
 
 export function getPreviousWeekRange(date: Date): [Date, Date] {
