@@ -4,6 +4,8 @@ import getRangeSummary from '../queries/getRangeSummary'
 import { ErrorBoundary, ErrorFallbackProps } from '@blitzjs/next'
 import { Suspense } from 'react'
 import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/components/WidgetCard'
+import { parseCalorieDeficit } from 'src/fitnessMetrics/calorieDeficit'
+import classNames from 'classnames'
 
 function ErrorLoadingSummary({ error, resetErrorBoundary }: ErrorFallbackProps) {
   if (error.name === 'NotFoundError') {
@@ -49,7 +51,64 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
     last: props.rangeInDays,
   })
 
-  return <div className="space-y-3">{JSON.stringify(data, null, 2)}</div>
+  const totals = {
+    calorieDeficit: parseCalorieDeficit({
+      caloriesBurned: data.caloriesBurned,
+      foodCalories: data.foodCalories,
+      goals: data.currentGoals,
+    }).deficit,
+  }
+
+  const avgs = {
+    caloriesBurned: data.caloriesBurned / props.rangeInDays,
+    foodCalories: data.foodCalories / props.rangeInDays,
+  }
+
+  const calorieDeficit = parseCalorieDeficit({
+    caloriesBurned: avgs.caloriesBurned,
+    foodCalories: avgs.foodCalories,
+    goals: data.currentGoals,
+  })
+
+  const { deficit, goal, score, goalType } = calorieDeficit
+
+  return (
+    <div>
+      <div className="flex items-end justify-between">
+        <p
+          className={classNames('text-lg font-extrabold', {
+            'text-emerald-500': deficit > goal,
+            'text-emerald-400': deficit > 0 && score >= 0.66 && score < 1,
+            'text-yellow-500': deficit > 0 && score < 0.66,
+            'text-red-700': deficit < 0,
+          })}
+        >
+          {deficit}
+          <span className="text-sm text-neutral-500">/{goal} kcal.</span>
+        </p>
+        <div className={classNames('text-sm text-neutral-500 uppercase text-bold')}>
+          Calorie {goalType === 'DEFICIT' ? 'Deficit' : 'Superavit'} (avg.)
+        </div>
+      </div>
+      <div className="flex items-end justify-between">
+        <p
+          className={classNames('text-lg font-extrabold', {
+            'text-emerald-500': deficit > goal,
+            'text-emerald-400': deficit > 0 && score >= 0.66 && score < 1,
+            'text-yellow-500': deficit > 0 && score < 0.66,
+            'text-red-700': deficit < 0,
+          })}
+        >
+          {totals.calorieDeficit}
+          <span className="text-sm text-neutral-500"> kcal.</span>
+        </p>
+        <div className={classNames('text-sm text-neutral-500 uppercase text-bold')}>
+          Calorie {goalType === 'DEFICIT' ? 'Deficit' : 'Superavit'} (total)
+        </div>
+      </div>
+      <hr className="m-3" />
+    </div>
+  )
 }
 
 function RangeSummary(props: RangeSummaryProps) {

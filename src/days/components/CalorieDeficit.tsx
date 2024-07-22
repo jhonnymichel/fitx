@@ -7,11 +7,8 @@ type CalorieDeficitProps = {
 }
 
 function CalorieDeficit(props: CalorieDeficitProps) {
-  const { deficit, score, goal } = parseCalorieDeficit(
-    props.day.caloriesBurned,
-    props.day.foodCalories,
-    props.day.goals
-  )
+  const { caloriesBurned, foodCalories, goals } = props.day
+  const { deficit, score, goal } = parseCalorieDeficit({ caloriesBurned, foodCalories, goals })
 
   return (
     <div className="flex items-center justify-between space-x-3">
