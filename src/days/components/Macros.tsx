@@ -2,32 +2,7 @@ import React from 'react'
 import classNames from 'classnames'
 import { DayPayload } from '../queries/getDay'
 import { GoalType } from 'db'
-
-function calculateMacroPercentages(carbs: number, protein: number, fat: number) {
-  // Caloric values per gram
-  const caloriesPerGramCarbs = 4
-  const caloriesPerGramProtein = 4
-  const caloriesPerGramFat = 9
-
-  // Calculate total calories for each macronutrient
-  const totalCaloriesCarbs = carbs * caloriesPerGramCarbs
-  const totalCaloriesProtein = protein * caloriesPerGramProtein
-  const totalCaloriesFat = fat * caloriesPerGramFat
-
-  // Calculate total caloric intake
-  const totalCalories = totalCaloriesCarbs + totalCaloriesProtein + totalCaloriesFat
-
-  // Calculate percentage of total calories for each macronutrient
-  const carbsPercentage = (totalCaloriesCarbs / totalCalories) * 100
-  const proteinPercentage = (totalCaloriesProtein / totalCalories) * 100
-  const fatPercentage = (totalCaloriesFat / totalCalories) * 100
-
-  return {
-    carbsPercentage: Number(carbsPercentage.toFixed(2)),
-    proteinPercentage: Number(proteinPercentage.toFixed(2)),
-    fatPercentage: Number(fatPercentage.toFixed(2)),
-  }
-}
+import { calculateMacroPercentages, ParsedMacro, parseMacros } from 'src/fitnessMetrics/macros'
 
 type ProgressBarProps = {
   className?: string | string[]
@@ -56,22 +31,13 @@ function MacroContainer(props: MacroContainerProps) {
 }
 
 type MacroValueProps = {
-  value: number
-  goal: number
-  goalType: GoalType
+  macro: ParsedMacro
   children: React.ReactNode
   className?: string
 }
 
 function MacroValue(props: MacroValueProps) {
-  let score = 0
-  if (props.goalType === 'CEILING') {
-    score = props.value / props.goal
-  }
-
-  if (props.goalType === 'FLOOR') {
-    score = props.goal / props.value
-  }
+  const { score, value, goal } = props.macro
 
   return (
     <div className="flex flex-col items-center justify-center text-lg font-extrabold leading-6 uppercase">
@@ -84,8 +50,8 @@ function MacroValue(props: MacroValueProps) {
           'text-red-700': score >= 1.45,
         })}
       >
-        {props.value}
-        <span className="text-sm text-neutral-500">/{props.goal}g</span>
+        {value}
+        <span className="text-sm text-neutral-500">/{goal}g</span>
       </div>
       <div className={classNames('text-sm text-neutral-500', props.className)}>
         {props.children}
@@ -103,6 +69,13 @@ function Macros(props: MacrosProps) {
 
   const totalMacros = calculateMacroPercentages(day.foodCarbs, day.foodProtein, day.foodFat)
 
+  const macros = parseMacros({
+    foodCarbs: day.foodCarbs,
+    foodProtein: day.foodProtein,
+    foodFat: day.foodFat,
+    goals: day.goals,
+  })
+
   return (
     <>
       <div className="flex -mx-px">
@@ -117,31 +90,19 @@ function Macros(props: MacrosProps) {
         </MacroContainer>
       </div>
       <div className="flex justify-around">
-        <MacroValue
-          value={day.foodCarbs}
-          goal={day.goals?.foodCarbs ?? 0}
-          goalType={day.goals?.foodCarbsType ?? 'CEILING'}
-        >
+        <MacroValue macro={macros.carbs}>
           <h2 className="flex items-center space-x-1">
             <span>Carbs</span>
             <span className="inline-block w-3 h-3 text-xs bg-orange-500 rounded-sm"></span>
           </h2>
         </MacroValue>
-        <MacroValue
-          value={day.foodProtein}
-          goal={day.goals?.foodProtein ?? 0}
-          goalType={day.goals?.foodProteinType ?? 'FLOOR'}
-        >
+        <MacroValue macro={macros.protein}>
           <h2 className="flex items-center space-x-1">
             <span>Protein</span>
             <span className="inline-block w-3 h-3 text-xs bg-blue-500 rounded-sm"></span>
           </h2>
         </MacroValue>
-        <MacroValue
-          value={day.foodFat}
-          goal={day.goals?.foodFat ?? 0}
-          goalType={day.goals?.foodFatType ?? 'CEILING'}
-        >
+        <MacroValue macro={macros.fat}>
           <h2 className="flex items-center space-x-1 text-xs">
             <span>Fat</span>
             <span className="inline-block w-3 h-3 bg-purple-500 rounded-sm"></span>
