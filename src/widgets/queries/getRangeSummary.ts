@@ -15,6 +15,7 @@ export default resolver.pipe(
   async function getDay({ from, last }, ctx) {
     const activeGoals = await db.userGoals.findFirstOrThrow({
       where: {
+        userId: ctx.session.userId,
         completed: false,
       },
     })
