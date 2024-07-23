@@ -43,7 +43,6 @@ function LoadingSummary() {
 type RangeSummaryProps = {
   rangeInDays: number
   currentDate: Date
-  title: string
 }
 
 function RangeSummaryWidget(props: RangeSummaryProps) {
@@ -84,7 +83,13 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
   })
 
   return (
-    <div>
+    <>
+      <WidgetCardTitle>
+        <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>
+        <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
+        <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
+        <span>Last {data.dayCount} days</span>
+      </WidgetCardTitle>
       <div className="flex items-end justify-between">
         <p
           className={classNames('text-lg font-extrabold', {
@@ -169,7 +174,7 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
         </p>
         <div className={classNames('text-sm text-neutral-500 uppercase text-bold')}>fat (avg.)</div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -178,12 +183,6 @@ function RangeSummary(props: RangeSummaryProps) {
 
   return (
     <WidgetCard>
-      <WidgetCardTitle>
-        <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>
-        <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
-        <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
-        <span>{props.title}</span>
-      </WidgetCardTitle>
       <ErrorBoundary
         FallbackComponent={ErrorLoadingSummary}
         onReset={() => {

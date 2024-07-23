@@ -13,8 +13,18 @@ export default resolver.pipe(
   resolver.zod(GetRangeSummarySchema),
   resolver.authorize(),
   async function getDay({ from, last }, ctx) {
+    const activeGoals = await db.userGoals.findFirstOrThrow({
+      where: {
+        completed: false,
+      },
+    })
+
     const days = await db.day.findMany({
-      where: { userId: ctx.session.userId, date: { lte: from, gt: subtractDays(from, last) } },
+      where: {
+        userId: ctx.session.userId,
+        userGoalsId: activeGoals.id,
+        date: { lte: from, gt: subtractDays(from, last) },
+      },
       select: {
         date: true,
         caloriesBurned: true,
@@ -31,21 +41,22 @@ export default resolver.pipe(
     return days.reduce(
       (summary, day) => {
         return {
+          ...summary,
           caloriesBurned: summary.caloriesBurned + day.caloriesBurned,
           foodCalories: summary.foodCalories + day.foodCalories,
           foodCarbs: summary.foodCarbs + day.foodCarbs,
           foodFat: summary.foodFat + day.foodFat,
           foodProtein: summary.foodProtein + day.foodProtein,
-          currentGoals: day.goals,
         }
       },
       {
+        dayCount: days.length,
         caloriesBurned: 0,
         foodCalories: 0,
         foodCarbs: 0,
         foodProtein: 0,
         foodFat: 0,
-        currentGoals: days[0].goals,
+        currentGoals: activeGoals,
       }
     )
   }
