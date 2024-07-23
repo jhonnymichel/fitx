@@ -14,7 +14,7 @@ export default resolver.pipe(
   resolver.authorize(),
   async function getDay({ from, last }, ctx) {
     const days = await db.day.findMany({
-      where: { userId: ctx.session.userId, date: { lte: from, gte: subtractDays(from, last) } },
+      where: { userId: ctx.session.userId, date: { lte: from, gt: subtractDays(from, last) } },
       select: {
         date: true,
         caloriesBurned: true,

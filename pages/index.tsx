@@ -70,7 +70,7 @@ function Index() {
                       Enter Data
                     </button>
                   </div>
-                  <RangeSummary rangeInDays={7} title="Last 10 Days" currentDate={currentDate} />
+                  <RangeSummary rangeInDays={10} title="Last 10 Days" currentDate={currentDate} />
                 </Card>
               )}
             </CSSTransition>
