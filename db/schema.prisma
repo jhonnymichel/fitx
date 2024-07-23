@@ -24,7 +24,7 @@ model User {
   sessions Session[]
   days     Day[]
   tokens   Token[]
-  goals    UserGoals?
+  goals    UserGoals[]
 }
 
 model Session {
@@ -63,7 +63,7 @@ model UserGoals {
   foodCarbsType      GoalType @default(CEILING)
   foodFatType        GoalType @default(CEILING)
 
-  userId Int @unique
+  userId Int
 }
 
 model Day {
