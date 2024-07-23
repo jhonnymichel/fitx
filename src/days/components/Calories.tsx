@@ -38,8 +38,6 @@ function Calories(props: CaloriesProps) {
     score = goal / props.day.foodCalories
   }
 
-  console.log(score)
-
   return (
     <div className="flex items-center justify-between space-x-5">
       <div className="shrink-0">

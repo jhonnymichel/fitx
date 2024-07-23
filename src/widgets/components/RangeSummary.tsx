@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/components/WidgetCard'
 import { parseCalorieDeficit } from 'src/fitnessMetrics/calorieDeficit'
 import classNames from 'classnames'
+import { parseMacros } from 'src/fitnessMetrics/macros'
 
 function ErrorLoadingSummary({ error, resetErrorBoundary }: ErrorFallbackProps) {
   if (error.name === 'NotFoundError') {
@@ -62,7 +63,12 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
   const avgs = {
     caloriesBurned: data.caloriesBurned / props.rangeInDays,
     foodCalories: data.foodCalories / props.rangeInDays,
+    foodCarbs: data.foodCarbs / props.rangeInDays,
+    foodProtein: data.foodProtein / props.rangeInDays,
+    foodFat: data.foodFat / props.rangeInDays,
   }
+
+  console.log(data.foodFat, avgs)
 
   const calorieDeficit = parseCalorieDeficit({
     caloriesBurned: avgs.caloriesBurned,
@@ -71,6 +77,13 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
   })
 
   const { deficit, goal, score, goalType } = calorieDeficit
+
+  const macros = parseMacros({
+    foodCarbs: avgs.foodCarbs,
+    foodFat: avgs.foodFat,
+    foodProtein: avgs.foodProtein,
+    goals: data.currentGoals,
+  })
 
   return (
     <div>
@@ -107,6 +120,57 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
         </div>
       </div>
       <hr className="m-3" />
+      <div className="flex items-end justify-between">
+        <p
+          className={classNames('text-lg font-extrabold', {
+            'text-emerald-500': macros.carbs.score <= 1,
+            'text-emerald-400': macros.carbs.score > 1 && macros.carbs.score <= 1.15,
+            'text-yellow-500': macros.carbs.score > 1.15 && macros.carbs.score <= 1.3,
+            'text-red-500': macros.carbs.score > 1.3 && macros.carbs.score <= 1.45,
+            'text-red-700': macros.carbs.score >= 1.45,
+          })}
+        >
+          {Math.round(macros.carbs.value)}
+          <span className="text-sm text-neutral-500">/{macros.carbs.goal}g</span>
+        </p>
+        <div className={classNames('text-sm text-neutral-500 uppercase text-bold')}>
+          Carbs (avg.)
+        </div>
+      </div>
+
+      <div className="flex items-end justify-between">
+        <p
+          className={classNames('text-lg font-extrabold', {
+            'text-emerald-500': macros.protein.score <= 1,
+            'text-emerald-400': macros.protein.score > 1 && macros.protein.score <= 1.15,
+            'text-yellow-500': macros.protein.score > 1.15 && macros.protein.score <= 1.3,
+            'text-red-500': macros.protein.score > 1.3 && macros.protein.score <= 1.45,
+            'text-red-700': macros.protein.score >= 1.45,
+          })}
+        >
+          {Math.round(macros.protein.value)}
+          <span className="text-sm text-neutral-500">/{macros.protein.goal}g</span>
+        </p>
+        <div className={classNames('text-sm text-neutral-500 uppercase text-bold')}>
+          protein (avg.)
+        </div>
+      </div>
+
+      <div className="flex items-end justify-between">
+        <p
+          className={classNames('text-lg font-extrabold', {
+            'text-emerald-500': macros.fat.score <= 1,
+            'text-emerald-400': macros.fat.score > 1 && macros.fat.score <= 1.15,
+            'text-yellow-500': macros.fat.score > 1.15 && macros.fat.score <= 1.3,
+            'text-red-500': macros.fat.score > 1.3 && macros.fat.score <= 1.45,
+            'text-red-700': macros.fat.score >= 1.45,
+          })}
+        >
+          {Math.round(macros.fat.value)}
+          <span className="text-sm text-neutral-500">/{macros.fat.goal}g</span>
+        </p>
+        <div className={classNames('text-sm text-neutral-500 uppercase text-bold')}>fat (avg.)</div>
+      </div>
     </div>
   )
 }
