@@ -1,13 +1,13 @@
-import { DayGoals, UserGoals } from 'db'
+import { UserGoals } from 'db'
 
-export function getCaloriesGoalType(goals: UserGoals | DayGoals | null): 'SUPERAVIT' | 'DEFICIT' {
+export function getCaloriesGoalType(goals: UserGoals | null): 'SUPERAVIT' | 'DEFICIT' {
   return goals?.foodCaloriesType === 'FLOOR' ? 'SUPERAVIT' : 'DEFICIT'
 }
 
 type CalorieDeficitParserConstructor = {
   caloriesBurned: number
   foodCalories: number
-  goals: UserGoals | DayGoals | null
+  goals: UserGoals | null
 }
 
 export function parseCalorieDeficit(metrics: CalorieDeficitParserConstructor) {

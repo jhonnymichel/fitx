@@ -63,7 +63,10 @@ model UserGoals {
   foodCarbsType      GoalType @default(CEILING)
   foodFatType        GoalType @default(CEILING)
 
+  completed Boolean @default(false)
+
   userId Int
+  days   Day[]
 }
 
 model Day {
@@ -86,31 +89,13 @@ model Day {
 
   caloriesBurned Int @default(0)
 
-  user   User?     @relation(fields: [userId], references: [id])
+  user   User? @relation(fields: [userId], references: [id])
   userId Int?
-  goals  DayGoals?
-  goalId Int?
+
+  goals       UserGoals @relation(fields: [userGoalsId], references: [id])
+  userGoalsId Int
 
   @@unique([userId, date], name: "uniqueDatePerUser")
-}
-
-model DayGoals {
-  id  Int @id @default(autoincrement())
-  day Day @relation(fields: [dayId], references: [id])
-
-  foodCalories   Int @default(2300)
-  foodProtein    Int @default(150)
-  foodCarbs      Int @default(250)
-  foodFat        Int @default(100)
-  caloriesBurned Int @default(3000)
-
-  caloriesBurnedType GoalType @default(FLOOR)
-  foodCaloriesType   GoalType @default(CEILING)
-  foodProteinType    GoalType @default(FLOOR)
-  foodCarbsType      GoalType @default(CEILING)
-  foodFatType        GoalType @default(CEILING)
-
-  dayId Int @unique
 }
 
 model Token {

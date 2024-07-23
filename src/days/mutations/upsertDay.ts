@@ -5,7 +5,14 @@ import * as z from 'zod'
 type UpsertDay = {
   data: Omit<
     Prisma.DayCreateArgs['data'],
-    'date' | 'userId' | 'id' | 'cardioType' | 'cardioCount' | 'strengthDone' | 'strengthType'
+    | 'date'
+    | 'userId'
+    | 'id'
+    | 'cardioType'
+    | 'cardioCount'
+    | 'strengthDone'
+    | 'strengthType'
+    | 'userGoalsId'
   >
   date: Date
 }
@@ -24,14 +31,7 @@ export default async function upsertDay({ date, data }: UpsertDay, ctx: Ctx) {
   const goals = await db.userGoals.findFirstOrThrow({
     where: { userId: ctx.session.userId },
     select: {
-      foodCalories: true,
-      foodCaloriesType: true,
-      foodCarbs: true,
-      foodCarbsType: true,
-      foodFat: true,
-      foodFatType: true,
-      foodProtein: true,
-      foodProteinType: true,
+      id: true,
     },
   })
 
@@ -46,12 +46,14 @@ export default async function upsertDay({ date, data }: UpsertDay, ctx: Ctx) {
         },
       },
       goals: {
-        create: {
-          ...goals,
+        connect: {
+          id: goals.id,
         },
       },
     },
-    update: data,
+    update: {
+      ...data,
+    },
   })
 
   return day

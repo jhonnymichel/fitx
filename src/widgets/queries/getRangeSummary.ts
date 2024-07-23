@@ -45,7 +45,7 @@ export default resolver.pipe(
         foodCarbs: 0,
         foodProtein: 0,
         foodFat: 0,
-        currentGoals: null,
+        currentGoals: days[0].goals,
       }
     )
   }

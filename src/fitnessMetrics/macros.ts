@@ -1,4 +1,4 @@
-import { DayGoals, GoalType, UserGoals } from 'db'
+import { GoalType, UserGoals } from 'db'
 
 export function calculateMacroPercentages(carbs: number, protein: number, fat: number) {
   // Caloric values per gram
@@ -30,7 +30,7 @@ type MacroParserConstructor = {
   foodFat: number
   foodProtein: number
   foodCarbs: number
-  goals: UserGoals | DayGoals | null
+  goals: UserGoals | null
 }
 
 export type ParsedMacro = ReturnType<typeof parseMacros>['carbs']

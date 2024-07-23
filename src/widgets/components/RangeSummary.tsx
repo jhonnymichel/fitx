@@ -68,8 +68,6 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
     foodFat: data.foodFat / props.rangeInDays,
   }
 
-  console.log(data.foodFat, avgs)
-
   const calorieDeficit = parseCalorieDeficit({
     caloriesBurned: avgs.caloriesBurned,
     foodCalories: avgs.foodCalories,
