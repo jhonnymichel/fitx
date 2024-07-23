@@ -96,7 +96,7 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
             'text-red-700': deficit < 0,
           })}
         >
-          {deficit}
+          {Math.round(deficit)}
           <span className="text-sm text-neutral-500">/{goal} kcal.</span>
         </p>
         <div className={classNames('text-sm text-neutral-500 uppercase text-bold')}>
@@ -112,7 +112,7 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
             'text-red-700': deficit < 0,
           })}
         >
-          {totals.calorieDeficit}
+          {Math.round(totals.calorieDeficit)}
           <span className="text-sm text-neutral-500"> kcal.</span>
         </p>
         <div className={classNames('text-sm text-neutral-500 uppercase text-bold')}>
