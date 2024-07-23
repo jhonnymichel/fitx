@@ -1,4 +1,4 @@
-import { setQueryData } from '@blitzjs/rpc'
+import { invalidateQuery, setQueryData } from '@blitzjs/rpc'
 import { useMutation } from '@blitzjs/rpc'
 import classNames from 'classnames'
 import * as Icons from 'src/components/icons'
@@ -8,6 +8,7 @@ import { Form, Formik } from 'formik'
 import getDay, { DayPayload } from '../queries/getDay'
 import upsertDay from '../mutations/upsertDay'
 import SubmitButton from 'src/auth/components/SubmitButton'
+import getRangeSummary from 'src/widgets/queries/getRangeSummary'
 
 type InputProps = TextFieldProps
 
@@ -96,19 +97,20 @@ function DayForm({ currentDate, data: day, onEditFinished }: DayFormProps) {
         }
 
         try {
-          await upsert({ date: currentDate, data })
+          const responseData = await upsert({ date: currentDate, data })
 
           setQueryData(
             getDay,
             {
               where: { date: { equals: currentDate } },
             },
-            (oldData) => ({
-              ...data,
-              date: currentDate,
-              goals: oldData?.goals ?? null,
-            })
+            responseData,
+            {
+              refetch: false,
+            }
           )
+
+          invalidateQuery(getRangeSummary)
 
           onEditFinished()
         } catch (e) {

@@ -54,6 +54,15 @@ export default async function upsertDay({ date, data }: UpsertDay, ctx: Ctx) {
     update: {
       ...data,
     },
+    select: {
+      date: true,
+      caloriesBurned: true,
+      foodCalories: true,
+      foodCarbs: true,
+      foodProtein: true,
+      foodFat: true,
+      goals: true,
+    },
   })
 
   return day
