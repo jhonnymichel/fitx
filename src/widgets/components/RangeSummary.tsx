@@ -60,11 +60,11 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
   }
 
   const avgs = {
-    caloriesBurned: data.caloriesBurned / props.rangeInDays,
-    foodCalories: data.foodCalories / props.rangeInDays,
-    foodCarbs: data.foodCarbs / props.rangeInDays,
-    foodProtein: data.foodProtein / props.rangeInDays,
-    foodFat: data.foodFat / props.rangeInDays,
+    caloriesBurned: data.caloriesBurned / data.dayCount,
+    foodCalories: data.foodCalories / data.dayCount,
+    foodCarbs: data.foodCarbs / data.dayCount,
+    foodProtein: data.foodProtein / data.dayCount,
+    foodFat: data.foodFat / data.dayCount,
   }
 
   const calorieDeficit = parseCalorieDeficit({
