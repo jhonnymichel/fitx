@@ -1,7 +1,7 @@
 import { DateTime, Duration } from 'luxon'
 
 export function getCurrentDay() {
-  return DateTime.local().startOf('day').toJSDate()
+  return DateTime.utc().startOf('day').toJSDate()
 }
 
 export function getNextDay(date: Date) {
@@ -13,7 +13,7 @@ export function getPreviousDay(date: Date) {
 }
 
 export function getCurrentWeekRange(): [Date, Date] {
-  const start = DateTime.local().startOf('week')
+  const start = DateTime.utc().startOf('week')
   const end = start.endOf('week')
 
   return [start.toJSDate(), end.toJSDate()]
@@ -42,7 +42,7 @@ export function getNextWeekRange(date: Date): [Date, Date] {
 }
 
 export function getWeekProgress(startDate: Date, endDate: Date, progress = 0): number {
-  const now = DateTime.local()
+  const now = DateTime.utc()
   const start = DateTime.fromJSDate(startDate)
   const end = DateTime.fromJSDate(endDate)
   const dateToCheck = start.plus({ days: progress })
