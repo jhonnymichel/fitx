@@ -24,7 +24,7 @@ export function getCurrentWeekRange(): [Date, Date] {
 }
 
 export function subtractDays(date: Date, days: number): Date {
-  const result = DateTime.fromJSDate(date).minus(Duration.fromObject({ days: days - 1 }))
+  const result = DateTime.fromJSDate(date).minus(Duration.fromObject({ days: days }))
 
   return result.toJSDate()
 }
