@@ -9,6 +9,8 @@ import { useState } from 'react'
 import { useQuery } from '@blitzjs/rpc'
 import getDay from 'src/days/queries/getDay'
 import DayForm from 'src/days/components/DayForm'
+import React from 'react'
+import Slider from 'react-slick'
 import RangeSummary from 'src/widgets/components/RangeSummary'
 
 function Index() {
@@ -70,7 +72,26 @@ function Index() {
                       Enter Data
                     </button>
                   </div>
-                  <RangeSummary rangeInDays={30} currentDate={currentDate} />
+                  <div className="bg-neutral-100">
+                    <Slider
+                      arrows={false}
+                      dots={true}
+                      slidesToShow={1}
+                      slidesToScroll={1}
+                      slidesPerRow={1}
+                      rows={1}
+                    >
+                      <div>
+                        <RangeSummary rangeInDays={10} currentDate={currentDate} />
+                      </div>
+                      <div>
+                        <RangeSummary rangeInDays={30} currentDate={currentDate} />
+                      </div>
+                      <div>
+                        <RangeSummary rangeInDays={90} currentDate={currentDate} />
+                      </div>
+                    </Slider>
+                  </div>
                 </Card>
               )}
             </CSSTransition>

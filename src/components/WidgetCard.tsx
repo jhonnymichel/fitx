@@ -1,5 +1,11 @@
-export function WidgetCard(props: { children: React.ReactNode }) {
-  return <section className="w-full p-2 space-y-2 bg-neutral-100">{props.children}</section>
+import classNames from 'classnames'
+
+export function WidgetCard(props: { className?: string; children: React.ReactNode }) {
+  return (
+    <section className={classNames('w-full p-2 space-y-2 bg-neutral-100', props.className)}>
+      {props.children}
+    </section>
+  )
 }
 
 export function WidgetCardTitle(props: { children: React.ReactNode }) {

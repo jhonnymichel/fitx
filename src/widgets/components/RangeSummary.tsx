@@ -8,9 +8,41 @@ import { parseCalorieDeficit } from 'src/fitnessMetrics/calorieDeficit'
 import classNames from 'classnames'
 import { parseMacros } from 'src/fitnessMetrics/macros'
 
-function ErrorLoadingSummary({ error, resetErrorBoundary }: ErrorFallbackProps) {
+type RangeSummaryProps = {
+  rangeInDays: number
+  currentDate: Date
+}
+
+type TitleProps = {
+  dayCount: number
+  foundCount?: number
+}
+
+function Title(props: TitleProps) {
+  return (
+    <WidgetCardTitle>
+      <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>
+      <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
+      <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
+      <span>
+        Last {props.dayCount} days {(props?.foundCount ?? 0) > 0 && `(found ${props.foundCount})`}
+      </span>
+    </WidgetCardTitle>
+  )
+}
+
+function ErrorLoadingSummary({
+  error,
+  resetErrorBoundary,
+  rangeInDays,
+}: ErrorFallbackProps & RangeSummaryProps) {
   if (error.name === 'NotFoundError') {
-    return <>NO DATA</>
+    return (
+      <>
+        <Title dayCount={rangeInDays}></Title>
+        <div>NO DATA</div>
+      </>
+    )
   }
 
   return (
@@ -28,21 +60,19 @@ function ErrorLoadingSummary({ error, resetErrorBoundary }: ErrorFallbackProps) 
   )
 }
 
-function LoadingSummary() {
+function LoadingSummary(props: RangeSummaryProps) {
   return (
-    <div className="self-center ph-item">
-      <div>
-        <div className="ph-row">
-          <div className="ph-col-6"></div>
+    <>
+      <Title dayCount={props.rangeInDays}></Title>
+      <div className="self-center ph-item">
+        <div>
+          <div className="ph-row">
+            <div className="ph-col-6"></div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
-}
-
-type RangeSummaryProps = {
-  rangeInDays: number
-  currentDate: Date
 }
 
 function RangeSummaryWidget(props: RangeSummaryProps) {
@@ -84,12 +114,7 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
 
   return (
     <>
-      <WidgetCardTitle>
-        <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>
-        <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
-        <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
-        <span>Last {data.dayCount} days</span>
-      </WidgetCardTitle>
+      <Title dayCount={props.rangeInDays} foundCount={data.dayCount}></Title>
       <div className="flex items-end justify-between">
         <p
           className={classNames('text-lg font-extrabold', {
@@ -184,12 +209,12 @@ function RangeSummary(props: RangeSummaryProps) {
   return (
     <WidgetCard>
       <ErrorBoundary
-        FallbackComponent={ErrorLoadingSummary}
+        fallbackRender={(fallbackProps) => <ErrorLoadingSummary {...fallbackProps} {...props} />}
         onReset={() => {
           boundary.reset()
         }}
       >
-        <Suspense fallback={<LoadingSummary />}>
+        <Suspense fallback={<LoadingSummary {...props} />}>
           <RangeSummaryWidget {...props} />
         </Suspense>
       </ErrorBoundary>
