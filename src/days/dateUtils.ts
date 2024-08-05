@@ -5,7 +5,7 @@ export function getCurrentDay() {
 }
 
 export function getSameDayInUTC(date: Date) {
-  return DateTime.fromJSDate(date).setZone('utc', { keepLocalTime: true }).toJSDate()
+  return DateTime.fromJSDate(date).setZone('utc', { keepLocalTime: true }).startOf('day').toJSDate()
 }
 
 export function getNextDay(date: Date) {
