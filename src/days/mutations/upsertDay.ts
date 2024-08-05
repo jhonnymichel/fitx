@@ -1,6 +1,7 @@
 import { Ctx } from 'blitz'
 import db, { Prisma } from 'db'
 import * as z from 'zod'
+import { getSameDayInUTC } from '../dateUtils'
 
 type UpsertDay = {
   data: Omit<
@@ -35,10 +36,12 @@ export default async function upsertDay({ date, data }: UpsertDay, ctx: Ctx) {
     },
   })
 
+  const normalizedDate = getSameDayInUTC(date)
+
   const day = await db.day.upsert({
-    where: { uniqueDatePerUser: { date, userId: ctx.session.userId } },
+    where: { uniqueDatePerUser: { date: normalizedDate, userId: ctx.session.userId } },
     create: {
-      date,
+      date: normalizedDate,
       ...data,
       user: {
         connect: {

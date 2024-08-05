@@ -27,7 +27,7 @@ function Index() {
   const [data, { refetch, error, isLoading }] = useQuery(
     getDay,
     {
-      where: { date: { equals: currentDate } },
+      date: currentDate,
     },
     { suspense: false, useErrorBoundary: false }
   )

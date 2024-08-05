@@ -102,7 +102,7 @@ function DayForm({ currentDate, data: day, onEditFinished }: DayFormProps) {
           setQueryData(
             getDay,
             {
-              where: { date: { equals: currentDate } },
+              date: currentDate,
             },
             responseData,
             {

@@ -1,13 +1,16 @@
 import { NotFoundError } from 'blitz'
 import { Ctx } from 'blitz'
-import db, { Prisma } from 'db'
+import db from 'db'
+import { getSameDayInUTC } from '../dateUtils'
 
-type GetDayInput = Pick<Prisma.DayFindFirstArgs, 'where'>
-
-export default async function getDay({ where }: GetDayInput, ctx: Ctx) {
+type GetDayInput = { date: Date }
+export default async function getDay({ date }: GetDayInput, ctx: Ctx) {
   ctx.session.$authorize()
+
+  const normalizedDate = getSameDayInUTC(date)
+
   const day = await db.day.findFirst({
-    where: { ...where, userId: ctx.session.userId },
+    where: { date: { equals: normalizedDate }, userId: ctx.session.userId },
     select: {
       date: true,
       caloriesBurned: true,
