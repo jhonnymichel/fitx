@@ -1,4 +1,4 @@
-import { invalidateQuery, setQueryData } from '@blitzjs/rpc'
+import { invalidateQuery, setQueryData, useQueryErrorResetBoundary } from '@blitzjs/rpc'
 import { useMutation } from '@blitzjs/rpc'
 import classNames from 'classnames'
 import * as Icons from 'src/components/icons'
@@ -84,6 +84,7 @@ type DayFormProps = {
 
 function DayForm({ currentDate, data: day, onEditFinished }: DayFormProps) {
   const [upsert] = useMutation(upsertDay)
+  const { reset: resetErrorBoundaries } = useQueryErrorResetBoundary()
 
   return (
     <Formik
@@ -111,6 +112,7 @@ function DayForm({ currentDate, data: day, onEditFinished }: DayFormProps) {
           )
 
           invalidateQuery(getRangeSummary)
+          resetErrorBoundaries()
 
           onEditFinished()
         } catch (e) {
