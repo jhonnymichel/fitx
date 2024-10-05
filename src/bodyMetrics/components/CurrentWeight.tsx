@@ -34,7 +34,7 @@ function CurrentWeight(props: CurrentWeightProps) {
   }
 
   return (
-    <div className="flex flex-col justify-center space-y-1">
+    <div className="flex items-center justify-center space-x-2">
       <h1 className="text-sm font-extrabold text-center uppercase text-neutral-600">No Data</h1>
       <div>
         <button type="button" className="block w-auto mx-auto mt-1 text-white bg-teal-700 button">
