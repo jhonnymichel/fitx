@@ -61,7 +61,7 @@ function MacroValue(props: MacroValueProps) {
 }
 
 type MacrosProps = {
-  day: DayPayload
+  day: NonNullable<DayPayload['day']>
 }
 
 function Macros(props: MacrosProps) {

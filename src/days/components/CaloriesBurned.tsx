@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import * as Icons from 'src/components/icons'
 
 type CaloriesBurnedProps = {
-  day: DayPayload
+  day: NonNullable<DayPayload['day']>
 }
 
 function CaloriesBurned(props: CaloriesBurnedProps) {

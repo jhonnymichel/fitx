@@ -3,7 +3,7 @@ import { DayPayload } from '../queries/getDay'
 import classNames from 'classnames'
 
 type CalorieDeficitProps = {
-  day: DayPayload
+  day: NonNullable<DayPayload['day']>
 }
 
 function CalorieDeficit(props: CalorieDeficitProps) {

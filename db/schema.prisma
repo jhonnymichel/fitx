@@ -21,10 +21,11 @@ model User {
   hashedPassword String?
   role           String   @default("user")
 
-  sessions Session[]
-  days     Day[]
-  tokens   Token[]
-  goals    UserGoals[]
+  sessions    Session[]
+  days        Day[]
+  tokens      Token[]
+  goals       UserGoals[]
+  BodyMetrics BodyMetrics[]
 }
 
 model Session {
@@ -67,6 +68,18 @@ model UserGoals {
 
   userId Int
   days   Day[]
+}
+
+model BodyMetrics {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date              DateTime
+  weightInKilograms Float
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 }
 
 model Day {

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { DayPayload } from '../queries/getDay'
 import classNames from 'classnames'
 import * as Icons from 'src/components/icons'
@@ -21,10 +20,25 @@ function ProgressBar({ score, width }: { score: number; width: number }) {
 }
 
 type CaloriesProps = {
-  day: DayPayload
+  day?: DayPayload['day']
 }
 
 function Calories(props: CaloriesProps) {
+  if (!props.day) {
+    return (
+      <div className="flex flex-col justify-center space-y-1">
+        <h1 className="text-sm font-extrabold text-center uppercase text-neutral-600">No Data</h1>
+        <div>
+          <button
+            type="button"
+            className="block w-auto mx-auto mt-4 mb-4 text-white bg-teal-700 button"
+          >
+            Log Intake
+          </button>
+        </div>
+      </div>
+    )
+  }
   const goalType = props.day.goals?.foodCaloriesType ?? 'CEILING'
   const goal = props.day.goals?.foodCalories ?? 2300
 

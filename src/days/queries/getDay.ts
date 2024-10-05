@@ -1,4 +1,3 @@
-import { NotFoundError } from 'blitz'
 import { Ctx } from 'blitz'
 import db from 'db'
 import { getSameDayInUTC } from '../dateUtils'
@@ -8,6 +7,12 @@ export default async function getDay({ date }: GetDayInput, ctx: Ctx) {
   ctx.session.$authorize()
 
   const normalizedDate = getSameDayInUTC(date)
+  const bodyMetrics = await db.bodyMetrics.findFirst({
+    where: {
+      userId: ctx.session.userId,
+      date: { lte: date },
+    },
+  })
 
   const day = await db.day.findFirst({
     where: { date: { equals: normalizedDate }, userId: ctx.session.userId },
@@ -22,9 +27,7 @@ export default async function getDay({ date }: GetDayInput, ctx: Ctx) {
     },
   })
 
-  if (!day) throw new NotFoundError()
-
-  return day
+  return { day, bodyMetrics }
 }
 
 export type DayPayload = Awaited<ReturnType<typeof getDay>>

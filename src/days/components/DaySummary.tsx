@@ -7,6 +7,7 @@ import CaloriesBurned from './CaloriesBurned'
 import CalorieDeficit from './CalorieDeficit'
 import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/components/WidgetCard'
 import { getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
+import CurrentWeight from 'src/bodyMetrics/components/CurrentWeight'
 
 type DaySummaryProps = {
   isLoading: boolean
@@ -15,7 +16,7 @@ type DaySummaryProps = {
   error: unknown
 }
 
-function DaySummary({ data: day, refetch, error, isLoading }: DaySummaryProps) {
+function DaySummary({ data, refetch, error, isLoading }: DaySummaryProps) {
   if (error && (error as Error).name !== 'NotFoundError') {
     return <ErrorMessage error={error as Error} resetErrorBoundary={refetch} />
   }
@@ -24,45 +25,57 @@ function DaySummary({ data: day, refetch, error, isLoading }: DaySummaryProps) {
     return <div>Loading</div>
   }
 
-  if (day) {
-    return (
-      <div className="space-y-3">
+  return (
+    <div className="space-y-3">
+      <div className="flex space-x-3">
+        <div className="flex shrink-0">
+          <WidgetCard>
+            <WidgetCardTitle>
+              <span>Weight</span>
+            </WidgetCardTitle>
+            <CurrentWeight bodyMetrics={data?.bodyMetrics}></CurrentWeight>
+          </WidgetCard>
+        </div>
         <WidgetCard>
           <WidgetCardTitle>
             <span>Calories Consumed</span>
           </WidgetCardTitle>
-          <Calories day={day}></Calories>
+          <Calories day={data?.day}></Calories>
         </WidgetCard>
-        <WidgetCard>
-          <WidgetCardTitle>
-            <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
-            <span>Macros Consumed</span>
-          </WidgetCardTitle>
-          <Macros day={day}></Macros>
-        </WidgetCard>
-        <div className="flex space-x-3 xl:space-x-4">
-          <WidgetCard>
-            <WidgetCardTitle>
-              <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>
-              <span>Calories Burned</span>
-            </WidgetCardTitle>
-            <CaloriesBurned day={day} />
-          </WidgetCard>
-          <WidgetCard>
-            <WidgetCardTitle>
-              <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
-              <span>
-                Calorie {getCaloriesGoalType(day.goals) === 'DEFICIT' ? 'Deficit' : 'Superavit'}
-              </span>
-            </WidgetCardTitle>
-            <CalorieDeficit day={day} />
-          </WidgetCard>
-        </div>
       </div>
-    )
-  }
 
-  return <div>NO DATA</div>
+      {data?.day && (
+        <>
+          <WidgetCard>
+            <WidgetCardTitle>
+              <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
+              <span>Macros Consumed</span>
+            </WidgetCardTitle>
+            <Macros day={data.day}></Macros>
+          </WidgetCard>
+          <div className="flex space-x-3 xl:space-x-4">
+            <WidgetCard>
+              <WidgetCardTitle>
+                <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>
+                <span>Calories Burned</span>
+              </WidgetCardTitle>
+              <CaloriesBurned day={data.day} />
+            </WidgetCard>
+            <WidgetCard>
+              <WidgetCardTitle>
+                <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
+                <span>
+                  Calorie{' '}
+                  {getCaloriesGoalType(data.day.goals) === 'DEFICIT' ? 'Deficit' : 'Superavit'}
+                </span>
+              </WidgetCardTitle>
+              <CalorieDeficit day={data.day} />
+            </WidgetCard>
+          </div>
+        </>
+      )}
+    </div>
+  )
 }
 
 export default DaySummary
