@@ -33,11 +33,16 @@ function DaySummary({ data, refetch, error, isLoading }: DaySummaryProps) {
             <WidgetCardTitle>
               <span>Weight</span>
             </WidgetCardTitle>
-            <CurrentWeight bodyMetrics={data?.bodyMetrics}></CurrentWeight>
+            <CurrentWeight
+              bodyMetrics={data?.bodyMetrics}
+              deficitType={getCaloriesGoalType(data?.day?.goals ?? null)}
+            ></CurrentWeight>
           </WidgetCard>
         </div>
         <WidgetCard>
           <WidgetCardTitle>
+            <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
+
             <span>Calories Consumed</span>
           </WidgetCardTitle>
           <Calories day={data?.day}></Calories>

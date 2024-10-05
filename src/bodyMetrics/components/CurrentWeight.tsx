@@ -1,16 +1,33 @@
-import { BodyMetrics } from 'db'
+import classNames from 'classnames'
+import { DayPayload } from 'src/days/queries/getDay'
+import { getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
 
 type CurrentWeightProps = {
-  bodyMetrics?: BodyMetrics | null
+  bodyMetrics?: DayPayload['bodyMetrics'] | null
+  deficitType?: ReturnType<typeof getCaloriesGoalType>
 }
 
 function CurrentWeight(props: CurrentWeightProps) {
   if (props.bodyMetrics) {
+    const { weightInKilograms, weightDelta } = props.bodyMetrics
+
     return (
       <div>
-        <h1 className="text-2xl font-extrabold text-neutral-600">
-          {props.bodyMetrics.weightInKilograms}
+        <h1 className="text-3xl font-extrabold text-neutral-600">
+          {weightInKilograms}
           <span className="text-xl">kg</span>
+          {weightDelta && (
+            <span
+              className={classNames('ml-1 text-sm text-neutral-500', {
+                '!text-green-600':
+                  (props.deficitType === 'DEFICIT' && weightDelta <= 0) ||
+                  (props.deficitType === 'SUPERAVIT' && weightDelta > 0),
+              })}
+            >
+              ({weightDelta > 0 && '+'}
+              {weightDelta.toFixed(1)})
+            </span>
+          )}
         </h1>
       </div>
     )

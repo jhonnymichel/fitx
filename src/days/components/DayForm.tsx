@@ -44,8 +44,8 @@ function FieldEditMode(props: FieldEditModeProps) {
         className="w-24 xl:text-xl"
         name={props.name}
         type="number"
-        pattern="[0-9]*"
         min="0"
+        step="0.01"
         aria-label={props.ariaLabel || props.name}
       />
       <span className="mb-1 text-base font-bold uppercase text-neutral-500 xl:text-lg">
@@ -105,11 +105,11 @@ function DayForm({ currentDate, data, onEditFinished }: DayFormProps) {
               (oldData) => {
                 return {
                   day: oldData?.day ?? null,
-                  bodyMetrics: responseData,
+                  bodyMetrics: { ...responseData, weightDelta: null },
                 }
               },
               {
-                refetch: false,
+                refetch: true,
               }
             )
 

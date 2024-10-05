@@ -118,7 +118,7 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
       <div className="flex items-end justify-between">
         <p
           className={classNames('text-lg font-extrabold', {
-            'text-emerald-500': deficit > goal,
+            'text-emerald-500': deficit >= goal,
             'text-emerald-400': deficit > 0 && score >= 0.66 && score < 1,
             'text-yellow-500': deficit > 0 && score < 0.66,
             'text-red-700': deficit < 0,
@@ -134,7 +134,7 @@ function RangeSummaryWidget(props: RangeSummaryProps) {
       <div className="flex items-end justify-between">
         <p
           className={classNames('text-lg font-extrabold', {
-            'text-emerald-500': deficit > goal,
+            'text-emerald-500': deficit >= goal,
             'text-emerald-400': deficit > 0 && score >= 0.66 && score < 1,
             'text-yellow-500': deficit > 0 && score < 0.66,
             'text-red-700': deficit < 0,

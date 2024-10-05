@@ -13,11 +13,20 @@ export default resolver.pipe(
   resolver.authorize(),
   async function logBodyMetrics(data, ctx) {
     const { weightInKilograms, date } = data
-    return db.bodyMetrics.create({
-      data: {
+
+    const normalizedDate = getSameDayInUTC(date)
+
+    return db.bodyMetrics.upsert({
+      where: {
+        uniqueDatePerUser: { date: normalizedDate, userId: ctx.session.userId },
+      },
+      create: {
         userId: ctx.session.userId,
         weightInKilograms,
-        date: getSameDayInUTC(date),
+        date: normalizedDate,
+      },
+      update: {
+        weightInKilograms,
       },
     })
   }

@@ -16,7 +16,7 @@ function CalorieDeficit(props: CalorieDeficitProps) {
         <div className="flex justify-between w-full space-x-2">
           <p
             className={classNames('text-2xl font-extrabold', {
-              'text-emerald-500': deficit > goal,
+              'text-emerald-500': deficit >= goal,
               'text-emerald-400': deficit > 0 && score >= 0.66 && score < 1,
               'text-yellow-500': deficit > 0 && score < 0.66,
               'text-red-700': deficit < 0,

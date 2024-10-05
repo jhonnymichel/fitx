@@ -1,18 +1,32 @@
 import { Ctx } from 'blitz'
 import db from 'db'
-import { getSameDayInUTC } from '../dateUtils'
+import { getEndOfDay, getSameDayInUTC } from '../dateUtils'
 
 type GetDayInput = { date: Date }
 export default async function getDay({ date }: GetDayInput, ctx: Ctx) {
   ctx.session.$authorize()
 
   const normalizedDate = getSameDayInUTC(date)
-  const bodyMetrics = await db.bodyMetrics.findFirst({
+  const [currentMetrics, previousMetrics] = await db.bodyMetrics.findMany({
     where: {
       userId: ctx.session.userId,
-      date: { lte: date },
+      date: { lte: getEndOfDay(normalizedDate) },
     },
+    orderBy: {
+      date: 'desc',
+    },
+    take: 2,
   })
+
+  const bodyMetrics = currentMetrics
+    ? {
+        ...currentMetrics,
+        weightDelta:
+          currentMetrics && previousMetrics
+            ? currentMetrics.weightInKilograms - previousMetrics?.weightInKilograms
+            : null,
+      }
+    : null
 
   const day = await db.day.findFirst({
     where: { date: { equals: normalizedDate }, userId: ctx.session.userId },

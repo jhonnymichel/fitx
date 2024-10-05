@@ -54,9 +54,6 @@ function Calories(props: CaloriesProps) {
 
   return (
     <div className="flex items-center justify-between space-x-5">
-      <div className="shrink-0">
-        <Icons.Food className="!w-12 !h-12" />
-      </div>
       <div className="flex flex-col items-end w-full">
         <ProgressBar score={score} width={props.day.foodCalories / goal} />
         <div className="flex justify-between w-full space-x-2">

@@ -8,6 +8,14 @@ export function getSameDayInUTC(date: Date) {
   return DateTime.fromJSDate(date).setZone('utc', { keepLocalTime: true }).startOf('day').toJSDate()
 }
 
+export function getEndOfDay(date: Date) {
+  return DateTime.fromJSDate(date).endOf('day').toJSDate()
+}
+
+export function getDateInUTC(date: Date) {
+  return DateTime.fromJSDate(date).setZone('utc', { keepLocalTime: true }).toJSDate()
+}
+
 export function getNextDay(date: Date) {
   return DateTime.fromJSDate(date).startOf('day').plus({ days: 1 }).toJSDate()
 }
