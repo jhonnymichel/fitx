@@ -80,6 +80,8 @@ model BodyMetrics {
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date], name: "uniqueDatePerUser")
 }
 
 model Day {
