@@ -95,11 +95,11 @@ function Index() {
                         <RangeSummary rangeInDays={10} currentDate={currentDate} />
                       </div>
                       <div>
-                        <WeightProgress rangeInDays={10} currentDate={currentDate} />
+                        <WeightProgress rangeInDays={30} currentDate={currentDate} />
                         <RangeSummary rangeInDays={30} currentDate={currentDate} />
                       </div>
                       <div>
-                        <WeightProgress rangeInDays={10} currentDate={currentDate} />
+                        <WeightProgress rangeInDays={90} currentDate={currentDate} />
                         <RangeSummary rangeInDays={90} currentDate={currentDate} />
                       </div>
                     </Slider>
