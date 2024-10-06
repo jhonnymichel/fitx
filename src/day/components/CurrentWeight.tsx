@@ -16,11 +16,11 @@ function CurrentWeight(props: CurrentWeightProps) {
         <h1 className="text-3xl font-extrabold text-neutral-600">
           {weightInKilograms}
           <span className="text-xl">kg</span>
-          {weightDelta && (
+          {weightDelta && weightDelta != 0 && (
             <span
               className={classNames('ml-1 text-sm text-neutral-500', {
                 '!text-green-600':
-                  (props.deficitType === 'DEFICIT' && weightDelta <= 0) ||
+                  (props.deficitType === 'DEFICIT' && weightDelta < 0) ||
                   (props.deficitType === 'SUPERAVIT' && weightDelta > 0),
               })}
             >
