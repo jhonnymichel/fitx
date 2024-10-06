@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { DayPayload } from 'src/days/queries/getDay'
+import { DayPayload } from 'src/day/queries/getDay'
 import { getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
 
 type CurrentWeightProps = {

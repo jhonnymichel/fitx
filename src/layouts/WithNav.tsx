@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
-import Nav from 'src/components/Nav'
+import Nav from 'src/core/components/Nav'
 import UserBar from 'src/auth/components/UserBar'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 

@@ -1,18 +1,18 @@
 import { useQuery } from '@blitzjs/rpc'
-import Card from 'src/components/Card'
+import Card from 'src/core/components/Card'
 import { getWithNavLayout } from 'src/layouts/WithNav'
 import {
   getCurrentWeekRange,
   getNextWeekRange,
   getPreviousWeekRange,
   getWeekProgress,
-} from 'src/days/dateUtils'
-import WeekHeader from 'src/days/components/WeekHeader'
-import ErrorMessage from 'src/components/ErrorMessage'
+} from 'src/core/dateUtils'
+import WeekHeader from 'src/day/components/WeekHeader'
+import ErrorMessage from 'src/core/components/ErrorMessage'
 import useStepTransition, { transitionDuration } from 'src/hooks/useStepTransition'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
-import getDays from 'src/days/queries/getDays'
-import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from 'src/days/getScore'
+import getDays from 'src/day/queries/getDays'
+import getDayScore, { getCardioScore, getFoodScore, getStrengthScore } from 'src/day/getScore'
 
 function Week({ range }: { range: [Date, Date] }) {
   const [start, end] = range

@@ -1,7 +1,7 @@
 import { Ctx } from 'blitz'
 import db, { Prisma } from 'db'
 import * as z from 'zod'
-import { getSameDayInUTC } from '../dateUtils'
+import { getSameDayInUTC } from '../../core/dateUtils'
 
 type UpsertDay = {
   data: Omit<
@@ -30,7 +30,7 @@ export default async function upsertDay({ date, data }: UpsertDay, ctx: Ctx) {
   NoDateAllowed.parse(data)
 
   const goals = await db.userGoals.findFirstOrThrow({
-    where: { userId: ctx.session.userId },
+    where: { userId: ctx.session.userId, completed: false },
     select: {
       id: true,
     },

@@ -1,13 +1,13 @@
-import * as Icons from 'src/components/icons'
+import * as Icons from 'src/core/components/icons'
 import { DayPayload } from '../queries/getDay'
-import ErrorMessage from 'src/components/ErrorMessage'
+import ErrorMessage from 'src/core/components/ErrorMessage'
 import Macros from './Macros'
 import Calories from './Calories'
 import CaloriesBurned from './CaloriesBurned'
 import CalorieDeficit from './CalorieDeficit'
-import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/components/WidgetCard'
 import { getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
-import CurrentWeight from 'src/bodyMetrics/components/CurrentWeight'
+import CurrentWeight from './CurrentWeight'
+import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/widgets/components/WidgetCard'
 
 type DaySummaryProps = {
   isLoading: boolean
@@ -26,11 +26,12 @@ function DaySummary({ data, refetch, error, isLoading }: DaySummaryProps) {
   }
 
   return (
-    <div className="space-y-3">
-      <div className="flex space-x-3">
+    <div className="space-y-2 xl:space-y-4">
+      <div className="flex space-x-2 xl:space-x-4">
         <div className="flex shrink-0">
           <WidgetCard>
             <WidgetCardTitle>
+              <WidgetCardIcon component={Icons.Scale}></WidgetCardIcon>
               <span>Weight</span>
             </WidgetCardTitle>
             <CurrentWeight
@@ -58,7 +59,7 @@ function DaySummary({ data, refetch, error, isLoading }: DaySummaryProps) {
             </WidgetCardTitle>
             <Macros day={data.day}></Macros>
           </WidgetCard>
-          <div className="flex space-x-3 xl:space-x-4">
+          <div className="flex space-x-2 xl:space-x-4">
             <WidgetCard>
               <WidgetCardTitle>
                 <WidgetCardIcon component={Icons.Cardio}></WidgetCardIcon>

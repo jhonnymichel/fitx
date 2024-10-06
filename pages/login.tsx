@@ -2,7 +2,7 @@ import { BlitzPage } from '@blitzjs/next'
 import React from 'react'
 import Layout from 'src/layouts/Layout'
 import { LoginForm } from 'src/auth/components/LoginForm'
-import Card from 'src/components/Card'
+import Card from 'src/core/components/Card'
 
 const LoginPage: BlitzPage = () => {
   return (

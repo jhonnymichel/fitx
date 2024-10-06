@@ -1,6 +1,6 @@
 import { resolver } from '@blitzjs/rpc'
 import db from 'db'
-import { getSameDayInUTC } from 'src/days/dateUtils'
+import { getSameDayInUTC } from 'src/core/dateUtils'
 import { z } from 'zod'
 
 const BodyMetrics = z.object({
@@ -16,12 +16,20 @@ export default resolver.pipe(
 
     const normalizedDate = getSameDayInUTC(date)
 
+    const goals = await db.userGoals.findFirstOrThrow({
+      where: { userId: ctx.session.userId, completed: false },
+      select: {
+        id: true,
+      },
+    })
+
     return db.bodyMetrics.upsert({
       where: {
         uniqueDatePerUser: { date: normalizedDate, userId: ctx.session.userId },
       },
       create: {
         userId: ctx.session.userId,
+        userGoalsId: goals.id,
         weightInKilograms,
         date: normalizedDate,
       },

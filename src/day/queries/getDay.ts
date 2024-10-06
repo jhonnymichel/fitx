@@ -1,6 +1,6 @@
 import { Ctx } from 'blitz'
 import db from 'db'
-import { getEndOfDay, getSameDayInUTC } from '../dateUtils'
+import { getEndOfDay, getSameDayInUTC } from '../../core/dateUtils'
 
 type GetDayInput = { date: Date }
 export default async function getDay({ date }: GetDayInput, ctx: Ctx) {

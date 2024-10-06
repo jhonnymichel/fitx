@@ -1,15 +1,15 @@
 import { invalidateQuery, setQueryData, useQueryErrorResetBoundary } from '@blitzjs/rpc'
 import { useMutation } from '@blitzjs/rpc'
 import classNames from 'classnames'
-import * as Icons from 'src/components/icons'
+import * as Icons from 'src/core/components/icons'
 import { forwardRef, useRef } from 'react'
-import TextField, { TextFieldProps } from 'src/components/TextField'
+import TextField, { TextFieldProps } from 'src/core/components/TextField'
 import { Form, Formik } from 'formik'
 import getDay, { DayPayload } from '../queries/getDay'
 import upsertDay from '../mutations/upsertDay'
 import SubmitButton from 'src/auth/components/SubmitButton'
 import getRangeSummary from 'src/widgets/queries/getRangeSummary'
-import logBodyMetrics from 'src/bodyMetrics/mutations/logBodyMetrics'
+import logBodyMetrics from 'src/day/mutations/logBodyMetrics'
 
 type InputProps = TextFieldProps
 

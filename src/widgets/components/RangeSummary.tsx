@@ -1,12 +1,12 @@
-import * as Icons from 'src/components/icons'
+import * as Icons from 'src/core/components/icons'
 import { useQuery, useQueryErrorResetBoundary } from '@blitzjs/rpc'
 import getRangeSummary from '../queries/getRangeSummary'
 import { ErrorBoundary, ErrorFallbackProps } from '@blitzjs/next'
 import { Suspense } from 'react'
-import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/components/WidgetCard'
 import { parseCalorieDeficit } from 'src/fitnessMetrics/calorieDeficit'
 import classNames from 'classnames'
 import { parseMacros } from 'src/fitnessMetrics/macros'
+import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from './WidgetCard'
 
 type RangeSummaryProps = {
   rangeInDays: number

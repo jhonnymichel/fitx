@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import { useMutation } from '@blitzjs/rpc'
 import React from 'react'
-import { Form, FORM_ERROR } from 'src/components/Form'
+import { Form, FORM_ERROR } from 'src/core/components/Form'
 import signup from 'src/auth/mutations/signup'
 import { Signup as SignupInput } from 'src/auth/validations'
-import LabeledTextField from 'src/components/TextField'
+import LabeledTextField from 'src/core/components/TextField'
 import FormTitle from './FormTitle'
 import SubmitButton from './SubmitButton'
 

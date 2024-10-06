@@ -1,4 +1,4 @@
-import { fix } from 'src/days/getScore'
+import { fix } from 'src/day/getScore'
 
 function getScoreTitle(score: number, noData?: boolean) {
   if (noData) {

@@ -1,6 +1,6 @@
 import { DayPayload } from '../queries/getDay'
 import classNames from 'classnames'
-import * as Icons from 'src/components/icons'
+import * as Icons from 'src/core/components/icons'
 
 type CaloriesBurnedProps = {
   day: NonNullable<DayPayload['day']>

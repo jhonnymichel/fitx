@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useEffect } from 'react'
 import Layout from 'src/layouts/Layout'
 import { SignupForm } from 'src/auth/components/SignupForm'
-import Card from 'src/components/Card'
+import Card from 'src/core/components/Card'
 
 const SignupPage: BlitzPage = () => {
   const router = useRouter()

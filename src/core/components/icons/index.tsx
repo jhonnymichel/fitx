@@ -1,22 +1,13 @@
 import classNames from 'classnames'
-import { CSSTransition } from 'react-transition-group'
-import FoodIcon from 'src/components/icons/colheita.svg'
-import CardioIcon from 'src/components/icons/tenis-de-corrida.svg'
-import StrengthIcon from 'src/components/icons/academia.svg'
-import LoadingCircle from '../LoadingCircle'
+import FoodIcon from 'src/core/components/icons/colheita.svg'
+import CardioIcon from 'src/core/components/icons/tenis-de-corrida.svg'
+import StrengthIcon from 'src/core/components/icons/academia.svg'
+import ScaleIcon from 'src/core/components/icons/scale.svg'
 
 type IconProps = {
   className?: string
   children: React.ReactNode
   isLoading?: boolean
-}
-
-function LoadingOverlay() {
-  return (
-    <div className="absolute z-50 scale-50">
-      <LoadingCircle />
-    </div>
-  )
 }
 
 function Icon({ className, children }: IconProps) {
@@ -56,6 +47,14 @@ export function Strength(props: Props) {
   return (
     <Icon {...props}>
       <StrengthIcon className="w-full fill-current" />
+    </Icon>
+  )
+}
+
+export function Scale(props: Props) {
+  return (
+    <Icon {...props}>
+      <ScaleIcon className="w-full stroke-current" />
     </Icon>
   )
 }

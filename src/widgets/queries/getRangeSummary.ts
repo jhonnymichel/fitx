@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { NotFoundError } from 'blitz'
 import { resolver } from '@blitzjs/rpc'
 import db from 'db'
-import { getSameDayInUTC, subtractDays } from 'src/days/dateUtils'
+import { getSameDayInUTC, subtractDays } from 'src/core/dateUtils'
 
 const GetRangeSummarySchema = z.object({
   from: z.date(),
@@ -12,7 +12,7 @@ const GetRangeSummarySchema = z.object({
 export default resolver.pipe(
   resolver.zod(GetRangeSummarySchema),
   resolver.authorize(),
-  async function getDay({ from, last }, ctx) {
+  async function getRangeSummary({ from, last }, ctx) {
     const normalizedFrom = getSameDayInUTC(from)
 
     const activeGoals = await db.userGoals.findFirstOrThrow({

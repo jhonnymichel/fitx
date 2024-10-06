@@ -1,17 +1,18 @@
-import Card from 'src/components/Card'
+import Card from 'src/core/components/Card'
 import { getWithNavLayout } from 'src/layouts/WithNav'
-import { getCurrentDay, getNextDay, getPreviousDay } from 'src/days/dateUtils'
-import DaySummary from 'src/days/components/DaySummary'
-import DayHeader from 'src/days/components/DayHeader'
+import { getCurrentDay, getNextDay, getPreviousDay } from 'src/core/dateUtils'
+import DaySummary from 'src/day/components/DaySummary'
+import DayHeader from 'src/day/components/DayHeader'
 import useStepTransition, { transitionDuration } from 'src/hooks/useStepTransition'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import { useState } from 'react'
 import { useQuery } from '@blitzjs/rpc'
-import getDay from 'src/days/queries/getDay'
-import DayForm from 'src/days/components/DayForm'
+import getDay from 'src/day/queries/getDay'
+import DayForm from 'src/day/components/DayForm'
 import React from 'react'
 import Slider from 'react-slick'
 import RangeSummary from 'src/widgets/components/RangeSummary'
+import WeightProgress from 'src/widgets/components/WeightProgress'
 
 function Index() {
   const [currentDate, animationClassNames, setCurrentDate] = useStepTransition(getCurrentDay())
@@ -82,12 +83,15 @@ function Index() {
                       rows={1}
                     >
                       <div>
+                        <WeightProgress rangeInDays={10} currentDate={currentDate} />
                         <RangeSummary rangeInDays={10} currentDate={currentDate} />
                       </div>
                       <div>
+                        <WeightProgress rangeInDays={10} currentDate={currentDate} />
                         <RangeSummary rangeInDays={30} currentDate={currentDate} />
                       </div>
                       <div>
+                        <WeightProgress rangeInDays={10} currentDate={currentDate} />
                         <RangeSummary rangeInDays={90} currentDate={currentDate} />
                       </div>
                     </Slider>

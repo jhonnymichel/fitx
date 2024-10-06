@@ -1,6 +1,5 @@
 import { DayPayload } from '../queries/getDay'
 import classNames from 'classnames'
-import * as Icons from 'src/components/icons'
 
 function ProgressBar({ score, width }: { score: number; width: number }) {
   const cssWidth = width * 100
@@ -26,7 +25,7 @@ type CaloriesProps = {
 function Calories(props: CaloriesProps) {
   if (!props.day) {
     return (
-      <div className="flex flex-col justify-center space-y-1">
+      <div className="flex justify-center items-center space-x-2">
         <h1 className="text-sm font-extrabold text-center uppercase text-neutral-600">No Data</h1>
         <div>
           <button type="button" className="block w-auto mx-auto mt-1 text-white bg-teal-700 button">
@@ -55,7 +54,7 @@ function Calories(props: CaloriesProps) {
         <ProgressBar score={score} width={props.day.foodCalories / goal} />
         <div className="flex justify-between w-full space-x-2">
           <h1
-            className={classNames('text-2xl font-extrabold', {
+            className={classNames('text-xl md:text-2xl font-extrabold', {
               'text-emerald-500': score <= 1,
               'text-emerald-400': score > 1 && score <= 1.15,
               'text-yellow-500': score > 1.15 && score <= 1.3,
@@ -64,10 +63,10 @@ function Calories(props: CaloriesProps) {
             })}
           >
             {props.day.foodCalories}
-            <span className="text-sm text-neutral-500">/{goal} kcal.</span>
+            <span className="text-xs md:text-sm text-neutral-500">/{goal} kcal.</span>
           </h1>
           {goalType === 'CEILING' && (
-            <p className="font-bold text-md text-neutral-500">
+            <p className="font-bold text-sm md:text-md text-neutral-500">
               {goal - props.day.foodCalories} left
             </p>
           )}
