@@ -66,8 +66,9 @@ model UserGoals {
 
   completed Boolean @default(false)
 
-  userId Int
-  days   Day[]
+  userId      Int
+  days        Day[]
+  BodyMetrics BodyMetrics[]
 }
 
 model BodyMetrics {
@@ -80,6 +81,9 @@ model BodyMetrics {
 
   userId Int
   user   User @relation(fields: [userId], references: [id])
+
+  goals       UserGoals @relation(fields: [userGoalsId], references: [id])
+  userGoalsId Int
 
   @@unique([userId, date], name: "uniqueDatePerUser")
 }
