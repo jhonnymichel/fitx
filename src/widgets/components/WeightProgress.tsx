@@ -142,12 +142,16 @@ function WeightProgressWidget(props: RangeSummaryProps) {
           {data.progress < 0 ? (
             <>
               {(data.progress * -1).toFixed(1)}
-              <span className="text-sm font-normal text-neutral-500"> kg. lost</span>
+              <span className="text-sm font-normal text-neutral-500">
+                <span className="normal-case">kg.</span> lost
+              </span>
             </>
           ) : (
             <>
               {data.progress.toFixed(1)}
-              <span className="text-sm font-normal text-neutral-500"> kg. gained</span>
+              <span className="text-sm font-normal text-neutral-500">
+                <span className="normal-case">kg.</span> gained
+              </span>
             </>
           )}
         </h1>

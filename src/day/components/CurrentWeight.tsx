@@ -14,9 +14,9 @@ function CurrentWeight(props: CurrentWeightProps) {
 
     return (
       <div className="flex-1 flex items-center">
-        <h1 className="text-3xl font-extrabold text-neutral-600">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-neutral-600">
           {weightInKilograms}
-          <span className="text-xl">kg</span>
+          <span className="text-lg md:text-xl">kg</span>
           {weightDelta !== null && weightDelta != 0 && (
             <span
               className={classNames('ml-1 text-sm text-neutral-500', {
