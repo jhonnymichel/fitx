@@ -20,15 +20,24 @@ function ProgressBar({ score, width }: { score: number; width: number }) {
 
 type CaloriesProps = {
   day?: DayPayload['day']
+  requestEditMode: () => void
 }
 
 function Calories(props: CaloriesProps) {
   if (!props.day) {
     return (
-      <div className="flex justify-center items-center space-x-2">
-        <h1 className="text-sm font-extrabold text-center uppercase text-neutral-600">No Data</h1>
+      <div className="flex justify-center items-center gap-2 flex-wrap">
+        <h1 className="text-sm font-extrabold text-center uppercase text-neutral-600 whitespace-nowrap">
+          No Data
+        </h1>
         <div>
-          <button type="button" className="block w-auto mx-auto mt-1 text-white bg-teal-700 button">
+          <button
+            type="button"
+            onClick={() => {
+              props.requestEditMode()
+            }}
+            className="block w-auto mx-auto mt-1 text-white bg-teal-600 button whitespace-nowrap"
+          >
             Log Intake
           </button>
         </div>

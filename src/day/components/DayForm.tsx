@@ -45,7 +45,7 @@ function FieldEditMode(props: FieldEditModeProps) {
         name={props.name}
         type="number"
         min="0"
-        step="0.01"
+        step="0.1"
         aria-label={props.ariaLabel || props.name}
       />
       <span className="mb-1 text-base font-bold uppercase text-neutral-500 xl:text-lg">
@@ -90,152 +90,137 @@ function DayForm({ currentDate, data, onEditFinished }: DayFormProps) {
   const { day, bodyMetrics } = data ?? {}
 
   return (
-    <div>
-      <Formik
-        onSubmit={async (values) => {
-          const weightInKilograms = Number(values.weightInKilograms || 0)
-          try {
-            const responseData = await logMetrics({ date: currentDate, weightInKilograms })
+    <div className="h-full flex flex-col">
+      <div className="flex-1 overflow-auto pb-4">
+        <Formik
+          onSubmit={async (values) => {
+            const weightInKilograms = Number(values.weightInKilograms || 0)
+            try {
+              const responseData = await logMetrics({ date: currentDate, weightInKilograms })
 
-            setQueryData(
-              getDay,
-              {
-                date: currentDate,
-              },
-              (oldData) => {
-                return {
-                  day: oldData?.day ?? null,
-                  bodyMetrics: { ...responseData, weightDelta: null },
+              setQueryData(
+                getDay,
+                {
+                  date: currentDate,
+                },
+                (oldData) => {
+                  return {
+                    day: oldData?.day ?? null,
+                    bodyMetrics: { ...responseData, weightDelta: null },
+                  }
+                },
+                {
+                  refetch: true,
                 }
-              },
-              {
-                refetch: true,
-              }
-            )
+              )
 
-            invalidateQuery(getRangeSummary)
-            resetErrorBoundaries()
-
-            onEditFinished()
-          } catch (e) {
-            window.alert(e)
-          }
-        }}
-        enableReinitialize
-        initialValues={{
-          weightInKilograms: bodyMetrics?.weightInKilograms ?? '',
-        }}
-      >
-        <Form className="flex flex-col justify-start flex-1 space-y-3 xl:space-y-4">
-          <>
-            <Card>
-              <CardTitle>
-                <CardIcon component={Icons.Food}></CardIcon>
-                <span>Weight</span>
-              </CardTitle>
-              <FieldEditMode name="weightInKilograms" label="kg" />
-            </Card>
-          </>
-          <div className="flex justify-end pb-4 space-x-4">
-            <button
-              type="button"
-              onClick={() => {
-                onEditFinished()
-              }}
-            >
-              Cancel
-            </button>
-            <SubmitButton>Submit</SubmitButton>
-          </div>
-        </Form>
-      </Formik>
-      <Formik
-        onSubmit={async (values) => {
-          const data: Omit<DayPayload['day'], 'date' | 'goals'> = {
-            caloriesBurned: Number(values.caloriesBurned || 0),
-            foodCalories: Number(values.foodCalories || 0),
-            foodCarbs: Number(values.foodCarbs || 0),
-            foodFat: Number(values.foodFat || 0),
-            foodProtein: Number(values.foodProtein || 0),
-          }
-
-          try {
-            const responseData = await logDay({ date: currentDate, data })
-
-            setQueryData(
-              getDay,
-              {
-                date: currentDate,
-              },
-              (oldData) => {
-                return {
-                  bodyMetrics: oldData?.bodyMetrics ?? null,
-                  day: responseData,
-                }
-              },
-              {
-                refetch: false,
-              }
-            )
-
-            invalidateQuery(getRangeSummary)
-            resetErrorBoundaries()
-
-            onEditFinished()
-          } catch (e) {
-            window.alert(e)
-          }
-        }}
-        enableReinitialize
-        initialValues={{
-          caloriesBurned: day?.caloriesBurned || '',
-          foodCalories: day?.foodCalories || '',
-          foodCarbs: day?.foodCarbs || '',
-          foodProtein: day?.foodProtein || '',
-          foodFat: day?.foodFat,
-        }}
-      >
-        <Form className="flex flex-col justify-start flex-1 space-y-3 xl:space-y-4">
-          <>
-            <Card>
-              <CardTitle>
-                <CardIcon component={Icons.Food}></CardIcon>
-                <span>Calories Consumed</span>
-              </CardTitle>
-              <FieldEditMode name="foodCalories" label="KCAL" />
-            </Card>
-            <Card>
-              <CardTitle>
-                <CardIcon component={Icons.Food}></CardIcon>
-                <span>Macros Consumed</span>
-              </CardTitle>
-              <FieldEditMode name="foodCarbs" label="Carbs" />
-              <FieldEditMode name="foodProtein" label="Protein" />
-              <FieldEditMode name="foodFat" label="Fat" />
-            </Card>
-            <div className="flex space-x-3 xl:space-x-4">
+              invalidateQuery(getRangeSummary)
+              resetErrorBoundaries()
+            } catch (e) {
+              window.alert(e)
+            }
+          }}
+          enableReinitialize
+          initialValues={{
+            weightInKilograms: bodyMetrics?.weightInKilograms ?? '',
+          }}
+        >
+          <Form className="flex flex-col justify-start flex-1 space-y-3 xl:space-y-4">
+            <>
               <Card>
+                <CardTitle>
+                  <CardIcon component={Icons.Food}></CardIcon>
+                  <span>Weight</span>
+                </CardTitle>
+                <FieldEditMode name="weightInKilograms" label="kg" />
+              </Card>
+            </>
+            <div className="flex justify-end pb-4 space-x-4">
+              <SubmitButton>Log Weight</SubmitButton>
+            </div>
+          </Form>
+        </Formik>
+        <Formik
+          onSubmit={async (values) => {
+            const data: Omit<DayPayload['day'], 'date' | 'goals'> = {
+              caloriesBurned: Number(values.caloriesBurned || 0),
+              foodCalories: Number(values.foodCalories || 0),
+              foodCarbs: Number(values.foodCarbs || 0),
+              foodFat: Number(values.foodFat || 0),
+              foodProtein: Number(values.foodProtein || 0),
+            }
+
+            try {
+              const responseData = await logDay({ date: currentDate, data })
+
+              setQueryData(
+                getDay,
+                {
+                  date: currentDate,
+                },
+                (oldData) => {
+                  return {
+                    bodyMetrics: oldData?.bodyMetrics ?? null,
+                    day: responseData,
+                  }
+                },
+                {
+                  refetch: false,
+                }
+              )
+
+              invalidateQuery(getRangeSummary)
+              resetErrorBoundaries()
+            } catch (e) {
+              window.alert(e)
+            }
+          }}
+          enableReinitialize
+          initialValues={{
+            caloriesBurned: day?.caloriesBurned || '',
+            foodCalories: day?.foodCalories || '',
+            foodCarbs: day?.foodCarbs || '',
+            foodProtein: day?.foodProtein || '',
+            foodFat: day?.foodFat || '',
+          }}
+        >
+          <Form className="flex flex-col justify-start flex-1 space-y-3 xl:space-y-4">
+            <>
+              <Card>
+                <CardTitle>
+                  <CardIcon component={Icons.Food}></CardIcon>
+                  <span>Calories Consumed</span>
+                </CardTitle>
+                <FieldEditMode name="foodCalories" label="KCAL" />
+                <CardTitle>
+                  <CardIcon component={Icons.Food}></CardIcon>
+                  <span>Macros Consumed</span>
+                </CardTitle>
+                <div className="flex gap-2 flex-wrap">
+                  <FieldEditMode name="foodCarbs" label="Carbs" />
+                  <FieldEditMode name="foodProtein" label="Protein" />
+                  <FieldEditMode name="foodFat" label="Fat" />
+                </div>
                 <CardTitle>
                   <CardIcon component={Icons.Cardio}></CardIcon>
                   <span>Calories Burned</span>
-                </CardTitle>{' '}
+                </CardTitle>
                 <FieldEditMode name="caloriesBurned" label="Kcal" />
               </Card>
+            </>
+            <div className="flex justify-end space-x-4">
+              <SubmitButton>Log Calories and Macros</SubmitButton>
             </div>
-          </>
-          <div className="flex justify-end space-x-4">
-            <button
-              type="button"
-              onClick={() => {
-                onEditFinished()
-              }}
-            >
-              Cancel
-            </button>
-            <SubmitButton>Submit</SubmitButton>
-          </div>
-        </Form>
-      </Formik>
+          </Form>
+        </Formik>
+      </div>
+      <button
+        type="button"
+        onClick={() => onEditFinished()}
+        className="shrink-0 bg-teal-600 button text-left font-semibold text-white -mx-2 -mb-2 md:-mx-6 md:-mb-6 p-2 rounded-t-none"
+      >
+        {'<'} Day Summary
+      </button>
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
 type CurrentWeightProps = {
   bodyMetrics?: DayPayload['bodyMetrics'] | null
   deficitType?: ReturnType<typeof getCaloriesGoalType>
+  requestEditMode: () => void
 }
 
 function CurrentWeight(props: CurrentWeightProps) {
@@ -12,7 +13,7 @@ function CurrentWeight(props: CurrentWeightProps) {
     const { weightInKilograms, weightDelta } = props.bodyMetrics
 
     return (
-      <div>
+      <div className="flex-1 flex items-center">
         <h1 className="text-3xl font-extrabold text-neutral-600">
           {weightInKilograms}
           <span className="text-xl">kg</span>
@@ -34,10 +35,18 @@ function CurrentWeight(props: CurrentWeightProps) {
   }
 
   return (
-    <div className="flex items-center justify-center space-x-2">
-      <h1 className="text-sm font-extrabold text-center uppercase text-neutral-600">No Data</h1>
+    <div className="flex items-center justify-center gap-2 flex-wrap">
+      <h1 className="text-sm font-extrabold text-center uppercase text-neutral-600 whitespace-nowrap">
+        No Data
+      </h1>
       <div>
-        <button type="button" className="block w-auto mx-auto mt-1 text-white bg-teal-700 button">
+        <button
+          type="button"
+          onClick={() => {
+            props.requestEditMode()
+          }}
+          className="block w-auto mx-auto mt-1 text-white bg-teal-600 button"
+        >
           Log Weight
         </button>
       </div>

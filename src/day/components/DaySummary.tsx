@@ -14,9 +14,10 @@ type DaySummaryProps = {
   data?: DayPayload
   refetch: () => void
   error: unknown
+  requestEditMode: () => void
 }
 
-function DaySummary({ data, refetch, error, isLoading }: DaySummaryProps) {
+function DaySummary({ data, refetch, error, isLoading, requestEditMode }: DaySummaryProps) {
   if (error && (error as Error).name !== 'NotFoundError') {
     return <ErrorMessage error={error as Error} resetErrorBoundary={refetch} />
   }
@@ -29,12 +30,13 @@ function DaySummary({ data, refetch, error, isLoading }: DaySummaryProps) {
     <div className="space-y-2 xl:space-y-4">
       <div className="flex space-x-2 xl:space-x-4">
         <div className="flex shrink-0">
-          <WidgetCard>
+          <WidgetCard className="flex flex-col">
             <WidgetCardTitle>
               <WidgetCardIcon component={Icons.Scale}></WidgetCardIcon>
               <span>Weight</span>
             </WidgetCardTitle>
             <CurrentWeight
+              requestEditMode={requestEditMode}
               bodyMetrics={data?.bodyMetrics}
               deficitType={getCaloriesGoalType(data?.day?.goals ?? null)}
             ></CurrentWeight>
@@ -46,7 +48,7 @@ function DaySummary({ data, refetch, error, isLoading }: DaySummaryProps) {
 
             <span>Calories Consumed</span>
           </WidgetCardTitle>
-          <Calories day={data?.day}></Calories>
+          <Calories requestEditMode={requestEditMode} day={data?.day}></Calories>
         </WidgetCard>
       </div>
 
