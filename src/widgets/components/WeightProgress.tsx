@@ -95,16 +95,25 @@ function WeightProgressWidget(props: RangeSummaryProps) {
 
   const downsampleData = (data: any[], limit) => {
     const length = data.length
-    if (length <= limit) return data // If data points are fewer than the limit, return original data
 
-    const step = Math.floor((length - 2) / (limit - 2)) // Calculate step to downsample
+    // If data points are fewer than or equal to the limit, return original data
+    if (length <= limit) return data
 
-    const downsampled = data.filter((_, index) => {
-      // Always keep the first and last points, and then keep every "step" point
-      return index === 0 || index === length - 1 || index % step === 0
-    })
+    // Always include the first and last points
+    const keep = [data[0]]
 
-    return downsampled
+    // Calculate the interval to pick points between the first and last
+    const interval = (length - 2) / (limit - 2)
+
+    for (let i = 1; i < limit - 1; i++) {
+      const index = Math.round(i * interval) // Pick points spaced proportionally
+      keep.push(data[index])
+    }
+
+    // Always include the last point
+    keep.push(data[length - 1])
+
+    return keep
   }
 
   return (
