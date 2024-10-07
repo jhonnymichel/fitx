@@ -93,6 +93,20 @@ function WeightProgressWidget(props: RangeSummaryProps) {
 
   const goalsType = getCaloriesGoalType(data.currentGoals)
 
+  const downsampleData = (data: any[], limit) => {
+    const length = data.length
+    if (length <= limit) return data // If data points are fewer than the limit, return original data
+
+    const step = Math.floor((length - 2) / (limit - 2)) // Calculate step to downsample
+
+    const downsampled = data.filter((_, index) => {
+      // Always keep the first and last points, and then keep every "step" point
+      return index === 0 || index === length - 1 || index % step === 0
+    })
+
+    return downsampled
+  }
+
   return (
     <>
       <div className="h-[100px]">
@@ -100,7 +114,7 @@ function WeightProgressWidget(props: RangeSummaryProps) {
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             height={100}
-            data={data.weightByDay}
+            data={downsampleData(data.weightByDay, 10)}
             margin={{ top: 10, right: 20, left: 20, bottom: 10 }}
           >
             {/* Adjust domain with a bit of padding */}
