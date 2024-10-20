@@ -28,6 +28,7 @@ export default resolver.pipe(
         userGoalsId: currentGoals.id,
         date: { lte: normalizedFrom, gt: subtractDays(normalizedFrom, last) },
       },
+      orderBy: { date: 'asc' },
       select: { weightInKilograms: true, date: true },
     })
 
