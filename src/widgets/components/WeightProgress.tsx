@@ -4,27 +4,20 @@ import { ErrorBoundary, ErrorFallbackProps } from '@blitzjs/next'
 import { Suspense } from 'react'
 import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from './WidgetCard'
 import getWeightProgress from '../queries/getWeightProgress'
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts'
+import { LineChart, Line, YAxis, ResponsiveContainer } from 'recharts'
 import { getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
 import classNames from 'classnames'
 
 type RangeSummaryProps = {
   rangeInDays: number
   currentDate: Date
+  title?: string
 }
 
 type TitleProps = {
   dayCount: number
   foundCount?: number
+  children?: React.ReactNode
 }
 
 function Title(props: TitleProps) {
@@ -32,7 +25,14 @@ function Title(props: TitleProps) {
     <WidgetCardTitle>
       <WidgetCardIcon component={Icons.Scale}></WidgetCardIcon>
       <span>
-        Last {props.dayCount} days {(props?.foundCount ?? 0) > 0 && `(found ${props.foundCount})`}
+        {props.children ? (
+          props.children
+        ) : (
+          <span>
+            Last {props.dayCount} days{' '}
+            {(props?.foundCount ?? 0) > 0 && `(found ${props.foundCount})`}
+          </span>
+        )}
       </span>
     </WidgetCardTitle>
   )
@@ -119,7 +119,9 @@ function WeightProgressWidget(props: RangeSummaryProps) {
   return (
     <>
       <div className="h-[100px]">
-        <Title dayCount={props.rangeInDays} foundCount={data.dayCount}></Title>
+        <Title dayCount={props.rangeInDays} foundCount={data.dayCount}>
+          {props.title}
+        </Title>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             height={100}

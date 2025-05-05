@@ -37,6 +37,14 @@ export function subtractDays(date: Date, days: number): Date {
   return result.toJSDate()
 }
 
+export function diffInDays(startDate: Date, endDate: Date) {
+  const result = DateTime.fromJSDate(startDate)
+    .startOf('day')
+    .diff(DateTime.fromJSDate(endDate).endOf('day'), ['days'])
+    .toObject()
+  return Math.ceil(Math.abs(result.days ?? 0))
+}
+
 export function getPreviousWeekRange(date: Date): [Date, Date] {
   const start = DateTime.fromJSDate(date).minus({ weeks: 1 }).startOf('week')
   const end = start.endOf('week')

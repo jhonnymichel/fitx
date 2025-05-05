@@ -4,6 +4,10 @@ export function getCaloriesGoalType(goals: UserGoals | null): 'SUPERAVIT' | 'DEF
   return goals?.foodCaloriesType === 'FLOOR' ? 'SUPERAVIT' : 'DEFICIT'
 }
 
+export function getCaloriesGoalLabel(goals: UserGoals | null) {
+  return getCaloriesGoalType(goals) === 'DEFICIT' ? 'Deficit' : 'Superavit'
+}
+
 type CalorieDeficitParserConstructor = {
   caloriesBurned: number
   foodCalories: number

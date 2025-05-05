@@ -2,7 +2,12 @@ import classNames from 'classnames'
 
 export function WidgetCard(props: { className?: string; children: React.ReactNode }) {
   return (
-    <section className={classNames('w-full p-2 space-y-2 bg-neutral-100', props.className)}>
+    <section
+      className={classNames(
+        'w-full text-neutral-600  p-2 space-y-2 bg-neutral-100',
+        props.className
+      )}
+    >
       {props.children}
     </section>
   )

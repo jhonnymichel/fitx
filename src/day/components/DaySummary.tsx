@@ -5,7 +5,7 @@ import Macros from './Macros'
 import Calories from './Calories'
 import CaloriesBurned from './CaloriesBurned'
 import CalorieDeficit from './CalorieDeficit'
-import { getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
+import { getCaloriesGoalLabel, getCaloriesGoalType } from 'src/fitnessMetrics/calorieDeficit'
 import CurrentWeight from './CurrentWeight'
 import { WidgetCard, WidgetCardIcon, WidgetCardTitle } from 'src/widgets/components/WidgetCard'
 
@@ -72,10 +72,7 @@ function DaySummary({ data, refetch, error, isLoading, requestEditMode }: DaySum
             <WidgetCard>
               <WidgetCardTitle>
                 <WidgetCardIcon component={Icons.Strength}></WidgetCardIcon>
-                <span>
-                  Calorie{' '}
-                  {getCaloriesGoalType(data.day.goals) === 'DEFICIT' ? 'Deficit' : 'Superavit'}
-                </span>
+                <span>Calorie {getCaloriesGoalLabel(data.day.goals)}</span>
               </WidgetCardTitle>
               <CalorieDeficit day={data.day} />
             </WidgetCard>
