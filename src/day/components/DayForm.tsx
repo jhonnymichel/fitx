@@ -10,6 +10,7 @@ import upsertDay from '../mutations/upsertDay'
 import SubmitButton from 'src/auth/components/SubmitButton'
 import getRangeSummary from 'src/widgets/queries/getRangeSummary'
 import logBodyMetrics from 'src/day/mutations/logBodyMetrics'
+import getWeightProgress from 'src/widgets/queries/getWeightProgress'
 
 type InputProps = TextFieldProps
 
@@ -90,8 +91,8 @@ function DayForm({ currentDate, data, onEditFinished }: DayFormProps) {
   const { day, bodyMetrics } = data ?? {}
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex-1 overflow-auto pb-4">
+    <div className="flex flex-col h-full">
+      <div className="flex-1 pb-4 overflow-auto">
         <Formik
           onSubmit={async (values) => {
             const weightInKilograms = Number(values.weightInKilograms || 0)
@@ -114,7 +115,7 @@ function DayForm({ currentDate, data, onEditFinished }: DayFormProps) {
                 }
               )
 
-              invalidateQuery(getRangeSummary)
+              invalidateQuery(getWeightProgress)
               resetErrorBoundaries()
             } catch (e) {
               window.alert(e)
@@ -196,7 +197,7 @@ function DayForm({ currentDate, data, onEditFinished }: DayFormProps) {
                   <CardIcon component={Icons.Food}></CardIcon>
                   <span>Macros Consumed</span>
                 </CardTitle>
-                <div className="flex gap-2 flex-wrap">
+                <div className="flex flex-wrap gap-2">
                   <FieldEditMode name="foodCarbs" label="Carbs" />
                   <FieldEditMode name="foodProtein" label="Protein" />
                   <FieldEditMode name="foodFat" label="Fat" />
@@ -217,7 +218,7 @@ function DayForm({ currentDate, data, onEditFinished }: DayFormProps) {
       <button
         type="button"
         onClick={() => onEditFinished()}
-        className="shrink-0 bg-teal-600 button text-left font-semibold text-white -mx-2 -mb-2 md:-mx-6 md:-mb-6 p-2 rounded-t-none"
+        className="p-2 -mx-2 -mb-2 font-semibold text-left text-white bg-teal-600 rounded-t-none shrink-0 button md:-mx-6 md:-mb-6"
       >
         {'<'} Day Summary
       </button>
