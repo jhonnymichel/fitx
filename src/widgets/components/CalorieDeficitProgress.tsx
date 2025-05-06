@@ -57,6 +57,8 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
     },
   })
 
+  const isWeekComplete = data.dayCount === 7
+
   return (
     <div className="flex flex-col gap-2">
       <WidgetCardTitle>
@@ -92,17 +94,24 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
         </div>
       </div>
       <div>
-        {deficit < endOfWeekGoal && (
+        {!isWeekComplete && deficit < endOfWeekGoal && (
           <p className="text-sm text-center">
             You need a daily{' '}
-            {((endOfWeekGoal - deficit) / props.rangeInDays - data.dayCount).toFixed(0)} kcal.{' '}
+            {((endOfWeekGoal - deficit) / (props.rangeInDays - data.dayCount)).toFixed(0)} kcal.{' '}
             {getCaloriesGoalLabel(data.currentGoals).toLowerCase()} to reach end of week goal.
           </p>
         )}
-        {deficit > endOfWeekGoal && (
+        {!isWeekComplete && deficit > endOfWeekGoal && (
           <p className="text-sm text-center">
             You're on pace for ending the week at a {((deficit / data.dayCount) * 7).toFixed(0)}{' '}
             kcal weekly ({(deficit / data.dayCount).toFixed(0)} kcal daily){' '}
+            {getCaloriesGoalLabel(data.currentGoals).toLowerCase()}.
+          </p>
+        )}
+        {isWeekComplete && (
+          <p className="text-sm text-center">
+            You ended the week at a {((deficit / data.dayCount) * 7).toFixed(0)} kcal weekly (
+            {(deficit / data.dayCount).toFixed(0)} kcal daily){' '}
             {getCaloriesGoalLabel(data.currentGoals).toLowerCase()}.
           </p>
         )}
@@ -131,9 +140,7 @@ function ProgressBar({
   const pacePercentage = Math.abs(paceDifference * 100).toFixed(1) // always positive, one decimal
 
   const tooltipMessage =
-    paceDifference >= 0
-      ? `You're ${pacePercentage}% above pace!`
-      : `You're ${pacePercentage}% below pace!`
+    paceDifference >= 0 ? `${pacePercentage}% above pace!` : `${pacePercentage}% below pace!`
 
   return (
     <div className="w-full pt-6">
