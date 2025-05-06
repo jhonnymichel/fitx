@@ -11,6 +11,7 @@ import useStepTransition, { transitionDuration } from 'src/hooks/useStepTransiti
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import WeightProgress from 'src/widgets/components/WeightProgress'
 import CalorieDeficitProgressWidget from 'src/widgets/components/CalorieDeficitProgress'
+import MacroIntakeProgressWidget from 'src/widgets/components/MacroIntakeProgress'
 
 function Week({ range }: { range: [Date, Date] }) {
   const [start, end] = range
@@ -29,6 +30,12 @@ function Week({ range }: { range: [Date, Date] }) {
           currentDate={end}
           rangeInDays={rangeInDays}
         ></CalorieDeficitProgressWidget>
+      </div>
+      <div>
+        <MacroIntakeProgressWidget
+          currentDate={end}
+          rangeInDays={rangeInDays}
+        ></MacroIntakeProgressWidget>
       </div>
     </div>
   )

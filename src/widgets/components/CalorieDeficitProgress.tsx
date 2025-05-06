@@ -63,7 +63,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
     <div className="flex flex-col gap-2">
       <WidgetCardTitle>
         <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
-        <span>{getCaloriesGoalLabel(data.currentGoals)} goal - progress</span>
+        <span>Calorie {getCaloriesGoalLabel(data.currentGoals)} progress - week to date</span>
       </WidgetCardTitle>
       <div className="flex flex-col items-start w-full">
         <ProgressBar
