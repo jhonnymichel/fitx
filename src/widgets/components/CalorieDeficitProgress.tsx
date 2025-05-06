@@ -61,10 +61,11 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
     <div className="flex flex-col gap-2">
       <WidgetCardTitle>
         <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
-        <span>{getCaloriesGoalLabel(data.currentGoals)} progress</span>
+        <span>{getCaloriesGoalLabel(data.currentGoals)} goal - progress</span>
       </WidgetCardTitle>
       <div className="flex flex-col items-start w-full">
         <ProgressBar
+          key={`${(props.rangeInDays, props.currentDate)}`}
           className={classNames({
             'bg-emerald-500': deficit >= goalOnCurrentDay,
             'bg-emerald-400': deficit > 0 && score >= 0.66 && score < 1,
@@ -73,6 +74,8 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
           })}
           width={deficit / endOfWeekGoal}
           goalWidth={goalOnCurrentDay / endOfWeekGoal}
+          currentGoal={goalOnCurrentDay}
+          dayCount={data.dayCount}
         ></ProgressBar>
         <div className="flex justify-between w-full space-x-2 font-extrabold">
           <p
@@ -89,10 +92,20 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
         </div>
       </div>
       <div>
-        <p className="text-sm">
-          You need a daily {(endOfWeekGoal - deficit) / props.rangeInDays - data.dayCount} kcal.{' '}
-          {getCaloriesGoalLabel(data.currentGoals).toLowerCase()} to reach end of week goal.
-        </p>
+        {deficit < endOfWeekGoal && (
+          <p className="text-sm text-center">
+            You need a daily{' '}
+            {((endOfWeekGoal - deficit) / props.rangeInDays - data.dayCount).toFixed(0)} kcal.{' '}
+            {getCaloriesGoalLabel(data.currentGoals).toLowerCase()} to reach end of week goal.
+          </p>
+        )}
+        {deficit > endOfWeekGoal && (
+          <p className="text-sm text-center">
+            You're on pace for ending the week at a {((deficit / data.dayCount) * 7).toFixed(0)}{' '}
+            kcal weekly ({(deficit / data.dayCount).toFixed(0)} kcal daily){' '}
+            {getCaloriesGoalLabel(data.currentGoals).toLowerCase()}.
+          </p>
+        )}
       </div>
     </div>
   )
@@ -102,32 +115,60 @@ function ProgressBar({
   className,
   width,
   goalWidth,
+  dayCount,
 }: {
   className: string
   width: number
   goalWidth: number
+  currentGoal: number
+  dayCount: number
 }) {
   const cssWidth = Math.max(0, width * 100)
-
   const cssGoalWidth = Math.max(0, goalWidth * 100)
 
-  console.log('wtf', cssWidth)
+  // Calculate the pace difference
+  const paceDifference = (width - goalWidth) / (goalWidth || 1) // avoid division by zero
+  const pacePercentage = Math.abs(paceDifference * 100).toFixed(1) // always positive, one decimal
+
+  const tooltipMessage =
+    paceDifference >= 0
+      ? `You're ${pacePercentage}% above pace!`
+      : `You're ${pacePercentage}% below pace!`
 
   return (
-    <div className="relative w-full h-2 rounded-md bg-slate-300">
-      <div
-        className={
-          'bg-slate-400 absolute top-0 left-0 h-2 transition-all duration-1000 ease-out rounded-md z-0'
-        }
-        style={{ width: `${Math.min(cssGoalWidth || 0.001, 100)}%` }}
-      ></div>
-      <div
-        className={classNames(
-          'absolute top-0 left-0 h-2 transition-all duration-1000 ease-out rounded-md z-10',
-          className
-        )}
-        style={{ width: `${Math.min(cssWidth || 0.001, 100)}%` }}
-      ></div>
+    <div className="w-full pt-6">
+      <div className="relative w-full h-2 rounded-md bg-slate-200">
+        <div
+          className="absolute right-0 z-20 w-[2px] h-4 bg-black -top-2"
+          style={{ left: `${Math.min(cssGoalWidth || 0.001, 100)}%` }}
+        >
+          <div
+            className={classNames(
+              'text-white whitespace-nowrap absolute !py-1 -my-5 !px-2 !text-xs !rounded-none !bg-black !z-50',
+              {
+                'left-0 top-0': dayCount < 2,
+                'right-0 top-0': dayCount >= 2,
+              }
+            )}
+          >
+            {tooltipMessage}
+          </div>
+        </div>
+        {/* <div
+          data-tooltip-id="notice"
+          className={
+            'bg-slate-300 absolute top-0 left-0 h-2 transition-all duration-1000 ease-out rounded-md z-0'
+          }
+          style={{}}
+        ></div> */}
+        <div
+          className={classNames(
+            'absolute top-0 left-0 h-2 transition-all duration-1000 ease-out rounded-md z-10',
+            className
+          )}
+          style={{ width: `${Math.min(cssWidth || 0.001, 100)}%` }}
+        ></div>
+      </div>
     </div>
   )
 }
