@@ -4,7 +4,7 @@ export function WidgetCard(props: { className?: string; children: React.ReactNod
   return (
     <section
       className={classNames(
-        'w-full text-neutral-600  p-2 space-y-2 bg-neutral-100',
+        'w-full text-neutral-600 p-2 space-y-2 bg-neutral-100',
         props.className
       )}
     >

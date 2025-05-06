@@ -7,6 +7,7 @@ import * as Icons from 'src/core/components/icons'
 import classNames from 'classnames'
 import { parseMacros } from 'src/fitnessMetrics/macros'
 import { GoalType } from 'db'
+import Slider from 'react-slick'
 
 type MacroIntakeProgressWidgetProps = {
   rangeInDays: number
@@ -75,20 +76,35 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
   }))
 
   return (
-    <div className="flex flex-col gap-2">
-      <WidgetCardTitle>
-        <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
-        <span>Macro Intake Progress</span>
-      </WidgetCardTitle>
-      <div className="flex flex-col items-start w-full">
+    <div className="pb-5 -mx-2">
+      <div className="px-2">
+        <WidgetCardTitle>
+          <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
+          <span>Macro Intake Progress</span>
+        </WidgetCardTitle>
+      </div>
+      <Slider
+        arrows={false}
+        dots={true}
+        slidesToShow={1}
+        slidesToScroll={1}
+        slidesPerRow={1}
+        rows={1}
+      >
         {dataByMacro.map((macro) => (
-          <React.Fragment key={macro.name}>
+          <div key={macro.name} className="px-2 py-2">
             <ProgressBar
               key={`${(props.rangeInDays, props.currentDate)}`}
               className={classNames({
-                'bg-emerald-500': macro.score <= 1,
-                'bg-emerald-400': macro.score > 1 && macro.score <= 1.15,
-                'bg-yellow-500': macro.score > 1.15 && macro.score <= 1.3,
+                'bg-orange-500': macro.score <= 1 && macro.name === 'CARBS',
+                'bg-blue-500': macro.score <= 1 && macro.name === 'PROTEIN',
+                'bg-purple-500': macro.score <= 1 && macro.name === 'FAT',
+                'bg-orange-400': macro.score > 1 && macro.score <= 1.15 && macro.name === 'CARBS',
+                'bg-blue-400': macro.score > 1 && macro.score <= 1.15 && macro.name === 'PROTEIN',
+                'bg-purple-400': macro.score > 1 && macro.score <= 1.15 && macro.name === 'FAT',
+                'bg-orange-300': macro.score > 1.15 && macro.score <= 1.3 && macro.name === 'CARBS',
+                'bg-blue-300': macro.score > 1.15 && macro.score <= 1.3 && macro.name === 'PROTEIN',
+                'bg-purple-300': macro.score > 1.15 && macro.score <= 1.3 && macro.name === 'FAT',
                 'bg-red-500': macro.score > 1.3 && macro.score <= 1.45,
                 'bg-red-700': macro.score >= 1.45,
               })}
@@ -102,8 +118,8 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
             <div className="flex justify-between w-full space-x-2 font-extrabold">
               <p
                 className={classNames('text-sm', {
-                  'text-emerald-500': macro.score <= 1,
-                  'text-emerald-400': macro.score > 1 && macro.score <= 1.15,
+                  'text-emerald-600': macro.score <= 1,
+                  'text-emerald-500': macro.score > 1 && macro.score <= 1.15,
                   'text-yellow-500': macro.score > 1.15 && macro.score <= 1.3,
                   'text-red-500': macro.score > 1.3 && macro.score <= 1.45,
                   'text-red-700': macro.score >= 1.45,
@@ -118,8 +134,8 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
             <div className="mt-1">
               {!isWeekComplete && (
                 <p className="text-sm text-center">
-                  You're on pace for ending the week at a {(macro.value / data.dayCount).toFixed(0)}
-                  g daily{' '}
+                  You're on pace to end the week at a {(macro.value / data.dayCount).toFixed(0)}g
+                  daily{' '}
                   <span
                     className={classNames('p-1 text-white font-semibold', {
                       'bg-orange-500': macro.name === 'CARBS',
@@ -148,9 +164,9 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
                 </p>
               )}
             </div>
-          </React.Fragment>
+          </div>
         ))}
-      </div>
+      </Slider>
     </div>
   )
 }
