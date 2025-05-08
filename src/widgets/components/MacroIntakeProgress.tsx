@@ -206,8 +206,8 @@ function ProgressBar({
             className={classNames(
               'text-white whitespace-nowrap absolute !py-1 -my-5 !px-2 !text-xs !rounded-none !bg-black !z-50',
               {
-                'left-0 top-0': dayCount < 2,
-                'right-0 top-0': dayCount >= 2,
+                'left-0 top-0': dayCount < 4,
+                'right-0 top-0': dayCount >= 4,
               }
             )}
           >
