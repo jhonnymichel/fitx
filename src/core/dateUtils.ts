@@ -26,7 +26,7 @@ export function getPreviousDay(date: Date) {
 
 export function getCurrentWeekRange(): [Date, Date] {
   const start = DateTime.local().startOf('week')
-  const end = start.endOf('week')
+  const end = start.endOf('week').startOf('day')
 
   return [start.toJSDate(), end.toJSDate()]
 }
@@ -47,14 +47,14 @@ export function diffInDays(startDate: Date, endDate: Date) {
 
 export function getPreviousWeekRange(date: Date): [Date, Date] {
   const start = DateTime.fromJSDate(date).minus({ weeks: 1 }).startOf('week')
-  const end = start.endOf('week')
+  const end = start.endOf('week').startOf('day')
 
   return [start.toJSDate(), end.toJSDate()]
 }
 
 export function getNextWeekRange(date: Date): [Date, Date] {
   const start = DateTime.fromJSDate(date).plus({ weeks: 1 }).startOf('week')
-  const end = start.endOf('week')
+  const end = start.endOf('week').startOf('day')
 
   return [start.toJSDate(), end.toJSDate()]
 }
