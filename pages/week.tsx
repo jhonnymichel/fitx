@@ -12,6 +12,8 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import WeightProgress from 'src/widgets/components/WeightProgress'
 import CalorieDeficitProgressWidget from 'src/widgets/components/CalorieDeficitProgress'
 import MacroIntakeProgressWidget from 'src/widgets/components/MacroIntakeProgress'
+import CalendarGrid from 'src/core/components/CalendarGrid'
+import classNames from 'classnames'
 
 function Week({ range }: { range: [Date, Date] }) {
   const [start, end] = range
@@ -36,6 +38,21 @@ function Week({ range }: { range: [Date, Date] }) {
           currentDate={end}
           rangeInDays={rangeInDays}
         ></MacroIntakeProgressWidget>
+      </div>
+      <div className="p-[2px] bg-neutral-200">
+        <CalendarGrid
+          month={start.getMonth()}
+          year={start.getFullYear()}
+          renderDay={(day) => {
+            return (
+              <span
+                className={classNames('p-1 md:text-sm text-xs', { 'text-gray-400': day.padding })}
+              >
+                {day.date.getDate()}
+              </span>
+            )
+          }}
+        ></CalendarGrid>
       </div>
     </div>
   )
