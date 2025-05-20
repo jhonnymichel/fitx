@@ -2,11 +2,11 @@ import Card from 'src/core/components/Card'
 import { getWithNavLayout } from 'src/layouts/WithNav'
 import {
   diffInDays,
-  getCurrentWeekRange,
-  getNextWeekRange,
-  getPreviousWeekRange,
+  getCurrentPeriodRange,
+  getNextPeriodRange,
+  getPreviousPeriodRange,
 } from 'src/core/dateUtils'
-import WeekHeader from 'src/day/components/WeekHeader'
+import PeriodProgressHeader from 'src/day/components/PeriodProgressHeader'
 import useStepTransition, { transitionDuration } from 'src/hooks/useStepTransition'
 import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import WeightProgress from 'src/widgets/components/WeightProgress'
@@ -14,8 +14,9 @@ import CalorieDeficitProgressWidget from 'src/widgets/components/CalorieDeficitP
 import MacroIntakeProgressWidget from 'src/widgets/components/MacroIntakeProgress'
 import CalendarGrid from 'src/core/components/CalendarGrid'
 import classNames from 'classnames'
+import { useState } from 'react'
 
-function Week({ range }: { range: [Date, Date] }) {
+function PeriodProgress({ range }: { range: [Date, Date] }) {
   const [start, end] = range
   const rangeInDays = diffInDays(start, end)
   return (
@@ -58,33 +59,49 @@ function Week({ range }: { range: [Date, Date] }) {
   )
 }
 
-function WeekPage() {
-  const [currentWeek, animationClassNames, setCurrentWeek] = useStepTransition<[Date, Date]>(
-    getCurrentWeekRange(),
+function PeriodProgressPage() {
+  const [periodMode, setPeriodMode] = useState<'week' | 'month'>('week')
+
+  const [currentRange, animationClassNames, setCurrentRange] = useStepTransition<[Date, Date]>(
+    getCurrentPeriodRange(periodMode),
     'transition',
     (current, next) => next[0] > current[0]
   )
 
-  const [weekStart] = currentWeek
+  console.log(periodMode)
 
-  const prevWeek = () => {
-    setCurrentWeek(getPreviousWeekRange(weekStart))
+  const [periodStart] = currentRange
+
+  const prevPeriod = () => {
+    setCurrentRange(getPreviousPeriodRange(periodStart, periodMode))
   }
-  const nextWeek = () => {
-    setCurrentWeek(getNextWeekRange(weekStart))
+  const nextPeriod = () => {
+    setCurrentRange(getNextPeriodRange(periodStart, periodMode))
   }
 
   return (
     <div className="flex flex-col w-full h-full">
-      <WeekHeader onPrevClick={prevWeek} onNextClick={nextWeek} weekRange={currentWeek} />
+      <PeriodProgressHeader
+        onPrevClick={prevPeriod}
+        onNextClick={nextPeriod}
+        periodRange={currentRange}
+        currentPeriod={periodMode}
+        onPeriodChangeClick={() => {
+          setPeriodMode((periodMode) => {
+            const newPeriod = periodMode === 'week' ? 'month' : 'week'
+            setCurrentRange(getCurrentPeriodRange(newPeriod))
+            return periodMode === 'week' ? 'month' : 'week'
+          })
+        }}
+      />
       <SwitchTransition>
         <CSSTransition
-          key={currentWeek}
+          key={currentRange}
           classNames={animationClassNames}
           timeout={transitionDuration.transition}
         >
           <Card>
-            <Week range={currentWeek} />
+            <PeriodProgress range={currentRange} />
           </Card>
         </CSSTransition>
       </SwitchTransition>
@@ -92,6 +109,6 @@ function WeekPage() {
   )
 }
 
-WeekPage.getLayout = getWithNavLayout
+PeriodProgressPage.getLayout = getWithNavLayout
 
-export default WeekPage
+export default PeriodProgressPage

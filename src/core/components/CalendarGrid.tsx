@@ -24,10 +24,7 @@ export default function CalendarGrid({ month, year, renderDay }: CalendarGridPro
       </div>
       <div className="grid grid-cols-7 gap-[2px] rounded-md bg-neutral-200 overflow-hidde">
         {days.map((day) => (
-          <div
-            key={day.date.getUTCMilliseconds()}
-            className="overflow-hidden bg-neutral-100 aspect-square"
-          >
+          <div key={day.date.getTime()} className="overflow-hidden bg-neutral-100 aspect-square">
             {renderDay(day)}
           </div>
         ))}

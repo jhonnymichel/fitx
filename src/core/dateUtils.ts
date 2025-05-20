@@ -24,9 +24,9 @@ export function getPreviousDay(date: Date) {
   return DateTime.fromJSDate(date).startOf('day').minus({ days: 1 }).toJSDate()
 }
 
-export function getCurrentWeekRange(): [Date, Date] {
-  const start = DateTime.local().startOf('week')
-  const end = start.endOf('week').startOf('day')
+export function getCurrentPeriodRange(mode: 'week' | 'month' = 'week'): [Date, Date] {
+  const start = DateTime.local().startOf(mode)
+  const end = start.endOf(mode).startOf('day')
 
   return [start.toJSDate(), end.toJSDate()]
 }
@@ -45,33 +45,33 @@ export function diffInDays(startDate: Date, endDate: Date) {
   return Math.ceil(Math.abs(result.days ?? 0))
 }
 
-export function getPreviousWeekRange(date: Date): [Date, Date] {
-  const start = DateTime.fromJSDate(date).minus({ weeks: 1 }).startOf('week')
-  const end = start.endOf('week').startOf('day')
+export function getPreviousPeriodRange(date: Date, mode: 'week' | 'month' = 'week'): [Date, Date] {
+  const start = DateTime.fromJSDate(date).minus({ weeks: 1 }).startOf(mode)
+  const end = start.endOf(mode).startOf('day')
 
   return [start.toJSDate(), end.toJSDate()]
 }
 
-export function getNextWeekRange(date: Date): [Date, Date] {
-  const start = DateTime.fromJSDate(date).plus({ weeks: 1 }).startOf('week')
-  const end = start.endOf('week').startOf('day')
+export function getNextPeriodRange(date: Date, mode: 'week' | 'month' = 'week'): [Date, Date] {
+  const start = DateTime.fromJSDate(date).plus({ [`${mode}s`]: 1, }).startOf(mode)
+  const end = start.endOf(mode).startOf('day')
 
   return [start.toJSDate(), end.toJSDate()]
 }
 
-export function getWeekProgress(startDate: Date, endDate: Date, progress = 0): number {
+export function getPeriodProgress(startDate: Date, endDate: Date, progress = 0): number {
   const now = DateTime.local()
   const start = DateTime.fromJSDate(startDate)
   const end = DateTime.fromJSDate(endDate)
   const dateToCheck = start.plus({ days: progress })
 
   if (now.toMillis() > end.endOf('day').toMillis()) {
-    return 7
+    return diffInDays(startDate, endDate);
   }
 
   if (now.toMillis() < dateToCheck.endOf('day').toMillis()) {
     return progress
   }
 
-  return getWeekProgress(startDate, endDate, progress + 1)
+  return getPeriodProgress(startDate, endDate, progress + 1)
 }
