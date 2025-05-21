@@ -42,7 +42,7 @@ function ScoreCalendar(props: ScoreCalendarProps) {
   const [currentTitle, setTitle] = useState(slides[0])
 
   return (
-    <WidgetCard>
+    <WidgetCard className="pb-8">
       <WidgetCardTitle>
         <WidgetCardIcon component={Icons.Food}></WidgetCardIcon>
         <span>Score Calendar - {currentTitle}</span>

@@ -29,6 +29,7 @@ function MonthProgress({ range }: { range: [Date, Date] }) {
           title="Weight Change"
         ></WeightProgress>
       </div>
+      <ScoreCalendarWidget currentDate={end} rangeInDays={rangeInDays}></ScoreCalendarWidget>
       <div>
         <CalorieDeficitProgressWidget
           currentDate={end}
@@ -43,7 +44,6 @@ function MonthProgress({ range }: { range: [Date, Date] }) {
           periodLabel={MONTH}
         ></MacroIntakeProgressWidget>
       </div>
-      <ScoreCalendarWidget currentDate={end} rangeInDays={rangeInDays}></ScoreCalendarWidget>
     </div>
   )
 }
