@@ -2,20 +2,19 @@ import { HeaderContainer, HeaderNav, HeaderTitle } from 'src/core/components/Hea
 import NavButton from 'src/core/components/NavButton'
 import { DateTime } from 'luxon'
 import { MouseEvent } from 'react'
+import { PeriodMode } from 'src/core/dateUtils'
 
 type PeriodProgressHeaderProps = {
   periodRange: [Date, Date]
   onPrevClick: (e: MouseEvent<HTMLButtonElement>) => void
   onNextClick: (e: MouseEvent<HTMLButtonElement>) => void
-  onPeriodChangeClick: (e: MouseEvent<HTMLButtonElement>) => void
-  currentPeriod: 'month' | 'week'
+  currentPeriod: PeriodMode
 }
 
 function PeriodProgressHeader({
   periodRange,
   onPrevClick,
   onNextClick,
-  onPeriodChangeClick,
   currentPeriod,
 }: PeriodProgressHeaderProps) {
   const [start, end] = periodRange
@@ -23,7 +22,6 @@ function PeriodProgressHeader({
     <HeaderContainer>
       <HeaderNav>
         <NavButton onClick={onPrevClick}>{`<`}</NavButton>
-        <NavButton onClick={onPeriodChangeClick}>{currentPeriod.charAt(0).toUpperCase()}</NavButton>
         <NavButton onClick={onNextClick}>{`>`}</NavButton>
       </HeaderNav>
       {currentPeriod === 'week' ? (

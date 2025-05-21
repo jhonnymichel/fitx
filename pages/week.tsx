@@ -12,13 +12,13 @@ import { SwitchTransition, CSSTransition } from 'react-transition-group'
 import WeightProgress from 'src/widgets/components/WeightProgress'
 import CalorieDeficitProgressWidget from 'src/widgets/components/CalorieDeficitProgress'
 import MacroIntakeProgressWidget from 'src/widgets/components/MacroIntakeProgress'
-import CalendarGrid from 'src/core/components/CalendarGrid'
-import classNames from 'classnames'
-import { useState } from 'react'
 
-function PeriodProgress({ range }: { range: [Date, Date] }) {
+const WEEK = 'week'
+
+function WeekProgress({ range }: { range: [Date, Date] }) {
   const [start, end] = range
   const rangeInDays = diffInDays(start, end)
+
   return (
     <div className="flex flex-col gap-2 xl:gap-4">
       <div>
@@ -32,76 +32,52 @@ function PeriodProgress({ range }: { range: [Date, Date] }) {
         <CalorieDeficitProgressWidget
           currentDate={end}
           rangeInDays={rangeInDays}
+          periodLabel={WEEK}
         ></CalorieDeficitProgressWidget>
       </div>
       <div>
         <MacroIntakeProgressWidget
           currentDate={end}
           rangeInDays={rangeInDays}
+          periodLabel={WEEK}
         ></MacroIntakeProgressWidget>
-      </div>
-      <div className="p-[2px] bg-neutral-200">
-        <CalendarGrid
-          month={start.getMonth()}
-          year={start.getFullYear()}
-          renderDay={(day) => {
-            return (
-              <span
-                className={classNames('p-1 md:text-sm text-xs', { 'text-gray-400': day.padding })}
-              >
-                {day.date.getDate()}
-              </span>
-            )
-          }}
-        ></CalendarGrid>
       </div>
     </div>
   )
 }
 
-function PeriodProgressPage() {
-  const [periodMode, setPeriodMode] = useState<'week' | 'month'>('week')
-
-  const [currentRange, animationClassNames, setCurrentRange] = useStepTransition<[Date, Date]>(
-    getCurrentPeriodRange(periodMode),
+function WeekPage() {
+  const [currentWeek, animationClassNames, setCurrentWeek] = useStepTransition<[Date, Date]>(
+    getCurrentPeriodRange(WEEK),
     'transition',
     (current, next) => next[0] > current[0]
   )
 
-  console.log(periodMode)
+  const [weekStart] = currentWeek
 
-  const [periodStart] = currentRange
-
-  const prevPeriod = () => {
-    setCurrentRange(getPreviousPeriodRange(periodStart, periodMode))
+  const prevWeek = () => {
+    setCurrentWeek(getPreviousPeriodRange(weekStart, WEEK))
   }
-  const nextPeriod = () => {
-    setCurrentRange(getNextPeriodRange(periodStart, periodMode))
+  const nextWeek = () => {
+    setCurrentWeek(getNextPeriodRange(weekStart, WEEK))
   }
 
   return (
     <div className="flex flex-col w-full h-full">
       <PeriodProgressHeader
-        onPrevClick={prevPeriod}
-        onNextClick={nextPeriod}
-        periodRange={currentRange}
-        currentPeriod={periodMode}
-        onPeriodChangeClick={() => {
-          setPeriodMode((periodMode) => {
-            const newPeriod = periodMode === 'week' ? 'month' : 'week'
-            setCurrentRange(getCurrentPeriodRange(newPeriod))
-            return periodMode === 'week' ? 'month' : 'week'
-          })
-        }}
+        onPrevClick={prevWeek}
+        onNextClick={nextWeek}
+        periodRange={currentWeek}
+        currentPeriod={WEEK}
       />
       <SwitchTransition>
         <CSSTransition
-          key={currentRange}
+          key={currentWeek}
           classNames={animationClassNames}
           timeout={transitionDuration.transition}
         >
           <Card>
-            <PeriodProgress range={currentRange} />
+            <WeekProgress range={currentWeek} />
           </Card>
         </CSSTransition>
       </SwitchTransition>
@@ -109,6 +85,6 @@ function PeriodProgressPage() {
   )
 }
 
-PeriodProgressPage.getLayout = getWithNavLayout
+WeekPage.getLayout = getWithNavLayout
 
-export default PeriodProgressPage
+export default WeekPage

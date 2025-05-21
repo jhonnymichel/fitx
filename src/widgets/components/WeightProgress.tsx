@@ -42,11 +42,12 @@ function ErrorLoadingSummary({
   error,
   resetErrorBoundary,
   rangeInDays,
+  title,
 }: ErrorFallbackProps & RangeSummaryProps) {
   if (error.name === 'NotFoundError') {
     return (
       <>
-        <Title dayCount={rangeInDays}></Title>
+        <Title dayCount={rangeInDays}>{title}</Title>
         <div>NO DATA</div>
       </>
     )
@@ -70,7 +71,7 @@ function ErrorLoadingSummary({
 function LoadingProgress(props: RangeSummaryProps) {
   return (
     <>
-      <Title dayCount={props.rangeInDays}></Title>
+      <Title dayCount={props.rangeInDays}>{props.title}</Title>
       <div className="self-center ph-item">
         <div>
           <div className="ph-row">

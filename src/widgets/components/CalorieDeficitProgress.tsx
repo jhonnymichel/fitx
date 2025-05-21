@@ -6,10 +6,12 @@ import getRangeSummary from '../queries/getRangeSummary'
 import * as Icons from 'src/core/components/icons'
 import { getCaloriesGoalLabel, parseCalorieDeficit } from 'src/fitnessMetrics/calorieDeficit'
 import classNames from 'classnames'
+import { PeriodMode } from 'src/core/dateUtils'
 
 type CalorieDeficitWidgetProps = {
   rangeInDays: number
   currentDate: Date
+  periodLabel?: PeriodMode
 }
 
 export default function CalorieDeficitProgressWidget(props: CalorieDeficitWidgetProps) {
@@ -57,7 +59,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
     },
   })
 
-  const isWeekComplete = data.dayCount === 7
+  const isWeekComplete = data.dayCount === props.rangeInDays
 
   return (
     <div className="flex flex-col gap-2">
@@ -98,19 +100,22 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
           <p className="text-sm text-center">
             You need a daily{' '}
             {((endOfWeekGoal - deficit) / (props.rangeInDays - data.dayCount)).toFixed(0)} kcal.{' '}
-            {getCaloriesGoalLabel(data.currentGoals).toLowerCase()} to reach end of week goal.
+            {getCaloriesGoalLabel(data.currentGoals).toLowerCase()} to reach end of{' '}
+            {props.periodLabel || 'period'} goal.
           </p>
         )}
         {!isWeekComplete && deficit > endOfWeekGoal && (
           <p className="text-sm text-center">
-            You're on pace to end the week at a {((deficit / data.dayCount) * 7).toFixed(0)} kcal
-            weekly ({(deficit / data.dayCount).toFixed(0)} kcal daily){' '}
+            You're on pace to end the {props.periodLabel || 'period'} at a{' '}
+            {((deficit / data.dayCount) * 7).toFixed(0)} kcal weekly (
+            {(deficit / data.dayCount).toFixed(0)} kcal daily){' '}
             {getCaloriesGoalLabel(data.currentGoals).toLowerCase()}.
           </p>
         )}
         {isWeekComplete && (
           <p className="text-sm text-center">
-            You ended the week at a {((deficit / data.dayCount) * 7).toFixed(0)} kcal weekly (
+            You ended the {props.periodLabel || 'period'} at a{' '}
+            {((deficit / data.dayCount) * 7).toFixed(0)} kcal weekly (
             {(deficit / data.dayCount).toFixed(0)} kcal daily){' '}
             {getCaloriesGoalLabel(data.currentGoals).toLowerCase()}.
           </p>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-type RenderDayPayload = { date: Date; padding?: boolean }
+export type RenderDayPayload = { date: Date; padding?: boolean }
 
 type CalendarGridProps = {
   month: number // 0 - 11
@@ -34,7 +34,7 @@ export default function CalendarGrid({ month, year, renderDay }: CalendarGridPro
 }
 
 function getDaysInMonthGrid(year: number, month: number): RenderDayPayload[] {
-  const firstDayOfWeek = 1 // monday. 0 = sunday.
+  const weekStartOn = 1 // 0 Sunday, 1 Monday
   const firstDayOfMonth = new Date(year, month, 1)
   const lastDayOfMonth = new Date(year, month + 1, 0)
   const days: { date: Date; padding?: boolean }[] = []
@@ -43,7 +43,7 @@ function getDaysInMonthGrid(year: number, month: number): RenderDayPayload[] {
   const daysInMonth = lastDayOfMonth.getDate()
 
   // Previous month's trailing days
-  for (let i = startDayOfWeek - 1; i >= firstDayOfWeek; i--) {
+  for (let i = startDayOfWeek - 1 - weekStartOn; i >= 0; i--) {
     const date = new Date(year, month, -i)
     days.push({ date, padding: true })
   }

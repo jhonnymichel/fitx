@@ -1,5 +1,13 @@
 import { DateTime, Duration } from 'luxon'
 
+export type PeriodMode = 'week' | 'month'
+
+export function areDatesSameDay(dateA: Date, dateB: Date) {
+  const dateAUTC = DateTime.fromJSDate(dateA).setZone('utc').startOf('day')
+  const dateBUTC = DateTime.fromJSDate(dateB).setZone('utc').startOf('day')
+  return dateAUTC.equals(dateBUTC)
+}
+
 export function getCurrentDay() {
   return DateTime.local().startOf('day').toJSDate()
 }
@@ -24,7 +32,7 @@ export function getPreviousDay(date: Date) {
   return DateTime.fromJSDate(date).startOf('day').minus({ days: 1 }).toJSDate()
 }
 
-export function getCurrentPeriodRange(mode: 'week' | 'month' = 'week'): [Date, Date] {
+export function getCurrentPeriodRange(mode: PeriodMode = 'week'): [Date, Date] {
   const start = DateTime.local().startOf(mode)
   const end = start.endOf(mode).startOf('day')
 
@@ -45,15 +53,17 @@ export function diffInDays(startDate: Date, endDate: Date) {
   return Math.ceil(Math.abs(result.days ?? 0))
 }
 
-export function getPreviousPeriodRange(date: Date, mode: 'week' | 'month' = 'week'): [Date, Date] {
+export function getPreviousPeriodRange(date: Date, mode: PeriodMode = 'week'): [Date, Date] {
   const start = DateTime.fromJSDate(date).minus({ weeks: 1 }).startOf(mode)
   const end = start.endOf(mode).startOf('day')
 
   return [start.toJSDate(), end.toJSDate()]
 }
 
-export function getNextPeriodRange(date: Date, mode: 'week' | 'month' = 'week'): [Date, Date] {
-  const start = DateTime.fromJSDate(date).plus({ [`${mode}s`]: 1, }).startOf(mode)
+export function getNextPeriodRange(date: Date, mode: PeriodMode = 'week'): [Date, Date] {
+  const start = DateTime.fromJSDate(date)
+    .plus({ [`${mode}s`]: 1 })
+    .startOf(mode)
   const end = start.endOf(mode).startOf('day')
 
   return [start.toJSDate(), end.toJSDate()]
@@ -66,7 +76,7 @@ export function getPeriodProgress(startDate: Date, endDate: Date, progress = 0):
   const dateToCheck = start.plus({ days: progress })
 
   if (now.toMillis() > end.endOf('day').toMillis()) {
-    return diffInDays(startDate, endDate);
+    return diffInDays(startDate, endDate)
   }
 
   if (now.toMillis() < dateToCheck.endOf('day').toMillis()) {

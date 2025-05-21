@@ -8,10 +8,12 @@ import classNames from 'classnames'
 import { parseMacros } from 'src/fitnessMetrics/macros'
 import { GoalType } from 'db'
 import Slider from 'react-slick'
+import { PeriodMode } from 'src/core/dateUtils'
 
 type MacroIntakeProgressWidgetProps = {
   rangeInDays: number
   currentDate: Date
+  periodLabel?: PeriodMode
 }
 
 export default function MacroIntakeProgressWidget(props: MacroIntakeProgressWidgetProps) {
@@ -134,8 +136,8 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
             <div className="mt-1">
               {!isWeekComplete && (
                 <p className="text-sm text-center">
-                  You're on pace to end the week at a {(macro.value / data.dayCount).toFixed(0)}g
-                  daily{' '}
+                  You're on pace to end the {props.periodLabel || 'period'} at a{' '}
+                  {(macro.value / data.dayCount).toFixed(0)}g daily{' '}
                   <span
                     className={classNames('p-1 text-white font-semibold', {
                       'bg-orange-500': macro.name === 'CARBS',
@@ -150,7 +152,8 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
               )}
               {isWeekComplete && (
                 <p className="text-sm text-center">
-                  You ended the week at a {(macro.value / data.dayCount).toFixed(0)}g daily{' '}
+                  You ended the {props.periodLabel || 'period'} at a{' '}
+                  {(macro.value / data.dayCount).toFixed(0)}g daily{' '}
                   <span
                     className={classNames('p-1 text-white font-semibold', {
                       'bg-orange-500': macro.name === 'CARBS',
