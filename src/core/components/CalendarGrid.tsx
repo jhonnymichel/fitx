@@ -33,8 +33,7 @@ export default function CalendarGrid({ month, year, renderDay }: CalendarGridPro
   )
 }
 
-function getDaysInMonthGrid(year: number, month: number): RenderDayPayload[] {
-  const weekStartOn = 1 // 0 Sunday, 1 Monday
+function getDaysInMonthGrid(year: number, month: number, weekStartOn = 1): RenderDayPayload[] {
   const firstDayOfMonth = new Date(year, month, 1)
   const lastDayOfMonth = new Date(year, month + 1, 0)
   const days: { date: Date; padding?: boolean }[] = []
@@ -42,8 +41,24 @@ function getDaysInMonthGrid(year: number, month: number): RenderDayPayload[] {
   const startDayOfWeek = firstDayOfMonth.getDay() // Sunday = 0
   const daysInMonth = lastDayOfMonth.getDate()
 
+  // Normalize offset to handle weekStartOn correctly.
+  // We use Date.prototype.getDay() to check what day of the week that current date is at.
+  // In JavaScript, Sunday is 0, Monday is 1, ..., Saturday is 6.
+  //
+  // Our grid can be configured to start either at day 1, Monday, or day 0, Sunday.
+  //
+  // Let's say we setup the grid to start on Monday, and first day of the displayed month is luckily a Monday:
+  // (1 - 1 + 7) % 7 = 0. meaning our first day of the month goes in first index of the grid.
+  //
+  // Let's say we setup the grid to start on Monday, and first day of the displayed month is a Sunday:
+  // (0 - 1 + 7) % 7 = 6. meaning our first day of the month goes at the end of the first row.
+  // not only that, but we also need six days in the grid from the previous month before adding the first day of the current month.
+  //
+  // If grid is setup to start on Sunday, the `weekStartOn` const will have value 0, meaning it'll not affect the equation.
+  const offset = (startDayOfWeek - weekStartOn + 7) % 7
+
   // Previous month's trailing days
-  for (let i = startDayOfWeek - 1 - weekStartOn; i >= 0; i--) {
+  for (let i = offset - 1; i >= 0; i--) {
     const date = new Date(year, month, -i)
     days.push({ date, padding: true })
   }
