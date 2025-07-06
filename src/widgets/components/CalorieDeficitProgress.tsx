@@ -59,7 +59,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
     },
   })
 
-  const isWeekComplete = data.dayCount === props.rangeInDays
+  const isPeriodComplete = data.dayCount === props.rangeInDays
 
   return (
     <div className="flex flex-col gap-2">
@@ -96,7 +96,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
         </div>
       </div>
       <div>
-        {!isWeekComplete && deficit < endOfWeekGoal && (
+        {!isPeriodComplete && deficit < endOfWeekGoal && (
           <p className="text-sm text-center">
             You need a daily{' '}
             {((endOfWeekGoal - deficit) / (props.rangeInDays - data.dayCount)).toFixed(0)} kcal.{' '}
@@ -104,7 +104,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
             {props.periodLabel || 'period'} goal.
           </p>
         )}
-        {!isWeekComplete && deficit > endOfWeekGoal && (
+        {!isPeriodComplete && deficit > endOfWeekGoal && (
           <p className="text-sm text-center">
             You're on pace to end the {props.periodLabel || 'period'} at a{' '}
             {((deficit / data.dayCount) * 7).toFixed(0)} kcal weekly (
@@ -112,7 +112,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
             {getCaloriesGoalLabel(data.currentGoals).toLowerCase()}.
           </p>
         )}
-        {isWeekComplete && (
+        {isPeriodComplete && (
           <p className="text-sm text-center">
             You ended the {props.periodLabel || 'period'} at a{' '}
             {((deficit / data.dayCount) * 7).toFixed(0)} kcal weekly (

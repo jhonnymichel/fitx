@@ -65,7 +65,7 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
     },
   })
 
-  const isWeekComplete = data.dayCount === 7
+  const isPeriodComplete = data.dayCount === props.rangeInDays
 
   const dataByMacro = ['protein', 'fat', 'carbs'].map((key) => ({
     name: key.toUpperCase(),
@@ -134,7 +134,7 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
               </p>
             </div>
             <div className="mt-1">
-              {!isWeekComplete && (
+              {!isPeriodComplete && (
                 <p className="text-sm text-center">
                   You're on pace to end the {props.periodLabel || 'period'} at a{' '}
                   {(macro.value / data.dayCount).toFixed(0)}g daily{' '}
@@ -150,7 +150,7 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
                   intake.
                 </p>
               )}
-              {isWeekComplete && (
+              {isPeriodComplete && (
                 <p className="text-sm text-center">
                   You ended the {props.periodLabel || 'period'} at a{' '}
                   {(macro.value / data.dayCount).toFixed(0)}g daily{' '}
