@@ -115,6 +115,7 @@ function MacroIntakeProgress(props: MacroIntakeProgressWidgetProps) {
               currentGoal={macro.goalOnCurrentDay}
               dayCount={data.dayCount}
               goalType={macro.goalType}
+              periodCount={props.rangeInDays}
             ></ProgressBar>
 
             <div className="flex justify-between w-full space-x-2 font-extrabold">
@@ -180,6 +181,7 @@ function ProgressBar({
   goalWidth,
   dayCount,
   goalType,
+  periodCount,
 }: {
   className: string
   width: number
@@ -187,6 +189,7 @@ function ProgressBar({
   currentGoal: number
   dayCount: number
   goalType: GoalType
+  periodCount: number
 }) {
   const cssWidth = Math.max(0, width * 100)
   const cssGoalWidth = Math.max(0, goalWidth * 100)
@@ -209,8 +212,8 @@ function ProgressBar({
             className={classNames(
               'text-white whitespace-nowrap absolute !py-1 -my-5 !px-2 !text-xs !rounded-none !bg-black !z-50',
               {
-                'left-0 top-0': dayCount < 4,
-                'right-0 top-0': dayCount >= 4,
+                'left-0 top-0': dayCount < periodCount / 2,
+                'right-0 top-0': dayCount >= periodCount / 2,
               }
             )}
           >

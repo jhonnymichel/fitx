@@ -80,6 +80,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
           goalWidth={goalOnCurrentDay / endOfWeekGoal}
           currentGoal={goalOnCurrentDay}
           dayCount={data.dayCount}
+          periodCount={props.rangeInDays}
         ></ProgressBar>
         <div className="flex justify-between w-full space-x-2 font-extrabold">
           <p
@@ -107,7 +108,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
         {!isPeriodComplete && deficit > endOfWeekGoal && (
           <p className="text-sm text-center">
             You're on pace to end the {props.periodLabel || 'period'} at a{' '}
-            {((deficit / data.dayCount) * 7).toFixed(0)} kcal weekly (
+            {((deficit / data.dayCount) * props.rangeInDays).toFixed(0)} kcal count (
             {(deficit / data.dayCount).toFixed(0)} kcal daily){' '}
             {getCaloriesGoalLabel(data.currentGoals).toLowerCase()}.
           </p>
@@ -115,7 +116,7 @@ function CalorieDeficitProgress(props: CalorieDeficitWidgetProps) {
         {isPeriodComplete && (
           <p className="text-sm text-center">
             You ended the {props.periodLabel || 'period'} at a{' '}
-            {((deficit / data.dayCount) * 7).toFixed(0)} kcal weekly (
+            {((deficit / data.dayCount) * props.rangeInDays).toFixed(0)} kcal count (
             {(deficit / data.dayCount).toFixed(0)} kcal daily){' '}
             {getCaloriesGoalLabel(data.currentGoals).toLowerCase()}.
           </p>
@@ -130,12 +131,14 @@ function ProgressBar({
   width,
   goalWidth,
   dayCount,
+  periodCount,
 }: {
   className: string
   width: number
   goalWidth: number
   currentGoal: number
   dayCount: number
+  periodCount: number
 }) {
   const cssWidth = Math.max(0, width * 100)
   const cssGoalWidth = Math.max(0, goalWidth * 100)
@@ -158,8 +161,8 @@ function ProgressBar({
             className={classNames(
               'text-white whitespace-nowrap absolute !py-1 -my-5 !px-2 !text-xs !rounded-none !bg-black !z-50',
               {
-                'left-0 top-0': dayCount < 4,
-                'right-0 top-0': dayCount >= 4,
+                'left-0 top-0': dayCount < periodCount / 2,
+                'right-0 top-0': dayCount >= periodCount / 2,
               }
             )}
           >
